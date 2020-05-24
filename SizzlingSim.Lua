@@ -291,7 +291,7 @@ end
 function autoKillBoss()
     pcall(function()
         for i,v in pairs(workspace:GetChildren()) do
-			if v:FindFirstChild("CharId") and (v.Name == "Fiery Dinosaur" or v.Name == "Big Bad Wolf" or v.Name == "Yeti") then
+			if v:FindFirstChild("CharId") and (v.Name == "Fiery Dinosaur" or v.Name == "Big Bad Wolf" or v.Name == "Yeti" or v.Name == "Rhino" or v.Name == "Lion" or v.Name == "Dragon") then
 				remote:FireServer("Animal Selected", v.CharId.Value)
 				remote:FireServer("Animal Hit", v.CharId.Value)
 			end
@@ -409,7 +409,7 @@ spawn(function()
     while wait() do
         if w.flags.ak then
             autoKill()
-			autoKill()
+				autoKill()
         end
     end
 end)
