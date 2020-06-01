@@ -1,0 +1,1337 @@
+function scr()
+    game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui")
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:connect(
+        function()
+            wait(900)
+            vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+            wait(1)
+            vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+        end
+    )
+
+    local library = loadstring(game:HttpGet(("https://pastebin.com/raw/T9aKwSFL"), true))()--http://0434.ml/script/wally
+
+    local f =
+        debug.getupvalues(
+        require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService).UpdateClickDelay
+    )[1]
+    repeat
+        wait(.1)
+        f =
+            debug.getupvalues(
+            require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService).UpdateClickDelay
+        )[1]
+    until f ~= nil
+    local Module = game:GetService("ReplicatedStorage").Assets.Modules.ImageService
+    local guiserv = require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.GuiService)
+
+    local pets = debug.getupvalues(require(Module))[1]
+
+    local farm = library:CreateWindow("Auto Farm")
+
+    local petlist = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.PetModule)
+    local hatlist = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.HatModule)
+    local raritys = {}
+    local moneyz = require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.GuiService)
+
+    local currencys = {}
+    local currencylist = {}
+    table.insert(currencylist, "Bubbles")
+    table.insert(currencylist, "Coins")
+    local canafford = false
+    local canaffordchange = false
+    for i, d in pairs(moneyz) do
+        if string.find(i, "Changed") ~= nil then
+            currencys[i:sub(1, #i - 7)] = debug.getupvalues(d)[3]
+            table.insert(currencylist, i:sub(1, #i - 7))
+        end
+    end
+    for i, d in pairs(petlist) do
+        if d["Rarity"] ~= "Legendary" then
+            raritys[d["Rarity"]] = true
+        end
+    end
+    local function ownsgamepass(userid, gamepassid)
+        local mar = game:GetService "MarketplaceService"
+        local s, res = pcall(mar.UserOwnsGamePassAsync, mar, userid, gamepassid)
+        if not s then
+            res = false
+        end
+        return res
+    end
+
+    local triple = ownsgamepass(game.Players.LocalPlayer.UserId, 5502695)
+    local plusFive = ownsgamepass(game.Players.LocalPlayer.UserId, 5364330)
+    local vip = ownsgamepass(game.Players.LocalPlayer.UserId, 5361608)
+
+    local eggs = library:CreateWindow("Auto Egg")
+    local hats = library:CreateWindow("Hats")
+    local misc = library:CreateWindow("Misc")
+    misc:Section("Swap")
+    local worlds = {}
+    local loadworlds = false
+    repeat
+        wait(0.1)
+        local modul =
+            require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.WorldService).SetWorld
+        for i, d in pairs(debug.getupvalue(modul, 3)) do
+            loadworlds = true
+        end
+    until loadworlds
+    local tpyes = require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.WorldService)
+    table.insert(worlds, "Overworld")
+    table.insert(worlds, "Event")
+    for i, d in pairs(debug.getupvalue(tpyes.SetWorld, 3)) do
+        if i ~= "Overworld" then
+            table.insert(worlds, i)
+        end
+    end
+
+    currentWorld = "Overworld"
+    currentBuff = "Bubbles"
+    buffChange = true
+
+    local function changeBuff(oldBuff, newBuff)
+        if oldBuff ~= newBuff then
+            currentBuff = newBuff
+            buffChange = true
+        else
+            buffChange = false
+        end
+    end
+
+    local function tptoDrops(oldworld, newworld)
+        if oldworld ~= newworld then
+            if oldworld == "Event" then
+                tpyes.SetWorld(tpyes, "Overworld")
+                f["FireServer"](f, "Teleport", "EventLeave")
+            end
+            if newworld == "Event" then
+                tpyes.SetWorld(tpyes, "Overworld")
+                f["FireServer"](f, "Teleport", "EventSpawn")
+            elseif newworld == "Overworld" then
+                tpyes.SetWorld(tpyes, newworld)
+                f["FireServer"](f, "Teleport", "EventLeave")
+            else
+                tpyes.SetWorld(tpyes, newworld)
+            end
+            currentWorld = newworld
+        end
+    end
+
+    misc:Dropdown(
+        "World",
+        {
+            location = _G,
+            flag = "world",
+            list = worlds
+        },
+        function(new)
+            tptoDrops(currentWorld, new)
+        end
+    )
+    misc:Section("Unlock")
+    misc:Button(
+        "Unlock Islands",
+        function()
+            for i, v in pairs(game:GetService("Workspace").FloatingIslands:GetChildren()) do
+                if #v:GetChildren() > 0 then
+                    for i, v in pairs(v:GetChildren()) do
+                        game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                            v.Collision.CFrame
+                        wait(.25)
+                    end
+                end
+            end
+        end
+    )
+    misc:Section("Collect")
+    misc:Button(
+        "Collect chests",
+        function()
+            for i, v in pairs(game:GetService("Workspace").FloatingIslands:GetDescendants()) do
+                if v.Name == "Chest" and v.ClassName == "Model" then
+                    f["FireServer"](f, "TeleportToCheckpoint", v.Parent.Name)
+                    wait(0.25)
+                    repeat
+                        f["FireServer"](f, "CollectChestReward", v.Parent.Name)
+                        wait()
+                    until v.Regen.Enabled == true
+                    wait(0.25)
+                end
+            end
+        end
+    )
+    giantchestsec = 7200
+    giantchestcollected = 0
+    mediumchestsec = 5400
+    mediumchestcollected = 0
+    smallchestsec = 2700
+    smallchestcollected = 0
+    coinchestsec = 900
+    coinchestcollected = 0
+    islandchests = {
+        ["GiantChests"] = {
+            "XP Island",
+            "Sweet Island",
+            "Treasure Isle",
+            "Sea Shell Isle",
+            "Sandy Island",
+            "Purple Island",
+            "Molten Island",
+            "Magic Island"
+        },
+        ["MediumChests"] = {
+            "The Void",
+            "Candy Island",
+            "Teddy Island",
+            "Oceanic Island",
+            "Treasure Island",
+            "Blue Island",
+            "Inferno Island",
+            "Spirit Island"
+        },
+        ["SmallChests"] = {
+            "The Skylands",
+            "Gumdrop Island",
+            "Block Island",
+            "Sea Island",
+            "Water Island",
+            "Red Island",
+            "Fire Island",
+            "Crystal Island"
+        },
+        ["CoinChest"] = {"The Floating Island"}
+    }
+
+    if vip then
+        giantchestsec = giantchestsec * .7
+        mediumchestsec = mediumchestsec * .7
+        smallchestsec = smallchestsec * .7
+        coinchestsec = coinchestsec * .7
+    end
+
+    misc:Toggle("Auto Chests", {flag = "autochest"})
+    misc:Section("Misc")
+    local cccc = require(game:GetService("ReplicatedStorage").Assets.Modules.EggService)
+    repeat
+        wait()
+        cccc = require(game:GetService("ReplicatedStorage").Assets.Modules.EggService)
+    until cccc ~= nil
+    local hat1 = cccc.HatchEgg
+    local hat3 = cccc.MultiHatchEgg
+    misc:Toggle(
+        "Skip Animation",
+        {flag = "soa"},
+        function(gh)
+            cccc.HatchEgg = (gh == true and function()
+                end or hat1)
+            cccc.MultiHatchEgg = (gh == true and function()
+                end or hat3)
+        end
+    )
+    misc:Section("AutoEquip Per Currency")
+    misc:Toggle("Enabled", {flag = "AutoEquip"})
+    misc:Dropdown(
+        "Currency",
+        {
+            location = _G,
+            flag = "buffCurrency",
+            list = currencylist
+        },
+        function(new)
+            changeBuff(currentBuff, new)
+        end
+    )
+
+    collectingchests = false
+    chestscollected = 0
+
+    local function collectChests(size)
+        local oldBuff = currentBuff
+        local oldWorld = currentWorld
+        if size == "CoinChest" then
+            changeBuff(currentBuff, "Coins")
+            tptoDrops(currentWorld, "Overworld")
+            wait(2)
+            for k, d in pairs(islandchests[size]) do
+                for i, v in pairs(game:GetService("Workspace").FloatingIslands:GetDescendants()) do
+                    if v.Name == "Chest" and v.ClassName == "Model" and v.Parent.Name == d then
+                        f["FireServer"](f, "TeleportToCheckpoint", v.Parent.Name)
+                        wait(0.25)
+                        repeat
+                            f["FireServer"](f, "CollectChestReward", v.Parent.Name)
+                            wait()
+                        until v.Regen.Enabled == true
+                        wait(0.25)
+                    end
+                end
+            end
+            changeBuff(currentBuff, oldBuff)
+            tptoDrops(currentWorld, oldWorld)
+            wait(2)
+        else
+            for k, d in pairs(worlds) do
+                if d == "Underworld" then
+                    changeBuff(currentBuff, "Magma")
+                elseif d == "Rainbow Land" then
+                    changeBuff(currentBuff, "Stars")
+                elseif d == "Mystic Forest" then
+                    changeBuff(currentBuff, "Crystals")
+                elseif d == "Candy Land" then
+                    changeBuff(currentBuff, "Candy")
+                elseif d == "Atlantis" then
+                    changeBuff(currentBuff, "Pearls")
+                elseif d == "Toy Land" then
+                    changeBuff(currentBuff, "Blocks")
+                elseif d == "Beach World" then
+                    changeBuff(currentBuff, "Shells")
+                end
+
+                if d ~= "Event" then
+                    tptoDrops(currentWorld, d)
+                    wait(2)
+                    for i, v in pairs(game:GetService("Workspace").FloatingIslands:GetDescendants()) do
+                        if size == "All" then
+                            if v.Name == "Chest" and v.ClassName == "Model" then
+                                if d == "Overworld" then
+                                    if v.Parent.Name == "The Floating Island" then
+                                        changeBuff(currentBuff, "Coins")
+                                    else
+                                        changeBuff(currentBuff, "Gems")
+                                    end
+                                end
+                                game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    v.Parent.Collision.CFrame
+                                f["FireServer"](f, "TeleportToCheckpoint", v.Parent.Name)
+                                wait(0.25)
+                                repeat
+                                    f["FireServer"](f, "CollectChestReward", v.Parent.Name)
+                                    wait()
+                                until v.Regen.Enabled == true
+                                wait(0.25)
+                            end
+                        else
+                            for k, d in pairs(islandchests[size]) do
+                                if v.Name == "Chest" and v.ClassName == "Model" and v.Parent.Name == d then
+                                    game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                        v.Parent.Collision.CFrame
+                                    f["FireServer"](f, "TeleportToCheckpoint", v.Parent.Name)
+                                    wait(0.25)
+                                    repeat
+                                        f["FireServer"](f, "CollectChestReward", v.Parent.Name)
+                                        wait()
+                                    until v.Regen.Enabled == true
+                                    wait(0.25)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            changeBuff(currentBuff, oldBuff)
+            tptoDrops(currentWorld, oldWorld)
+            wait(2)
+        end
+    end
+
+    spawn(
+        function()
+            while wait(.1) do
+                if not autoguessing and not sell then
+                    if
+                        misc.flags.autochest and os.time() >= giantchestcollected + giantchestsec and
+                            os.time() >= mediumchestcollected + mediumchestsec and
+                            os.time() >= smallchestcollected + smallchestsec and
+                            os.time() >= coinchestcollected + coinchestsec
+                     then
+                        collectingchests = true
+                        collectChests("All")
+                        giantchestcollected = os.time() + 60
+                        mediumchestcollected = os.time() + 60
+                        smallchestcollected = os.time() + 60
+                        coinchestcollected = os.time() + 60
+                    elseif
+                        misc.flags.autochest and os.time() >= coinchestcollected + coinchestsec and
+                            misc.flags.AutoEquip
+                     then
+                        collectingchests = true
+                        collectChests("CoinChest")
+                        coinchestcollected = os.time() + 15
+                    elseif
+                        misc.flags.autochest and os.time() >= smallchestcollected + smallchestsec and
+                            misc.flags.AutoEquip
+                     then
+                        collectingchests = true
+                        collectChests("SmallChests")
+                        smallchestcollected = os.time() + 30
+                    elseif
+                        misc.flags.autochest and os.time() >= mediumchestcollected + mediumchestsec and
+                            misc.flags.AutoEquip
+                     then
+                        collectingchests = true
+                        collectChests("MediumChests")
+                        mediumchestcollected = os.time() + 30
+                    elseif
+                        misc.flags.autochest and os.time() >= giantchestcollected + giantchestsec and
+                            misc.flags.AutoEquip
+                     then
+                        collectingchests = true
+                        collectChests("GiantChests")
+                        giantchestcollected = os.time() + 30
+                    elseif misc.flags.autochest then
+                        print(
+                            (giantchestcollected + giantchestsec - os.time()) / 60 ..
+                                " minutes until Giant chests collect again"
+                        )
+                        print(
+                            (mediumchestcollected + mediumchestsec - os.time()) / 60 ..
+                                " minutes until Medium chests collect again"
+                        )
+                        print(
+                            (smallchestcollected + smallchestsec - os.time()) / 60 ..
+                                " minutes until Small chests collect again"
+                        )
+                        print(
+                            (coinchestcollected + coinchestsec - os.time()) / 60 ..
+                                " minutes until Coin chests collect again"
+                        )
+                        wait(30)
+                    end
+
+                    collectingchests = false
+                end
+            end
+        end
+    )
+
+    misc:Section("Items/Prizes/Rewards")
+    misc:Toggle("Bubbles", {flag = "AutoClaimBubbles"})
+    misc:Toggle("Eggs", {flag = "AutoClaimEggs"})
+    misc:Toggle("World Pet Rewards", {flag = "AutoWorldRewards"})
+
+    maxRewards = 200
+
+    spawn(
+        function()
+            while wait(.1) do
+                if misc.flags.AutoWorldRewards then
+                    for i, d in pairs(worlds) do
+                        if currentWorld ~= nil then
+                            if d == currentWorld then
+                                for x = 1, maxRewards do
+                                    f:FireServer("CollectReward", d, x)
+                                    wait(1.5)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    )
+
+    misc:Toggle("Auto Buy Shop Items", {flag = "AutoShop"})
+
+    spawn(
+        function()
+            while wait(.1) do
+                local f =
+                    debug.getupvalues(
+                    require(
+                        game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                    ).UpdateClickDelay
+                )[1]
+                repeat
+                    wait(.1)
+                    f =
+                        debug.getupvalues(
+                        require(
+                            game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                        ).UpdateClickDelay
+                    )[1]
+                until f ~= nil
+                local shop = game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.ShopModule
+
+                if misc.flags.AutoShop then
+                    for k, v in pairs(shop:GetChildren()) do
+                        for i, d in pairs(require(v)) do
+                            if type(i) == "number" and type(d) == "table" then
+                                for x, y in pairs(d) do
+                                    if x == "Name" then
+                                        if string.match(v.Name, "Gum") then
+                                            f:FireServer("BuyShopItem", v.Name, "Gum", y)
+                                            wait(5)
+                                        end
+                                        if string.match(v.Name, "Flavors") then
+                                            f:FireServer("BuyShopItem", v.Name, "Flavors", y)
+                                            wait(5)
+                                        end
+                                        if string.match(v.Name, "Faces") then
+                                            f:FireServer("BuyShopItem", v.Name, "Faces", y)
+                                            wait(5)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    )
+
+    local eggtps = {}
+    local eggsnames = {}
+    local egginfo = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.EggModule)
+    local crateinfo = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.CrateModule)
+    for i, d in pairs(require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.EggModule)) do
+        if game.Workspace.Eggs:FindFirstChild(i) then
+            eggtps[i] = game.Workspace.Eggs[i].Hotkey
+        end
+        table.insert(eggsnames, i)
+    end
+    for i, d in pairs(require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.CrateModule)) do
+        if game.Workspace.Eggs:FindFirstChild(i) then
+            eggtps[i] = game.Workspace.Eggs[i].Hotkey
+        end
+        table.insert(eggsnames, i)
+    end
+
+    eggs:Section("Open Eggs / Crates")
+    eggs:SearchBox(
+        "Egg",
+        {
+            location = eggs.flags,
+            flag = "egg",
+            list = eggsnames
+        },
+        function()
+        end
+    )
+
+    eggs:Toggle("Buy Eggs", {flag = "eggs"})
+    if triple then
+        eggs:Toggle("Buy Eggs (3x)", {flag = "three"})
+    end
+    eggs:Section("Delete Pets")
+    for i, d in pairs(raritys) do
+        eggs:Toggle("Delete " .. i, {flag = tostring(i)})
+    end
+    hats:Section("Delete Hats")
+    for i, d in pairs(raritys) do
+        hats:Toggle("Delete " .. i, {flag = tostring(i)})
+    end
+    hats:Toggle("Delete Easy Legendary", {flag = "easyleg"})
+    eggs:Toggle("Delete Easy Legendary", {flag = "easyleg"})
+
+    eggs:Toggle("Custom Delete", {flag = "customdelete"})
+    eggs:Box(
+        "Name",
+        {
+            flag = "DeleteName",
+            type = "text"
+        }
+    )
+
+    eggs:Section("Upgrade Pets")
+
+    eggs:Toggle("Make Pets Shiny", {flag = "shiny"})
+
+    eggs:Box("Enchant Shiny(s)", {flag = "enchantshinypetname", type = "text"})
+    eggs:Box("Enchant Normal(s)", {flag = "enchantnormalpetname", type = "text"})
+
+    eggs:Button(
+        "Use +1s on Pet",
+        function()
+            local maxEnchant = 40
+            local maxLevel = 25
+            local f =
+                debug.getupvalues(
+                require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService).UpdateClickDelay
+            )[1]
+            repeat
+                wait(.1)
+                f =
+                    debug.getupvalues(
+                    require(
+                        game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                    ).UpdateClickDelay
+                )[1]
+            until f ~= nil
+            local playerData = f:InvokeServer("GetPlayerData")
+            local potionIndex = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["POTIONS"]
+            local petIndex = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["PETS"]
+            for i, d in pairs(
+                game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.PetsFrame.Pets.Container.Frame:GetChildren()
+            ) do
+                if d.Name ~= "UIGridLayout" then
+                    if d.ImageColor3 == Color3.new(0, 1, 0) then
+                        local petID = d.GUID.Value
+                        for x, y in pairs(playerData[petIndex]) do
+                            if y[1] == petID then
+                                local petLevel = y[4]
+                                local petEnchant = y[9]
+                                for k, v in pairs(playerData[potionIndex]) do
+                                    if v[2] == "Level1" and petLevel < maxLevel then
+                                        f:FireServer("UsePotionOnPet", v[1], petID)
+                                        petLevel = petLevel + 1
+                                    end
+                                    if v[2] == "Enchant1" then
+                                        if y[8] and petEnchant < maxEnchant then
+                                            f:FireServer("UsePotionOnPet", v[1], petID)
+                                            petEnchant = petEnchant + 1
+                                        elseif not y[8] and y[4] == maxLevel and petEnchant < maxEnchant then
+                                            f:FireServer("UsePotionOnPet", v[1], petID)
+                                            petEnchant = petEnchant + 1
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    )
+    eggs:Button(
+        "Max Lvl/Ench Selected",
+        function()
+            local maxEnchant = 40
+            local maxLevel = 25
+            local f =
+                debug.getupvalues(
+                require(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService).UpdateClickDelay
+            )[1]
+            repeat
+                wait(.1)
+                f =
+                    debug.getupvalues(
+                    require(
+                        game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                    ).UpdateClickDelay
+                )[1]
+            until f ~= nil
+            local playerData = f:InvokeServer("GetPlayerData")
+            local potionIndex = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["POTIONS"]
+            local petIndex = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["PETS"]
+            for i, d in pairs(
+                game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.PetsFrame.Pets.Container.Frame:GetChildren()
+            ) do
+                if d.Name ~= "UIGridLayout" then
+                    if d.ImageColor3 == Color3.new(0, 1, 0) then
+                        local usedLevel = false
+                        local usedEnchant = false
+                        local petID = d.GUID.Value
+                        for k, v in pairs(playerData[potionIndex]) do
+                            for x, y in pairs(playerData[petIndex]) do
+                                if y[1] == petID then
+                                    if v[2] == "LevelMax" and not usedLevel and y[4] < maxLevel then
+                                        f:FireServer("UsePotionOnPet", v[1], petID)
+                                        usedLevel = true
+                                    end
+                                    if v[2] == "EnchantMax" and not usedEnchant then
+                                        if y[8] and y[9] < maxEnchant then
+                                            f:FireServer("UsePotionOnPet", v[1], petID)
+                                            usedEnchant = true
+                                        elseif not y[8] and y[4] == maxLevel and y[9] < maxEnchant then
+                                            f:FireServer("UsePotionOnPet", v[1], petID)
+                                            usedEnchant = true
+                                        elseif not y[8] and usedLevel and y[9] < maxEnchant then
+                                            f:FireServer("UsePotionOnPet", v[1], petID)
+                                            usedEnchant = true
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    )
+    eggs:Toggle("Use Max Potion(s)", {flag = "automaxpotion"})
+    eggs:Box("Shiny Pet(s)", {flag = "usepotionshinypetname", type = "text"})
+    eggs:Box("Normal Pet(s)", {flag = "usepotionnormalpetname", type = "text"})
+
+    sell = false
+    local range = 100
+
+    local plr = game.Players.LocalPlayer
+    local char = plr.Character
+
+    function toTarget(pos, targetPos, targetCFrame)
+        local info = TweenInfo.new((targetPos - pos).Magnitude / 80, Enum.EasingStyle.Quad)
+        local tween, err =
+            pcall(
+            function()
+                local tween =
+                    game:GetService("TweenService"):Create(
+                    plr.Character["HumanoidRootPart"],
+                    info,
+                    {CFrame = targetCFrame}
+                )
+                tween:Play()
+            end
+        )
+        if not tween then
+            return err
+        end
+    end
+
+    spawn(
+        function()
+            while wait(.1) do
+                local canaffordold = canafford
+                if
+                    not sell and not collectingchests and not autoguessing and
+                        (eggs.flags.eggs == true or eggs.flags.three == true)
+                 then
+                    if eggs.flags.egg ~= nil then
+                        if (egginfo[eggs.flags.egg] or crateinfo[eggs.flags.egg]) then
+                            local cost = (egginfo[eggs.flags.egg] or crateinfo[eggs.flags.egg]).Cost
+                            local e = 0
+                            e = cost[2]
+                            if eggs.flags.three then
+                                e = e * 3
+                            end
+                            if currencys[cost[1]] and sell ~= true then
+                                if currencys[cost[1]].Value >= e then
+                                    canafford = true
+                                    if eggtps[eggs.flags.egg] then
+                                        if
+                                            game.Players.LocalPlayer.Character and
+                                                game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                         then
+                                            if
+                                                (eggtps[eggs.flags.egg].Position -
+                                                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 10
+                                             then
+                                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                                    CFrame.new(
+                                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+                                                    eggtps[eggs.flags.egg].Position.Y,
+                                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+                                                )
+                                                toTarget(
+                                                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
+                                                    eggtps[eggs.flags.egg].Position,
+                                                    eggtps[eggs.flags.egg].CFrame
+                                                )
+                                            else
+                                                if eggs.flags.three == true then
+                                                    f["FireServer"](f, "PurchaseEgg", eggs.flags.egg, "Multi")
+                                                else
+                                                    f["FireServer"](f, "PurchaseEgg", eggs.flags.egg)
+                                                end
+                                            end
+                                        end
+                                    end
+                                else
+                                    canafford = false
+                                end
+                            else
+                                canafford = false
+                            end
+                        else
+                            canafford = false
+                        end
+                    else
+                        canafford = false
+                    end
+                else
+                    canafford = false
+                end
+            end
+        end
+    )
+    farm:Section("Farm")
+    farm:Toggle("Auto-Bubble Blow", {flag = "Bubble"})
+
+    farm:Toggle("Auto-Sell", {flag = "Sell"})
+
+    farm:Box(
+        "Radius",
+        {
+            flag = "Rad",
+            type = "number"
+        }
+    )
+
+    farm:Toggle("Farm Drops", {flag = "Drops"})
+
+    farm:Section("Acquire Buffs")
+    farm:Toggle("Daily Challenge", {flag = "dailyChal"})
+    farm:Toggle("Group Benefits", {flag = "groupBene"})
+
+    farm:Section("MiniGames")
+    farm:Toggle("Spin To Win", {flag = "spt"})
+    farm:Toggle("Doggy Jump", {flag = "doggyJump"})
+    farm:Toggle("AutoGuess Pet", {flag = "Guess"})
+    farm:Section("Potions")
+    farm:Toggle("Delete +1s", {flag = "delpotion1s"})
+	farm:Section("https://discord.gg/HgfbK2E")
+
+    spawn(
+        function()
+            while wait(10) do
+                if farm.flags.delpotion1s then
+                    local f =
+                        debug.getupvalues(
+                        require(
+                            game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                        ).UpdateClickDelay
+                    )[1]
+                    repeat
+                        wait(.1)
+                        f =
+                            debug.getupvalues(
+                            require(
+                                game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                            ).UpdateClickDelay
+                        )[1]
+                    until f ~= nil
+                    local playerData = f:InvokeServer("GetPlayerData")
+                    local potionIndex =
+                        require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["POTIONS"]
+
+                    for k, v in pairs(playerData[potionIndex]) do
+                        if v[2] == "Enchant1" or v[2] == "Level1" then
+                            f:FireServer("DeletePotion", v[1])
+                            wait(1)
+                        end
+                    end
+                end
+                if farm.flags.spt then
+                    f["FireServer"](f, "SpinToWin")
+                    wait(6)
+                    guiserv:DisplayFrame("")
+                end
+                if farm.flags.doggyJump then
+                    for i = 1, 4 do
+                        f["FireServer"](f, "DoggyJumpWin", i)
+                        wait(3)
+                    end
+                end
+                if farm.flags.groupBene then
+                    f["InvokeServer"](f, "CollectGroupReward")
+                    wait(3)
+                end
+                if farm.flags.dailyChal then
+                    f["FireServer"](f, "ClaimDailyReward")
+                    wait(3)
+                end
+            end
+        end
+    )
+
+    spawn(
+        function()
+            while wait(.1) do
+                if farm.flags.Bubble then
+                    if f then
+                        f["FireServer"](f, "BlowBubble")
+                    else
+                        f =
+                            debug.getupvalues(
+                            require(
+                                game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.InputService
+                            ).UpdateClickDelay
+                        )[1]
+                    end
+                end
+            end
+        end
+    )
+
+    spawn(
+        function()
+            while wait(.1) do
+                if farm.flags.Sell and not collectingchests and not autoguessing then
+                    local counter = 0
+                    local leftside = ""
+                    local rightside = ""
+                    local a = {"", ""}
+                    a =
+                        string.split(
+                        game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:WaitForChild("StatsFrame").Bubble.Amount.Text,
+                        "/"
+                    )
+                    if string.find(a[1], ",") ~= nil then
+                        leftside = a[1]:gsub(",", "")
+                    else
+                        leftside = a[1]
+                    end
+                    if string.find(a[2], ",") ~= nil then
+                        rightside = a[2]:gsub(",", "")
+                    else
+                        rightside = a[2]
+                    end
+
+                    if leftside ~= "" then
+                        leftside = tonumber(leftside)
+                    else
+                        leftside = 0
+                    end
+                    if rightside ~= "" then
+                        rightside = tonumber(rightside)
+                    else
+                        rightside = 0
+                    end
+                    if leftside >= rightside then
+                        sell = true
+                        guiserv:DisplayFrame("")
+
+                        wait(.1)
+                        local oldWorld = currentWorld
+                        local oldBuff = currentBuff
+                        tptoDrops(currentWorld, "Mystic Forest")
+                        wait(2)
+                        repeat
+                            f["FireServer"](f, "Teleport", "Sell")
+                            wait(.1)
+                            f["FireServer"](f, "Sell")
+                            wait(.1)
+                        until string.split(
+                            game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:WaitForChild("StatsFrame").Bubble.Amount.Text,
+                            "/"
+                        )[1] == "0"
+                        changeBuff(currentBuff, oldBuff)
+                        tptoDrops("Mystic Forest", oldWorld)
+                        wait(2)
+                        if farm.flags.Drops then
+                            for k, d in pairs(islandchests["GiantChests"]) do
+                                for i, v in pairs(game:GetService("Workspace").FloatingIslands:GetDescendants()) do
+                                    if v.Name == "Chest" and v.ClassName == "Model" and v.Parent.Name == d then
+                                        game:GetService("Players").LocalPlayer.Character:WaitForChild(
+                                                "HumanoidRootPart"
+                                            ).CFrame = v.Parent.Collision.CFrame
+                                        f["FireServer"](f, "TeleportToCheckpoint", v.Parent.Name)
+                                        wait(2)
+                                    end
+                                end
+                            end
+                        end
+                        sell = false
+                    else
+                        sell = false
+                    end
+                end
+            end
+        end
+    )
+
+    autoguessing = false
+    game:GetService("Workspace").GuessThatPet.GuessThatPetBoard.SurfaceGui.Frame.Main.Pet.Changed:Connect(
+        function()
+            if not collectingchests and not sell and farm.flags.Guess then
+                autoguessing = true
+                local oldWorld = currentWorld
+                local oldBuff = currentBuff
+                local guessboard = game:GetService("Workspace").GuessThatPet.GuessThatPetBoard
+                changeBuff(currentBuff, "Gems")
+                tptoDrops(currentWorld, "Overworld")
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                    CFrame.new(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame,
+                    guessboard.CFrame.Y - 2,
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+                )
+                toTarget(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
+                    guessboard.Position + Vector3.new(0, -2, 0),
+                    guessboard.CFrame + Vector3.new(0, -2, 0)
+                )
+                for i, d in pairs(pets) do
+                    if d == game:GetService("Workspace").GuessThatPet.GuessThatPetBoard.SurfaceGui.Frame.Main.Pet.Image then
+                        for x = 1, 10, 1 do
+                            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                                i,
+                                "All"
+                            )
+                            wait(1)
+                        end
+                    end
+                end
+                wait(10)
+                tptoDrops(currentWorld, oldWorld)
+                autoguessing = false
+            else
+                autoguessing = false
+            end
+        end
+    )
+
+    local target = nil
+    spawn(
+        function()
+            while wait() do
+                if not sell and (farm.flags.Drops or target) then
+                    game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            end
+        end
+    )
+
+    spawn(
+        function()
+            while wait(.2) do
+                if not collectingchests and farm.flags.Drops then
+                    local closest = nil
+                    local dis = math.huge
+                    for i, v in ipairs(game.Workspace.Pickups:GetChildren()) do
+                        range = farm.flags.Rad
+                        if tonumber(range) ~= nil then
+                            if v:FindFirstChild("TouchInterest") and (char.HumanoidRootPart.Position - v.Position).magnitude <= tonumber(range) and (char.HumanoidRootPart.Position - v.Position).magnitude < dis and
+                                    farm.flags.Drops and
+                                    canafford ~= true and
+                                    sell ~= true
+                             then
+                                closest = v
+                                dis = (char.HumanoidRootPart.Position - v.Position).magnitude
+                            end
+                        end
+                    end
+                    if closest ~= nil and (target == nil or target.Parent == nil) then
+                        local dis = closest.CFrame.Y - char.HumanoidRootPart.CFrame.Y
+                        if dis < (closest.Size.Y * -1) or dis > closest.Size.Y then
+                            char.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, closest.CFrame.Y + 2, char.HumanoidRootPart.CFrame.Z)
+                        end
+                        toTarget(
+                            char.HumanoidRootPart.Position,
+                            closest.Position + Vector3.new(0, 2, 0),
+                            closest.CFrame + Vector3.new(0, 2, 0)
+                        )
+                    end
+                end
+            end
+        end
+    )
+
+    spawn(
+        function()
+            local prize = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.PrizeModule)
+            while wait(.1) do
+                if misc.flags.AutoClaimBubbles then
+                    for i, d in ipairs(prize["Bubbles"]) do
+                        f:InvokeServer("CollectPrize", "Bubbles", i)
+                        wait(3)
+                    end
+                end
+
+                if misc.flags.AutoClaimEggs then
+                    for k, v in ipairs(prize["Eggs"]) do
+                        f:InvokeServer("CollectPrize", "Eggs", k)
+                        wait(3)
+                    end
+                end
+            end
+        end
+    )
+
+    local Module = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.GuiService
+    local gg = require(Module)
+
+    local function GetRarity(name)
+        local entry = petlist[name]
+        if entry ~= nil then
+            return petlist[name]["Rarity"]
+        else
+            return "error"
+        end
+    end
+
+    local function HGetRarity(name)
+        local entry = hatlist[name]
+        if entry ~= nil then
+            return hatlist[name]["Rarity"]
+        else
+            return "error"
+        end
+    end
+
+    local function Delete(Id)
+        f["FireServer"](f, "DeletePet", Id)
+    end
+    local function HDelete(Id)
+        f["FireServer"](f, "DeleteHat", Id)
+    end
+    repeat
+        wait()
+    until typeof(gg.TryShowPetsFrame) == "function"
+    local get = debug.getupvalues(require(Module).TryShowPetsFrame)[4]["PetsFrame"]
+
+    local Eggs = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.EggModule)
+    local Crates = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.CrateModule)
+    local EasyLeg = {}
+    for i, v in pairs(Eggs) do
+        for i, v in pairs(v.Rarities) do
+            if GetRarity(v[1]) == "Legendary" and v[2] >= 0.1 then
+                table.insert(EasyLeg, v[1])
+            end
+        end
+    end
+    local HEasyLeg = {}
+    for i, v in pairs(Crates) do
+        for i, v in pairs(v.Rarities) do
+            if GetRarity(v[1]) == "Legendary" and v[2] >= 0.1 then
+                table.insert(HEasyLeg, v[1])
+            end
+        end
+    end
+
+    local pn = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["PETS"]
+    local hn = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["HATS"]
+    local prizeModule = require(game:GetService("ReplicatedStorage").Assets.Modules.ItemDataService.PrizeModule)
+    local claimedHatchRewardIndex =
+        require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["CLAIMED_HATCH_REWARDS"]
+    local redeemedCodes = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["REDEEMED_CODES"]
+    local potionIndex = require(game:GetService("ReplicatedStorage").Assets.Modules.Library.index)["POTIONS"]
+    local playerData = f:InvokeServer("GetPlayerData")
+
+    maxPetsEquip = 5
+
+    for i, d in pairs(playerData[claimedHatchRewardIndex]) do
+        for k, v in pairs(prizeModule["Eggs"]) do
+            if k == d then
+                if v.Unlock == "+1 Pet Equipped" then
+                    maxPetsEquip = maxPetsEquip + 1
+                end
+            end
+        end
+    end
+
+    if plusFive then
+        maxPetsEquip = maxPetsEquip + 5
+    end
+
+    local function GetBuff(name, curr)
+        local entry = petlist[name]
+        local val = 0
+        if entry ~= nil then
+            for x, y in pairs(entry["Buffs"]) do
+                if x == curr then
+                    val = y
+                    return val
+                end
+            end
+        end
+    end
+
+    local function spairs(t, order)
+        local keys = {}
+        for k in pairs(t) do
+            keys[#keys + 1] = k
+        end
+
+        if order then
+            table.sort(
+                keys,
+                function(a, b)
+                    return order(t, a, b)
+                end
+            )
+        else
+            table.sort(keys)
+        end
+
+        local i = 0
+        return function()
+            i = i + 1
+            if keys[i] then
+                return keys[i], t[keys[i]]
+            end
+        end
+    end
+
+    spawn(
+        function()
+            while wait(.1) do
+                local cp = {}
+                local dfg = {}
+                local numEquipped = 0
+                local equippedPets = {}
+                local equipBuff = 0
+                local newBuff = 0
+                local petBuffs = {}
+                local sortedPetBuffs = {}
+                local maxEnchant = 40
+                local maxLevel = 25
+                local a = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ClientScript.Modules.GuiService
+                local e = f:InvokeServer("GetPlayerData")
+
+                for i, d in pairs(e[pn]) do
+                    local id = d[1]
+                    local name = d[2]
+                    local rarity = GetRarity(name)
+                    local petBuff = GetBuff(name, currentBuff)
+                    local deleted = false
+                    local delNames = eggs.flags.DeleteName
+                    local potionShinyNames = eggs.flags.usepotionshinypetname
+                    local potionNormalNames = eggs.flags.usepotionnormalpetname
+                    local enchantShinyNames = eggs.flags.enchantshinypetname
+                    local enchantNormalNames = eggs.flags.enchantnormalpetname
+
+                    if petBuff ~= nil and petBuff > 0 then
+                        basePetBuff = petBuff
+                        petBuff = petBuff + ((d[4] - 1) * (1 / 24) * basePetBuff)
+                        petBuff = petBuff + (d[9] * .025 * basePetBuff)
+                        if d[8] == true then
+                            petBuff = petBuff * 2
+                        end
+                        petBuffs[id] = petBuff
+                    else
+                        petBuff = 0
+                    end
+
+                    if d[6] then
+                        table.insert(equippedPets, d[1])
+                        equipBuff = equipBuff + petBuff
+                        numEquipped = numEquipped + 1
+                    end
+
+
+                    if eggs.flags[rarity] == true then
+                        Delete(id)
+                        deleted = true
+                    elseif eggs.flags.easyleg then
+                        for i, v in pairs(EasyLeg) do
+                            if v == name then
+                                deleted = true
+                            end
+                        end
+                    elseif eggs.flags.customdelete then
+                        if tostring(delNames) ~= nil then
+                            for i in string.gmatch(delNames, "([^,]+)") do
+                                if name == i then
+                                    Delete(id)
+                                    deleted = true
+                                end
+                            end
+                        end
+                    end
+                    if eggs.flags.shiny and deleted == false then
+                        if d[8] == false then
+                            cp[name] = (cp[name] or 0) + 1
+                            if cp[name] >= 10 then
+                                cp[name] = 0
+                                f:FireServer("MakePetShiny", id)
+                            end
+                        end
+                    end
+
+                    local enchantPet = false
+                    if tostring(enchantShinyNames) ~= nil then
+                        for i in string.gmatch(enchantShinyNames, "([^,]+)") do
+                            if (i == "All" or name == i) and d[8] then
+                                enchantPet = true
+                            end
+                        end
+                    end
+                    if tostring(enchantNormalNames) ~= nil then
+                        for i in string.gmatch(enchantNormalNames, "([^,]+)") do
+                            if i == "All" or name == i then
+                                enchantPet = true
+                            end
+                        end
+                    end
+                    if enchantPet and (d[8] or d[4] == maxLevel) and d[9] < maxEnchant then
+                        f["FireServer"](f, "EnchantPet", id)
+                    end
+
+                    if eggs.flags.automaxpotion then
+                        local shinyPet = false
+                        if tostring(potionShinyNames) ~= nil then
+                            for i in string.gmatch(potionShinyNames, "([^,]+)") do
+                                if name == i and d[8] then
+                                    shinyPet = true
+                                end
+                            end
+                        end
+                        if tostring(potionNormalNames) ~= nil then
+                            for i in string.gmatch(potionNormalNames, "([^,]+)") do
+                                if name == i then
+                                    shinyPet = true
+                                end
+                            end
+                        end
+                        if shinyPet then
+                            local usedLevel = false
+                            local usedEnchant = false
+                            for k, v in pairs(e[potionIndex]) do
+                                if v[2] == "LevelMax" and not usedLevel and d[4] < maxLevel then
+                                    f:FireServer("UsePotionOnPet", v[1], id)
+                                    usedLevel = true
+                                end
+                                if v[2] == "EnchantMax" and not usedEnchant then
+                                    if d[8] and d[9] < maxEnchant then
+                                        f:FireServer("UsePotionOnPet", v[1], id)
+                                        usedEnchant = true
+                                    elseif not d[8] and d[4] == maxLevel and d[9] < maxEnchant then
+                                        f:FireServer("UsePotionOnPet", v[1], id)
+                                        usedEnchant = true
+                                    elseif not d[8] and usedLevel and d[9] < maxEnchant then
+                                        f:FireServer("UsePotionOnPet", v[1], id)
+                                        usedEnchant = true
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                for k, v in spairs(
+                    petBuffs,
+                    function(t, a, b)
+                        return t[b] < t[a]
+                    end
+                ) do
+                    table.insert(sortedPetBuffs, {k, v})
+                end
+
+                for i = 1, maxPetsEquip do
+                    if sortedPetBuffs[i] ~= nil then
+                        newBuff = newBuff + sortedPetBuffs[i][2]
+                    end
+                end
+
+                if misc.flags.AutoEquip and sortedPetBuffs[1] ~= nil then
+                    if math.floor(newBuff) > math.ceil(equipBuff) or buffChange then
+                        if numEquipped ~= nil and numEquipped >= maxPetsEquip then
+                            for i, d in pairs(equippedPets) do
+                                f:FireServer("UnequipPet", equippedPets[i])
+                            end
+                        end
+                        for i = 1, maxPetsEquip do
+                            if sortedPetBuffs[i] ~= nil then
+                                f:FireServer("EquipPet", sortedPetBuffs[i][1])
+                            end
+                        end
+                    end
+                    buffChange = false
+                end
+
+
+
+                for i, d in pairs(e[hn]) do
+                    local id = d[1]
+                    local name = d[2]
+                    local rarity = HGetRarity(name)
+                    if hats.flags[rarity] == true then
+                        HDelete(id)
+                    elseif hats.flags.easyleg then
+                        for i, v in pairs(HEasyLeg) do
+                            if v == name then
+                                HDelete(id)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+
+
+scr()
