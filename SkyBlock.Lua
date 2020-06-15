@@ -1,4 +1,4 @@
-local version = "0.7.1"
+local version = "0.7.7"
 
 local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:wait()
@@ -1123,7 +1123,7 @@ end)
 end)
 Tools:Toggle("Chest-Loot Aura")
 spawn(function()
-while wait(0.5) do
+while wait(1.5) do
 if library.flags["Chest-Loot Aura"] then
 local chests = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].Blocks:getChildren()
 for i=1,#chests do
@@ -1376,6 +1376,31 @@ if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - entity[i].Hum
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestWeaponName))
 game.ReplicatedStorage.Remotes.Functions["SWING_SWORD"]:InvokeServer({hitUnit = entity[i]})
+end
+end
+end
+end
+end
+end
+end)
+
+Autofarms:Toggle("Crop Autofarm")
+spawn(function()
+while wait() do
+if library.flags["Crop Autofarm"] then
+local crops = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].Blocks:getChildren()
+for i=1,#crops do
+if crops[i]:findFirstChild(crops[i].Name) then
+if crops[i][crops[i].Name]:findFirstChild("secondsInStage") then
+if game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") then
+if library.flags["Crop Autofarm"] then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(crops[i][crops[i].Name].Root.Position + Vector3.new(0,3,0))
+if crops[i][crops[i].Name].stage.Value == #crops[i][crops[i].Name].Root:getChildren()-2 then
+local cframeGoal = crops[i][crops[i].Name].Root.CFrame
+game.ReplicatedStorage.Remotes.Functions["HARVEST_CROP_REQUEST"]:InvokeServer({model = crops[i][crops[i].Name], player = game.Players.LocalPlayer})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_PLACE_REQUEST"]:InvokeServer({blockType = crops[i].Name, cframe = cframeGoal})
+end
+end
 end
 end
 end
