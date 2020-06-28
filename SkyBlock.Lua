@@ -1,4 +1,4 @@
-local version = "0.7.7"
+local version = "1.0.2"
 
 local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:wait()
@@ -1080,14 +1080,13 @@ while wait() do
 if library.flags["Crop Collect Aura"] then
 local crops = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].Blocks:getChildren()
 for i=1,#crops do
-if crops[i]:findFirstChild(crops[i].Name) then
-if crops[i][crops[i].Name]:findFirstChild("secondsInStage") then
+if crops[i]:findFirstChild("secondsInStage") then
 spawn(function()
 if game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") then
-if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - crops[i][crops[i].Name].Root.Position).magnitude <= 20 then
-if crops[i][crops[i].Name].stage.Value == #crops[i][crops[i].Name].Root:getChildren()-2 then
-local cframeGoal = crops[i][crops[i].Name].Root.CFrame
-game.ReplicatedStorage.Remotes.Functions["HARVEST_CROP_REQUEST"]:InvokeServer({model = crops[i][crops[i].Name], player = game.Players.LocalPlayer})
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - crops[i].CollisionBoxes.Part.Position).magnitude <= 20 then
+if crops[i].stage.Value == #crops[i]:getChildren()-6 then
+local cframeGoal = crops[i].CollisionBoxes.Part.CFrame
+game.ReplicatedStorage.Remotes.Functions["HARVEST_CROP_REQUEST"]:InvokeServer({model = crops[i], player = game.Players.LocalPlayer})
 if library.flags["Auto Replace Crops"] then
 wait(0.05)
 game.ReplicatedStorage.Remotes.Functions["BLOCK_PLACE_REQUEST"]:InvokeServer({blockType = crops[i].Name, cframe = cframeGoal})
@@ -1096,7 +1095,6 @@ end
 end
 end
 end)
-end
 end
 end
 end
@@ -1127,17 +1125,15 @@ while wait(1.5) do
 if library.flags["Chest-Loot Aura"] then
 local chests = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].Blocks:getChildren()
 for i=1,#chests do
-if chests[i]:findFirstChild(chests[i].Name) then
-if chests[i][chests[i].Name]:findFirstChild("Contents") then
+if chests[i]:findFirstChild("Contents") then
 if game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") then
-if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - chests[i][chests[i].Name].Root.Position).magnitude <= 20 then
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - chests[i].Position).magnitude <= 20 then
 spawn(function()
-local a = chests[i][chests[i].Name].Contents:getChildren()
+local a = chests[i].Contents:getChildren()
 for i=1,#a do
 game.ReplicatedStorage.Remotes.Functions["CHEST_TRANSACTION"]:InvokeServer({chest = a[i].Parent.Parent, tool = a[i], action = "withdraw", amount = a[i].Amount.Value})
 end
 end)
-end
 end
 end
 end
@@ -1197,7 +1193,7 @@ if mouse.Target.Parent.Parent:findFirstChild("BlockType") and mouse.Target.Paren
 for i=1,10 do
 if mouse.Target.Parent ~= nil then
 if mouse.Target.Parent.Parent ~= nil then
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = mouse.Target.Parent.Parent})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = mouse.Target})
 end
 end
 end
@@ -1205,7 +1201,7 @@ end
 if mouse.Target.Parent:findFirstChild("BlockType") and mouse.Target.Parent.Name ~= "Game" and mousedown == true then
 for i=1,10 do
 if mouse.Target.Parent ~= nil then
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = mouse.Target.Parent})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = mouse.Target})
 end
 end
 end 
@@ -1419,19 +1415,17 @@ local rocks = workspace.WildernessBlocks:getChildren()
 for i=1,#rocks do
 if library.flags["Tier 2 Farm (ores)"] then
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-if rocks[i]:findFirstChild(rocks[i].Name) then
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("PrefabType") then
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("PrefabType").Value == "rockTier2" then
+if rocks[i]:findFirstChild("PrefabType") then
+if rocks[i]:findFirstChild("PrefabType").Value == "rockTier2" then
 local hum = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 repeat
 wait()
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-hum.CFrame = rocks[i]:findFirstChild(rocks[i].Name).Root.CFrame + Vector3.new(0,-6,0)
+hum.CFrame = rocks[i].CFrame + Vector3.new(0,-6,0)
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestPickaxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]:findFirstChild(rocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]})
 until rocks[i].Parent == nil
-end
 end
 end
 end
@@ -1447,8 +1441,8 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if library.flags["Tree Autofarm"] then
 if string.find(blocks[i].Name, "tree") then
-local root = blocks[i]:findFirstChild(blocks[i].Name).Root
-local plantCFrame = blocks[i]:findFirstChild(blocks[i].Name).Root.CFrame
+local root = blocks[i]
+local plantCFrame = blocks[i].CollisionBoxes.Part.CFrame
 repeat
 wait()
 if game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") then
@@ -1456,8 +1450,9 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = root.CFrame + Vecto
 end
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestAxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = blocks[i]:findFirstChild(blocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = blocks[i]})
 until blocks[i].Parent == nil
+--[[ --removed until i can be bothered to add replanting with the new update
 if string.find(blocks[i].Name, "Pine") then
 game.ReplicatedStorage.Remotes.Functions["BLOCK_PLACE_REQUEST"]:InvokeServer({blockType = "saplingPine", cframe = plantCFrame})
 elseif string.find(blocks[i].Name, "Birch") then
@@ -1469,10 +1464,11 @@ game.ReplicatedStorage.Remotes.Functions["BLOCK_PLACE_REQUEST"]:InvokeServer({bl
 end
 wait(0.05)
 end
-end
+--]]
 end
 end
 end	
+end
 end)
 local selectedAutosmeltOre = ""
 Autofarms:Dropdown("Autosmelt ores", {"iron", "gold"}, function(cb) selectedAutosmeltOre = cb end);
@@ -1496,16 +1492,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "smallFurnace" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Fire.Fire.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Fire.Fire.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfIron() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "ironOre"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "ironOre"})
 until #oresCooking == 3 or getAmountOfIron() == 0
 end
 for i=1,#oresCooking do
@@ -1535,16 +1531,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "smallFurnace" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Fire.Fire.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Fire.Fire.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfGold() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "goldOre"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "goldOre"})
 until #oresCooking == 3 or getAmountOfGold() == 0
 end
 for i=1,#oresCooking do
@@ -1580,16 +1576,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "stonecutter" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local blocksCutting = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Particles.Spark.Enabled == false then
+local blocksCutting = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Particles.Spark.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #blocksCutting ~= 2 and getAmountOfStone() ~= 0 then
 repeat
-blocksCutting = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+blocksCutting = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "stone"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "stone"})
 until #blocksCutting == 2 or getAmountOfStone() == 0
 end
 for i=1,#blocksCutting do
@@ -1627,16 +1623,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "sawmill" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Particles.Spark.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Particles.Spark.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfWood() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "wood"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "wood"})
 until #oresCooking == 3 or getAmountOfWood() == 0
 end
 for i=1,#oresCooking do
@@ -1665,16 +1661,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "sawmill" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Particles.Spark.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Particles.Spark.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfBirch() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "woodBirch"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "woodBirch"})
 until #oresCooking == 3 or getAmountOfBirch() == 0
 end
 for i=1,#oresCooking do
@@ -1703,16 +1699,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "sawmill" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Particles.Spark.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Particles.Spark.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfPine() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "woodPine"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "woodPine"})
 until #oresCooking == 3 or getAmountOfPine() == 0
 end
 for i=1,#oresCooking do
@@ -1741,16 +1737,16 @@ local blocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].B
 for i=1,#blocks do
 if blocks[i].Name == "sawmill" then
 if blocks[i]:findFirstChild(blocks[i].Name) then
-local oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
-if blocks[i][blocks[i].Name].Root.Effects.Particles.Spark.Enabled == false then
+local oresCooking = blocks[i].WorkerContents:getChildren()
+if blocks[i].Root.Effects.Particles.Spark.Enabled == false then
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "coal"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "coal"})
 end
 if #oresCooking ~= 3 and getAmountOfMaple() ~= 0 then
 repeat
-oresCooking = blocks[i][blocks[i].Name].WorkerContents:getChildren()
+oresCooking = blocks[i].WorkerContents:getChildren()
 game.Players.LocalPlayer.Character:MoveTo(blocks[i].Position)
-game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i][blocks[i].Name], amount = 1, toolName = "woodMaple"})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_WORKER_DEPOSIT_TOOL_REQUEST"]:InvokeServer({block = blocks[i], amount = 1, toolName = "woodMaple"})
 until #oresCooking == 3 or getAmountOfMaple() == 0
 end
 for i=1,#oresCooking do
