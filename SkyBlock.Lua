@@ -1,4 +1,4 @@
-local version = "1.0.2"
+local version = "1.0.4"
 
 local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:wait()
@@ -1469,6 +1469,7 @@ end
 end
 end	
 end
+end
 end)
 local selectedAutosmeltOre = ""
 Autofarms:Dropdown("Autosmelt ores", {"iron", "gold"}, function(cb) selectedAutosmeltOre = cb end);
@@ -1774,19 +1775,18 @@ while wait(0.3) do
 local rocks = workspace.Islands[game.Players.LocalPlayer.UserId .. "-island"].Blocks:getChildren()
 for i=1,#rocks do
 if library.flags["Farm Stone"] or library.flags["Farm Coal"] or library.flags["Farm Iron"] or library.flags["Farm Clay"] then
-if rocks[i]:findFirstChild(rocks[i].Name) then
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("RockStage") then
+if rocks[i]:findFirstChild("RockStage") then
 if rocks[i].Name == "rockStone" and library.flags["Farm Stone"] then
 local hum = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 repeat
 wait()
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("Root") then
-hum.CFrame = rocks[i]:findFirstChild(rocks[i].Name).Root.CFrame + Vector3.new(0,3.4,0)
+if rocks[i]:findFirstChild("Root") then
+hum.CFrame = rocks[i].Root.CFrame + Vector3.new(0,3.4,0)
 end
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestPickaxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]:findFirstChild(rocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]})
 until rocks[i].Parent == nil
 end
 if rocks[i].Name == "rockCoal" and library.flags["Farm Coal"] then
@@ -1794,12 +1794,12 @@ local hum = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 repeat
 wait()
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("Root") then
-hum.CFrame = rocks[i]:findFirstChild(rocks[i].Name).Root.CFrame + Vector3.new(0,3.4,0)
+if rocks[i]:findFirstChild("Root") then
+hum.CFrame = rocks[i].Root.CFrame + Vector3.new(0,3.4,0)
 end
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestPickaxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]:findFirstChild(rocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]})
 until rocks[i].Parent == nil
 end
 if rocks[i].Name == "rockIron" and library.flags["Farm Iron"] then
@@ -1807,12 +1807,12 @@ local hum = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 repeat
 wait()
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("Root") then
-hum.CFrame = rocks[i]:findFirstChild(rocks[i].Name).Root.CFrame + Vector3.new(0,3.4,0)
+if rocks[i]:findFirstChild("Root") then
+hum.CFrame = rocks[i].Root.CFrame + Vector3.new(0,3.4,0)
 end
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestPickaxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]:findFirstChild(rocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]})
 until rocks[i].Parent == nil
 end
 if rocks[i].Name == "rockClay" and library.flags["Farm Clay"] then
@@ -1820,14 +1820,13 @@ local hum = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 repeat
 wait()
 game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-if rocks[i]:findFirstChild(rocks[i].Name):findFirstChild("Root") then
-hum.CFrame = rocks[i]:findFirstChild(rocks[i].Name).Root.CFrame + Vector3.new(0,3.4,0)
+if rocks[i]:findFirstChild("Root") then
+hum.CFrame = rocks[i].Root.CFrame + Vector3.new(0,3.4,0)
 end
 refreshTools()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:findFirstChild(highestPickaxeName))
-game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]:findFirstChild(rocks[i].Name)})
+game.ReplicatedStorage.Remotes.Functions["BLOCK_BREAK_REQUEST"]:InvokeServer({block = rocks[i]})
 until rocks[i].Parent == nil
-end
 end
 end
 end
