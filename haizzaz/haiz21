@@ -19,7 +19,7 @@ _G.Options = { --// SETUP
     ["LoadTime"] = 1, --// Time it waits before loading your character in
     ["StartTime"] = 0, --// Time it waits before starting a dungeon.
     ["DungeonStartTime"] = 0, --// Time the start button will be fired inside dungeon.
-    ["TeleportBack"] = 1 --//Time after the dungeon is completed and you are tped back; Don't set a 0
+    ["TeleportBack"] = 2 --//Time after the dungeon is completed and you are tped back; Don't set a 0
 }
 
 _G.EggIsland = { --// Explicitly for Egg Island dungeon.
