@@ -1,4 +1,7 @@
 function scr()
+	if game:GetService("CoreGui"):FindFirstChild("ScreenGui") then
+	game:GetService("CoreGui").ScreenGui:Destroy()
+	end
     game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui")
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(
@@ -411,7 +414,14 @@ function scr()
     misc:Toggle("Bubbles", {flag = "AutoClaimBubbles"})
     misc:Toggle("Eggs", {flag = "AutoClaimEggs"})
     misc:Toggle("World Pet Rewards", {flag = "AutoWorldRewards"})
-
+	misc:Button("Auto Reward", function()
+	for i = 1, 150, 1 do
+		for t = 1, 10 do
+			game:GetService("ReplicatedStorage").NetworkRemoteEvent:FireServer("CollectReward", "Carnival", i)
+			wait()
+		end
+	end
+	end)
     maxRewards = 200
 
     spawn(
@@ -669,7 +679,7 @@ function scr()
             function()
                 local tween =
                     game:GetService("TweenService"):Create(
-                    plr.Character["HumanoidRootPart"],
+                    game.Players.LocalPlayer.Character["HumanoidRootPart"],
                     info,
                     {CFrame = targetCFrame}
                 )
@@ -984,23 +994,23 @@ function scr()
                     for i, v in ipairs(game.Workspace.Pickups:GetChildren()) do
                         range = farm.flags.Rad
                         if tonumber(range) ~= nil then
-                            if v:FindFirstChild("TouchInterest") and (char.HumanoidRootPart.Position - v.Position).magnitude <= tonumber(range) and (char.HumanoidRootPart.Position - v.Position).magnitude < dis and
+                            if v:FindFirstChild("TouchInterest") and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude <= tonumber(range) and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude < dis and
                                     farm.flags.Drops and
                                     canafford ~= true and
                                     sell ~= true
                              then
                                 closest = v
-                                dis = (char.HumanoidRootPart.Position - v.Position).magnitude
+                                dis = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
                             end
                         end
                     end
                     if closest ~= nil and (target == nil or target.Parent == nil) then
-                        local dis = closest.CFrame.Y - char.HumanoidRootPart.CFrame.Y
+                        local dis = closest.CFrame.Y - game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y
                         if dis < (closest.Size.Y * -1) or dis > closest.Size.Y then
-                            char.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, closest.CFrame.Y + 2, char.HumanoidRootPart.CFrame.Z)
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X, closest.CFrame.Y + 2, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
                         end
                         toTarget(
-                            char.HumanoidRootPart.Position,
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
                             closest.Position + Vector3.new(0, 2, 0),
                             closest.CFrame + Vector3.new(0, 2, 0)
                         )
