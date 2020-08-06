@@ -166,6 +166,12 @@ function scr()
             end
         end
     )
+	misc:Button(
+        "Re Execute Script",
+        function()
+            loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/tokensfarm"),true))()
+        end
+    )
     giantchestsec = 7200
     giantchestcollected = 0
     mediumchestsec = 5400
