@@ -1,0 +1,336 @@
+game:GetService("CoreGui").PurchasePromptApp.PurchasePromptUI.Visible = false
+local library = loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/library")))()
+itemnames = "Egg16"
+local remote = game:GetService("ReplicatedStorage").Functions
+w = library:CreateWindow("Combo Clickers")
+w:Section('Auto Farm')
+w:Toggle("Auto Click",{flag = "autoclick"}) 
+w:Box("Time Rebirth", "string", function(text)
+	rebirthtime = tonumber(text)
+end)
+w:Toggle("Auto Rebirth",{flag = "autorebirth"}) 
+w:Section('TelePort')
+w:Button("Zone 18", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(430.924805, 14317.6563, -865.688416)
+end)
+w:Button("Zone 16", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(417.622437, 13106.6094, -726.212463)
+end)
+w:Button("Zone 5", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(278.449219, 3603.80151, -852.831116)
+end)
+w:Button("Zone 6", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403.747803, 4312.66943, -762.411499)
+end)
+w:Button("Zone 7", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(578.581665, 5097.87598, -704.055908)
+end)
+w:Button("Zone 8", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(496.864197, 5894.2124, -701.476685)
+end)
+w:Button("Zone 9", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(660.695313, 6874.5498, -884.460205)
+end)
+w:Button("Zone 10", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(643.682556, 7832.34814, -975.985046)
+end)
+w:Button("Zone 12", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(502.266907, 9815.01563, -920.554565)
+end)
+w:Button("Zone 14", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(402.869415, 11444.0234, -884.713379)
+end)
+w:Button("Zone 17", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(405.57074, 13890.5449, -859.678162)
+end)
+
+w:Button("+1000", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 1000, 0)
+end)
+w:Section('**Destroy Gui**')
+w:Button("Destroy Gui", function()
+    game:GetService("CoreGui").ScreenGui:Destroy()
+end)
+e = library:CreateWindow("Egg/Crate")
+e:Dropdown("Crate/Egg Choosen",{
+    location = _G;
+    flag = "itemname";
+    list = {
+		"Egg100k";
+		"Egg500k";
+		"Egg1M";
+		"Egg2M";
+		"Egg5M";
+        "Egg1";
+        "Egg2";
+        "Egg3";
+        "Egg4";
+		"Egg5";
+		"Egg6";
+		"Egg7";
+		"Egg8";
+		"Egg9";
+		"Egg10";
+		"Egg11";
+		"Egg12";
+		"Egg13";
+		"Egg14";
+		"Egg15";
+		"Egg16";
+		"Egg17";
+		"Egg18";
+		"Crate1";
+		"Crate2";
+		"Crate3";
+		"Crate4";
+		"Crate5";
+		"Crate6";
+		"ElementalEgg";
+    }
+}, function(itemname)
+    itemnames = _G.itemname
+end)
+amountopen = 3
+--[[e:Box("Amount Eggs", "string", function(text)
+	amountopen = tonumber(text)
+end)]]--
+e:Toggle("Auto Open",{flag = "autoopen"})
+e:Toggle("Auto Equip",{flag = "equip"})
+e:Toggle("Auto Delete",{flag = "autodel"})
+e:Toggle("Auto Upgrade",{flag = "upgradeall"})
+--e:Toggle("Auto Unlock Ancient Celestial",{flag = "autounlock"})
+--e:Section('Ancient Celestial Unlock')
+e:Button("Redeem code", function()
+pcall(function()
+	local code = {
+	"combo";
+	"release";
+	"tropical";
+	"gems";
+	"update1";
+	"likes1k";
+	"visits100k";
+	"update3";
+	"visits250k";
+	"likes2500";
+	"update5";
+	"visits500k";
+	"visits1m";
+	"likes5000";
+	"update8";
+	"sorryfordelay";
+	"cooldragons";
+	"bugfixes";
+	"likes7500";
+	"visits2m";
+	"update13";
+	"favs20k";
+	"likes10k";
+	"morebugfixes";
+	"visits3m";
+	"freepet";
+	"update17";
+	"russo";
+	"likes15k";
+	"visits5m";
+	}
+	for i = 1, #code do
+		remote.CodeFunction:InvokeServer(code[i])
+	end
+end)
+end)
+
+e:Toggle("Auto Unlock",{flag = "autounlock"})
+e:Toggle("Auto Lock",{flag = "autolock"})
+
+local VirtualUser=game:service'VirtualUser'
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+	VirtualUser:CaptureController()
+	VirtualUser:ClickButton2(Vector2.new())
+end)
+--[[
+game:GetService("RunService").RenderStepped:Connect(function()
+	if setsimulationradius then
+    	setsimulationradius(math.huge)
+	end
+end)]]--
+
+
+--[[game:GetService('RunService').Heartbeat:connect(function()
+	if w.flags.autoclick then
+		for multi = 1, 7 do
+			remote.Click:InvokeServer("Click")
+		end
+	end
+end)]]--
+
+for i, v in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.HUD.HUDCenter.Click.Activated)) do
+game:GetService('RunService').Heartbeat:connect(function()
+	if w.flags.autoclick then
+		for multi = 1, 2 do
+			v:Fire()
+			--remote.Click:InvokeServer("Click")
+		end
+	end
+end)
+end
+
+spawn(function()
+while wait(.1) do
+if w.flags.autorebirth then
+	remote.RebirthFunction:InvokeServer({	["Option"] = rebirthtime, 	["RequestType"] = "RequestRebirth"})
+end
+end
+end)
+
+function del()
+	for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Manage.MassDelete.Activated)) do
+		d:Fire()
+	end
+	for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Confirmation.Main.Yes.Activated)) do
+		d:Fire()
+	end
+end
+
+game:GetService('RunService').Stepped:connect(function()
+	if e.flags.autoopen then
+		if itemnames == "Crate1" or itemnames == "Crate2" or itemnames == "Crate3" or itemnames == "Crate4" or itemnames == "Crate5"  then
+			remote.CrateFunction:InvokeServer({	["Amount"] = 3, 	["UpdateType"] = "Open", 	["CrateType"] = itemnames})
+			--remote.CrateFunction:InvokeServer({	["Amount"] = amountopen, 	["UpdateType"] = "Open", 	["CrateType"] = itemnames})
+		else
+			remote.EggFunction:InvokeServer({	["EggType"] = itemnames, 	["UpdateType"] = "Open", 	["Amount"] = 3})
+			--remote.EggFunction:InvokeServer({	["EggType"] = itemnames, 	["UpdateType"] = "Open", 	["Amount"] = amountopen})
+		end
+    end	
+end)
+
+
+spawn(function()
+while wait(.25) do
+	if e.flags.autodel then
+	pcall(function()
+		--[[for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Manage.EquipBest.Activated)) do
+			d:Fire()
+		end]]--
+		del()
+	end)
+	end
+end
+end)
+
+spawn(function()
+while wait(1) do
+if e.flags.equip then
+	for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Manage.EquipBest.Activated)) do
+		d:Fire()
+	end
+end
+end
+end)
+spawn(function()
+while wait(.5) do
+if e.flags.upgradeall then
+game.ReplicatedStorage.Events.InventoryEvent:FireServer({	["UpdateType"] = "UpgradeAllPets"})
+game.ReplicatedStorage.Events.InventoryEvent:FireServer({	["UpdateType"] = "UpgradeAllHats"})
+end
+end
+end)
+
+spawn(function()
+while wait(1) do
+if e.flags.autounlock then
+pcall(function()
+	for i,v in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets:GetChildren()) do
+		if v:IsA("ImageButton") and v.Lock.Visible == true then
+			for a,b in pairs(getconnections(v.Activated)) do
+				b:Fire()
+				for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Info.Lock.Activated)) do
+					d:Fire()
+				end
+			end
+		end
+	end
+end)
+end
+end
+end) 
+spawn(function()
+while wait(1) do
+if e.flags.autolock then
+pcall(function()
+	for i,v in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets:GetChildren()) do
+		if v:IsA("ImageButton") and v.Lock.Visible == false  then
+			for a,b in pairs(getconnections(v.Activated)) do
+				b:Fire()
+				for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Info.Lock.Activated)) do
+					d:Fire()
+				end
+			end
+		end
+	end
+end)
+end
+end
+end) 
+
+--[[
+spawn(function()
+while wait(3) do
+pcall(function()
+if e.flags.autounlock then
+	for i,v in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets:GetChildren()) do
+		if v:IsA("ImageButton") and v.Lock.Visible == true and v.PetName.Text == "Ancient Celestial" then
+			for a,b in pairs(getconnections(v.Activated)) do
+				b:Fire()
+				for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Info.Lock.Activated)) do
+					d:Fire()
+				end
+			end
+		end
+	end
+end
+end)
+end
+end)]]--
+--[[
+for c,d in pairs(game:GetService("Players").DungeonAnswer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets.118621.Lock.Activated)) do
+			d:Fire()
+		end
+		
+--Lock pet
+for _,v in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets:GetChildren()) do
+	if v:IsA("ImageButton") and v.Lock.Visible == false then--and v.PetName.Text == "Ancient Celestial Normal"then
+		for a,b in pairs(getconnections(v.Activated)) do
+			b:Fire()
+			for c,d in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Info.Lock.Activated)) do
+				d:Fire()
+			end
+		end
+	end
+end
+
+game:GetService("Players").DungeonAnswer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets.118621.Lock
+game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Info.Lock
+
+
+
+_G.delete = true
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.delete == true then
+pcall(function()
+wait(.005)
+for i,v in pairs(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Frames.Pets:GetChildren()) do
+    if v:IsA("ImageButton") and (v.PetName.Text == "Spirit Thunder Kitsune" or v.PetName.Text == "Spirit Fire Kitsune" or v.PetName.Text == "Spirit Demon" or v.PetName.Text == "Spirit Arch Demon" or v.PetName.Text == "Spirit Thunder Hydra" or v.PetName.Text == "Spirit Angel") then
+        for a,b in pairs(getconnections(v.Activated)) do
+            b:Fire()
+            for c,d in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.UI.Prompts.Inventory.Main.Delete.Activated)) do
+                d:Fire()
+            end
+        end
+    end
+end
+end)
+end
+end)
+]]--
+
