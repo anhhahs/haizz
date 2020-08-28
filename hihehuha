@@ -10,6 +10,10 @@ w:Box("Time Rebirth", "string", function(text)
 end)
 w:Toggle("Auto Rebirth",{flag = "autorebirth"}) 
 w:Section('TelePort')
+
+w:Button("Zone 19", function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(417.958008, 14813.3467, -848.626465)
+end)
 w:Button("Zone 18", function()
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(430.924805, 14317.6563, -865.688416)
 end)
@@ -61,6 +65,8 @@ e:Dropdown("Crate/Egg Choosen",{
 		"Egg1M";
 		"Egg2M";
 		"Egg5M";
+		"Egg6M";
+		"Egg7M";
         "Egg1";
         "Egg2";
         "Egg3";
@@ -79,14 +85,13 @@ e:Dropdown("Crate/Egg Choosen",{
 		"Egg16";
 		"Egg17";
 		"Egg18";
+		"Egg19";
 		"Crate1";
 		"Crate2";
 		"Crate3";
 		"Crate4";
 		"Crate5";
-		"Crate6";
-		"ElementalEgg";
-    }
+		"Crate6";    }
 }, function(itemname)
     itemnames = _G.itemname
 end)
@@ -194,7 +199,7 @@ end
 
 game:GetService('RunService').Stepped:connect(function()
 	if e.flags.autoopen then
-		if itemnames == "Crate1" or itemnames == "Crate2" or itemnames == "Crate3" or itemnames == "Crate4" or itemnames == "Crate5"  then
+		if string.match(itemnames, "Crate") then
 			remote.CrateFunction:InvokeServer({	["Amount"] = 3, 	["UpdateType"] = "Open", 	["CrateType"] = itemnames})
 			--remote.CrateFunction:InvokeServer({	["Amount"] = amountopen, 	["UpdateType"] = "Open", 	["CrateType"] = itemnames})
 		else
@@ -228,7 +233,7 @@ end
 end
 end)
 spawn(function()
-while wait(.5) do
+while wait(1.5) do
 if e.flags.upgradeall then
 game.ReplicatedStorage.Events.InventoryEvent:FireServer({	["UpdateType"] = "UpgradeAllPets"})
 game.ReplicatedStorage.Events.InventoryEvent:FireServer({	["UpdateType"] = "UpgradeAllHats"})
