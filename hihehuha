@@ -1,6 +1,6 @@
 game:GetService("CoreGui").PurchasePromptApp.PurchasePromptUI.Visible = false
 local library = loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/library")))()
-itemnames = "Egg16"
+itemnames = "Egg19"
 local remote = game:GetService("ReplicatedStorage").Functions
 w = library:CreateWindow("Combo Clickers")
 w:Section('Auto Farm')
