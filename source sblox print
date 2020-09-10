@@ -1,0 +1,458 @@
+local player = game:GetService("Players").LocalPlayer
+local main = library:Main()
+local tab = main:Tab("Schematica")
+
+local schematics = {}
+
+if not isfolder("schematica") then
+	makefolder("schematica")
+end
+
+if listfiles then
+	for i, v in pairs(listfiles("schematica")) do
+		local replaced = string.gsub(v, "schematica%p", "")
+		table.insert(schematics, replaced)
+	end
+else
+	print("trash exploit lOL")
+end
+
+local flags = {}
+
+local setup = tab:Section("Setup")
+
+local function getDisplayNameByName(name)
+    for i, v in pairs(game:GetService("ReplicatedStorage").Tools:GetChildren()) do
+        if v.Name == name and v:FindFirstChild("DisplayName") then
+            return v:FindFirstChild("DisplayName").Value
+        end
+    end
+end
+
+local function consoleLog(text)
+	return rconsoleprint("-------------------" .. tostring(os.date()) .. "-------------------\n" .. text)
+end
+
+local function loadSchematicData()
+	local output = "Schematic Data for " .. tostring(flags.schematicFile) .. ":\n"
+	for i, v in pairs(flags.schematicData) do
+		output = output .. "- " .. getDisplayNameByName(i) .. ":" .. tostring(#v) .. "\n"
+	end
+	consoleLog(output)
+end
+
+if listfiles then
+	setup:SearchBox("Schematic File", schematics, function(value)
+		flags.schematicFile = value
+		flags.schematicData = game:GetService("HttpService"):JSONDecode(readfile("schematica/" .. value))
+		loadSchematicData()
+	end)
+else
+	setup:Box("Schematic File", function(value)
+		flags.schematicFile = value
+		flags.schematicData = game:GetService("HttpService"):JSONDecode(readfile("schematica/" .. value))
+		loadSchematicData()
+	end)
+end
+
+local function stringToCFrame(str)
+    return(CFrame.new(str:match("(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+)")))
+end
+
+local function generateSchematicModel()
+	local model = Instance.new("Model")
+	for i, v in pairs(flags.schematicData) do
+		for i2, v2 in pairs(v) do
+			local truePosition = stringToCFrame(v2)
+			if i == "air" then
+				local copy = Instance.new("Part", workspace)
+				copy.Anchored = true
+                copy.Parent = model
+                copy.Name = i
+                copy.CanCollide = false
+                copy.Transparency = 0.9
+				copy.CFrame = truePosition + flags.schematicCFrame.p
+
+				if copy.Position == flags.schematicCFrame.p then
+					model.PrimaryPart = copy
+				end
+			else
+				local copy = game:GetService("ReplicatedStorage").Blocks[i].Root:Clone()
+                copy.Parent = model
+                copy.Name = i
+                copy.CanCollide = false
+                copy.Transparency = 0.5
+				copy.CFrame = truePosition + flags.schematicCFrame.p
+
+				if copy.Position == flags.schematicCFrame.p then
+					model.PrimaryPart = copy
+				end
+			end
+		end
+	end
+	return model
+end
+
+local function editCFrameXYZ(cframe, edited)
+	local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = cframe:components()
+	return CFrame.new(edited.X, edited.Y, edited.Z, r00, r01, r02, r10, r11, r12, r20, r21, r22)
+end
+
+local function moveModel()
+	local originalPosition = flags.schematicCFrame.p
+	local newPosition = originalPosition + Vector3.new(flags.xOffset, flags.yOffset, flags.zOffset)
+	flags.schematicModel:SetPrimaryPartCFrame(editCFrameXYZ(flags.schematicModel.PrimaryPart.CFrame, newPosition))
+end
+
+setup:Button("Reload Schematics List", function()
+	for i, v in pairs(schematics) do
+		schematics[i] = nil
+	end
+	for i, v in pairs(listfiles("schematica")) do
+		local replaced = string.gsub(v, "schematica%p", "")
+		table.insert(schematics, replaced)
+	end
+end)
+
+local positions = tab:Section("Position Settings")
+
+positions:Button("Set Position", function()
+	flags.setPosition = true
+end)
+
+local mt = getrawmetatable(game)
+local namecall = mt.__namecall
+
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    if method == "InvokeServer" and tostring(self) == "CLIENT_BLOCK_PLACE_REQUEST" then
+		local args = {...}
+		if flags.setPosition then
+			flags.setPosition = false
+			flags.schematicCFrame = args[1].cframe
+			if flags.schematicModel then flags.schematicModel:ClearAllChildren() end
+			flags.schematicModel = generateSchematicModel()
+			flags.schematicModel.Parent = workspace
+			return {["success"] = false}
+		end
+    end
+    return namecall(self, ...)
+end)
+
+positions:Adjustable("X-Offset", {
+	min = -math.huge,
+	max = math.huge
+}, function(value)
+	flags.xOffset = value * 3
+	moveModel()
+end)
+
+positions:Adjustable("Y-Offset", {
+	min = -math.huge,
+	max = math.huge
+}, function(value)
+	flags.yOffset = value * 3
+	moveModel()
+end)
+
+positions:Adjustable("Z-Offset", {
+	min = -math.huge,
+	max = math.huge
+}, function(value)
+	flags.zOffset = value * 3
+	moveModel()
+end)
+
+positions:Button("Rotate on X", function()
+	flags.schematicModel:SetPrimaryPartCFrame(flags.schematicModel.PrimaryPart.CFrame * CFrame.Angles(math.rad(90), 0, 0))
+end)
+
+positions:Button("Rotate on Y", function()
+	flags.schematicModel:SetPrimaryPartCFrame(flags.schematicModel.PrimaryPart.CFrame * CFrame.Angles(0, math.rad(90), 0))
+end)
+
+positions:Button("Rotate on Z", function()
+	flags.schematicModel:SetPrimaryPartCFrame(flags.schematicModel.PrimaryPart.CFrame * CFrame.Angles(0, 0, math.rad(90)))
+end)
+
+local loading = tab:Section("Loading Settings")
+
+loading:Toggle("Fast Mode", function(value)
+	flags.fastMode = value
+end)
+
+loading:Toggle("Stable Fast Mode", function(value)
+	flags.sfastMode = value
+end)
+
+local aliases = {
+	grass = {
+		"dirt";
+		"soil"
+	}
+}
+
+local placeBlockRemote = game:GetService("ReplicatedStorage").Remotes.Functions["CLIENT_BLOCK_PLACE_REQUEST"]
+
+loading:Slider("Model Transparency", {min = 0, max = 100}, function(Value)
+	for i, v in pairs(flags.schematicModel:GetChildren()) do
+		v.Transparency = Value/100
+	end
+end)
+
+loading:Button("Load Build",  function()
+	local bv = Instance.new("BodyVelocity", player.Character.HumanoidRootPart)
+	bv.Velocity = Vector3.new(0, 0, 0)
+	
+	if flags.schematicModel then
+		for i, v in pairs(flags.schematicModel:GetChildren()) do
+			local BlockName = v.Name
+
+			for i2, v2 in pairs(aliases) do
+				for i3, v3 in pairs(v2) do
+					if BlockName == v3 then
+						BlockName = i2
+					end
+				end
+			end
+
+			if BlockName ~= "air" then
+				if player:DistanceFromCharacter(v.Position) > 50 or player:DistanceFromCharacter(v.Position) < 6 then
+                    player.Character.HumanoidRootPart.CFrame = v.CFrame + Vector3.new(15, 15, 15)
+                end
+			end
+
+			if flags.fastMode or flags.sfastMode then
+				spawn(function()
+					placeBlockRemote:InvokeServer({["blockType"] = BlockName, ["cframe"] = v.CFrame})
+				end)
+			else
+				placeBlockRemote:InvokeServer({["blockType"] = BlockName, ["cframe"] = v.CFrame})
+			end
+			if flags.sfastMode then
+				wait(0.001)
+			end
+		end		
+	end
+	bv:Destroy()
+end)
+
+local copying = main:Tab("Copying")
+
+local points = copying:Section("Points")
+
+points:Button("Set First Point", function()
+	flags.firstPoint = true
+	flags.secondPoint = false
+end)
+
+points:Button("Set Second Point", function()
+	flags.secondPoint = true
+	flags.firstPoint = false
+end)
+
+local exporterModel = Instance.new("Model", workspace)
+
+local function getLowest(first, second)
+	if first < second then
+		return first
+	else
+		return second
+	end
+end;
+
+local function getHighest(first, second)
+	if first > second then
+		return first
+	else
+		return second
+	end
+end;
+
+flags.firstXSize = 0
+flags.firstYSize = 0
+flags.firstZSize = 0
+
+flags.secondXSize = 0
+flags.secondYSize = 0
+flags.secondZSize = 0
+
+local function generateExportingModel()
+	exporterModel:ClearAllChildren()
+	if flags.firstPointPosition and flags.secondPointPosition then
+		local FirstPoint = Vector3.new(getLowest(flags.firstPointPosition.X, flags.secondPointPosition.X), getLowest(flags.firstPointPosition.Y, flags.secondPointPosition.Y), getLowest(flags.firstPointPosition.Z, flags.secondPointPosition.Z)) + Vector3.new(flags.firstXSize, flags.firstYSize, flags.firstZSize)
+		local SecondPoint = Vector3.new(getHighest(flags.firstPointPosition.X, flags.secondPointPosition.X), getHighest(flags.firstPointPosition.Y, flags.secondPointPosition.Y), getHighest(flags.firstPointPosition.Z, flags.secondPointPosition.Z)) + Vector3.new(flags.secondXSize, flags.secondYSize, flags.secondZSize)
+
+		local RedPoint = Instance.new("Part", exporterModel);
+		RedPoint.Position = FirstPoint;
+		RedPoint.Size = Vector3.new(3, 3, 3);
+		RedPoint.Transparency = 0.5;
+		RedPoint.Anchored = true;
+		RedPoint.CanCollide = false;
+		RedPoint.Material = "Metal";
+		RedPoint.BrickColor = BrickColor.new("Dark red");
+
+		local BluePoint = Instance.new("Part", exporterModel);
+		BluePoint.Position = SecondPoint;
+		BluePoint.Size = Vector3.new(3, 3, 3);
+		BluePoint.Transparency = 0.5;
+		BluePoint.Anchored = true;
+		BluePoint.CanCollide = false;
+		BluePoint.Material = "Metal";
+		BluePoint.BrickColor = BrickColor.new("Dark blue");
+
+		local Region = Region3.new(FirstPoint - Vector3.new(1.5, 1.5, 1.5), SecondPoint + Vector3.new(1.5, 1.5, 1.5));
+
+		if flags.showLines then
+			local FilledPart = Instance.new("Part", exporterModel)
+			FilledPart.Material = "Metal"
+			FilledPart.CFrame = Region.CFrame
+			FilledPart.Size = Region.Size
+			FilledPart.CanCollide = false
+			FilledPart.Anchored = true
+			FilledPart.Transparency = 0.5
+			local SelectionBox = Instance.new("SelectionBox", FilledPart)
+			SelectionBox.LineThickness = 0.1
+			SelectionBox.Adornee = FilledPart
+			SelectionBox.Visible = true
+			SelectionBox.Color = BrickColor.new("White")
+		end
+		return Region;
+	end
+end
+
+local mt = getrawmetatable(game)
+local namecall = mt.__namecall
+
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    if method == "InvokeServer" and tostring(self) == "CLIENT_BLOCK_PLACE_REQUEST" then
+		local args = {...}
+		if flags.firstPoint then
+			flags.firstPoint = false
+			flags.firstPointPosition = args[1].cframe
+			generateExportingModel()
+			return {["success"] = false}
+		elseif flags.secondPoint then
+			flags.secondPoint = false
+			flags.secondPointPosition = args[1].cframe
+			generateExportingModel()
+			return {["success"] = false}
+		end
+    end
+    return namecall(self, ...)
+end)
+
+local sizeSettings = copying:Section("Size Settings")
+
+sizeSettings:Label("Red Point")
+
+sizeSettings:Adjustable("X-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.firstXSize = value * 3
+	generateExportingModel()
+end)
+
+sizeSettings:Adjustable("Y-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.firstYSize = value * 3
+	generateExportingModel()
+end)
+
+sizeSettings:Adjustable("Z-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.firstZSize = value * 3
+	generateExportingModel()
+end)
+
+sizeSettings:Label("Blue Point")
+
+sizeSettings:Adjustable("X-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.secondXSize = value * 3
+	generateExportingModel()
+end)
+
+sizeSettings:Adjustable("Y-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.secondYSize = value * 3
+	generateExportingModel()
+end)
+
+sizeSettings:Adjustable("Z-Offset", {min = -math.huge, max = math.huge}, function(value)
+	flags.secondZSize = value * 3
+	generateExportingModel()
+end)
+
+local rendering = copying:Section("Rendering")
+
+rendering:Toggle("Show Lines", function(value)
+	flags.showLines = value
+	generateExportingModel()
+end)
+
+rendering:Box("File Name", function(value)
+	flags.saveName = value
+end)
+
+local allGameBlocks = {}
+
+for i, v in pairs(game:GetService("ReplicatedStorage").Blocks:GetChildren()) do
+	table.insert(allGameBlocks, v.Name)
+end
+
+local function GetBlocksInRegion3(Region)
+	local FoundBlocks = {}
+	for i, v in pairs(workspace:FindPartsInRegion3(Region, player.Character, math.huge)) do
+		if table.find(allGameBlocks, v.Name) then
+			table.insert(FoundBlocks, v)
+		end
+	end
+	return FoundBlocks
+end
+
+local function getBlockList(BlocksToParse)
+	local blocks = {}
+	for i, v in pairs(BlocksToParse) do
+		if table.find(blocks, v.Name) == nil and table.find(allGameBlocks, v.Name) then
+			table.insert(blocks, v.Name)
+		end
+	end
+	return blocks
+end
+
+local roundClosest3 = function(number)
+	return math.floor(number / 3 + 0.5) * 3
+end
+
+local function formatCFrame(cframe)
+	local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = cframe:components()
+	return CFrame.new(roundClosest3(x), roundClosest3(y), roundClosest3(z), r00, r01, r02, r10, r11, r12, r20, r21, r22)
+end
+
+rendering:Button("Save Data", function()
+	if flags.saveName ~= nil then 
+		local region = generateExportingModel()
+		local found = GetBlocksInRegion3(region)
+		local blockList = getBlockList(found)
+
+		local output = {}
+
+		for i, v in pairs(blockList) do
+			output[v] = {}
+		end
+
+		local primaryPart = found[1]
+
+		for i, v in pairs(found) do
+			if output[v.Name] then
+				table.insert(output[v.Name], tostring(formatCFrame(v.CFrame - primaryPart.Position)))
+			end
+		end
+
+		writefile("schematica/" .. flags.saveName .. ".s", game:GetService("HttpService"):JSONEncode(output))
+	end
+end)
+
+main:Tab("Made by Jxl")
