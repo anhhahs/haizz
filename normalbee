@@ -5126,8 +5126,9 @@ end
 -- Pollen Farming --
 
 spawn (function()
-	while wait() do
-		wait(0.25)
+	while wait(.1) do
+	pcall(function()
+		--wait(0.25)
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
 			wait(35)
@@ -5269,7 +5270,7 @@ spawn (function()
 						break
 					end
 				end
-				while Field15AFActive and not snailT.Visible and PollenFarmActive do -- snail auto kill
+				while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
 					tokenfarmactive2 = false
 					if switchnow then break end
 					currp = CFrame.new(427, 75.5, -177)
@@ -5451,6 +5452,7 @@ spawn (function()
 		sprinklerDB = false	
 		tokenfarmactive2 = false	
 		end
+	end)
 	end
 end)
 
@@ -6490,7 +6492,7 @@ spawn(function()
 							end
 							if collectcoconuts then
 								if v.Name == "Coconut" then
-									if (v.Position-root.Position).magnitude <= 70 then
+									if (v.Position-root.Position).magnitude <= 80 and (v.CFrame.Y - root.CFrame.Y) < 15 then
 										root.CFrame = CFrame.new(v.CFrame.X, root.CFrame.Y, v.CFrame.Z)
 										wait(.05)
 									end
