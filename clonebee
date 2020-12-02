@@ -4416,7 +4416,7 @@ if bpstart == 0 then
 end
 
 spawn(function()
-	while true do
+	while wait() do
 		wait(10)		
 		--kill menu stuff
 		StatCache = require(game.ReplicatedStorage.ClientStatCache)
@@ -4446,7 +4446,7 @@ end)
 microTimer = 0
 blendertimer = 0
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if microconverteractive and microCD and microTimer < 8 then
 			microTimer = microTimer + 1
@@ -4679,7 +4679,7 @@ end)
 
 -- Check for Sprout --
 spawn(function()
-	while true do
+	while wait() do
 		sproutdistance1 = nil
 		sproutdetected = false
 		SproutDetect.Visible = false
@@ -4719,7 +4719,7 @@ end)
 
 -- Check for Guiding Star --
 spawn(function()
-	while true do
+	while wait() do
 		guidingdistance1 = nil
 		guidingdetected = false
 		guidingobject = nil
@@ -4747,7 +4747,7 @@ end)
 
 --check for vicious
 spawn(function()
-	while true do
+	while wait() do
 		viciousdistance1 = nil
 		viciousbeedetected = false
 		ViciousBeeDetect.Visible = false
@@ -4786,7 +4786,7 @@ end)
 
 -- Check for Windy Bee --
 spawn(function()
-	while true do
+	while wait() do
 		windydistance = 0
 		windydistance1 = 0
 		windydetected = false
@@ -4825,7 +4825,7 @@ end)
 -- Check for fireflys --
 
 spawn(function()
-	while true do
+	while wait() do
 		fireflydistance1 = nil
 		fireflydetected = false
 		FireflyDetect.Visible = false
@@ -5121,7 +5121,7 @@ end)
 -- Pollen Farming --
 
 spawn (function()
-	while true do
+	while wait() do
 		wait(0.25)
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
@@ -5441,7 +5441,7 @@ end)
 
 viciouscheck = false
 spawn(function()
-	while true do
+	while wait() do
 		if MonsterKillerActive and viciouscheck == false and game.Players.LocalPlayer:FindFirstChild("Honeycomb") then
 			comb = game.Players.LocalPlayer.Honeycomb.Value
 			combstring = tostring(comb)
@@ -5517,7 +5517,7 @@ spawn(function()
 end)
 
 spawn(function()
-	while true do
+	while wait() do
 		if autostingerDBTimer > 29 and autostingerDB then
 			autostingerDB = false
 			autostingerDBTimer = 0
@@ -5578,7 +5578,7 @@ spawn(function()
 end)
 
 function killcommando()
-	while true do
+	while wait() do
 	wait(.1)
 		--commandoT = game.Workspace.MonsterSpawners["Commando Chick"].TimerAttachment.TimerGui.TimerLabel
 		player = game:GetService("Players").LocalPlayer
@@ -5607,7 +5607,7 @@ function killcommando()
 end
 
 spawn(function()
-	while true do
+	while wait() do
 	    wait(1)
 		while PollenFarmActive and marshmallowbeeactive do
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Marshmallow Bee"})
@@ -6158,7 +6158,7 @@ end)
 
 -- vicious bee --
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if HuntViciousActive and viciousbeedetected then
 			print("Vicous Bee has Appeared. Hunting Time!!")
@@ -6217,7 +6217,7 @@ end)
 
 -- windy bee --
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if windyfarm and windydetected and not mondoalive and not guidingkillstarted then
 			print("Windy Bee has Appeared. Hunting Time!!")
@@ -6271,7 +6271,7 @@ end)
 -- sprout farm --
 sproutCollecting = false
 spawn(function()
-    while true do
+    while wait() do
         startpos = nil
         wait()        
         if SproutFarmActive and sproutdetected then
@@ -6408,7 +6408,7 @@ end)
 
 
 spawn(function()
-	while true do
+	while wait() do
 		wait()
 		if tokenfarmactive2 then
 			while tokenfarmactive2 do
@@ -6492,7 +6492,7 @@ spawn(function()
 end)
 
 spawn(function()
-	while true do
+	while wait() do
 		Timer = Timer + 1
 		RunTimer.Text = convertToHMS(Timer)		
 		wait(1)
