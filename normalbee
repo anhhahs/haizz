@@ -3172,27 +3172,43 @@ function farmtokens()
 	end
 end
 
+--mondo token farm
+function farmtokensmondo()
+	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	--workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position
+	for k,v in pairs(workspace.Collectibles:GetChildren()) do
+		if v.Name == game.Players.LocalPlayer.Name and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 100 and math.abs(v.Position.Y-workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position.Y)>5 and math.abs(v.Position.X-workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position.X)>5 and not v:FindFirstChild("farmed") then
+			local intvalue = Instance.new("IntValue",v)
+			intvalue.Name = "farmed"
+			noclip = true
+			rootP.CFrame = v.CFrame
+			wait(.07)
+			noclip = false
+		end
+	end
+end
+
 --field monster positions / teleports
-CloverA = CFrame.new(180, 54, 189)
+CloverA = CFrame.new(157.268417, 34, 242.779205)
 CloverG1 = CFrame.new(161, 34, 199)
-BlueA = CFrame.new(103, 24, 101)
+BlueA = CFrame.new(145.823746, 4, 121.861526)
 BlueG1 = CFrame.new(115, 4, 101)
-BambooA = CFrame.new(123, 40, -27)
-BambooG1 = CFrame.new(125, 21, 5)
-PineappleA = CFrame.new(257, 88, -205)
+BambooA = CFrame.new(127.28508, 21, 3.43407989)
+BambooG1 = CFrame.new(129.132538, 21, -63.0906181)
+PineappleA = CFrame.new(257, 68, -205)
 PineappleG1 = CFrame.new(221, 68, -234)
-SpiderA = CFrame.new(-45, 40, -5)
+SpiderA = CFrame.new(-44.9185219, 20, 32.1326523)
 SpiderG1 = CFrame.new(-47, 20, -16)
-MushroomA = CFrame.new(-94, 25, 116)
+MushroomA = CFrame.new(-96.5041733, 5, 152.095932)
 MushroomG1 = CFrame.new(-88, 5, 109)
-StrawberryA = CFrame.new(-180, 40, -5)
-StrawberryG1 = CFrame.new(-156, 21, 0)
+StrawberryA = CFrame.new(-141.830444, 21, 34.7548828)
+StrawberryG1 = CFrame.new(-216.277405, 21, -53.3578911)
 RoseA = CFrame.new(-320, 40, 130)
-RoseG1 = CFrame.new(-290, 20, 130)
+RoseG1 = CFrame.new(-330.554382, 20, 125.98172)
 WerewolfA = CFrame.new(-166, 68, -174)
-WerewolfG1 = CFrame.new(-166, 68, -117)
-PineA = CFrame.new(-318, 88, -155)
-PineG1 = CFrame.new(-326, 68, -187)
+WerewolfG1 = CFrame.new(-134.243652, 68, -211.528366)
+PineA = CFrame.new(-300.64502, 68, -189.465759)
+PineG1 = CFrame.new(-369.566254, 68, -194.724686)
 
 --rose field monster kill
 function roseKill()
@@ -3200,14 +3216,14 @@ function roseKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = RoseA
 		noclip = true
-		wait(5)
+		wait(3)
 		noclip = false
 		uTorso.CFrame = RoseG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3230,14 +3246,14 @@ function pineKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = PineA
 		noclip = true
-		wait(5)
+		wait(3)
 		noclip = false
 		uTorso.CFrame = PineG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3260,14 +3276,14 @@ function cloverKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = CloverA
 		noclip = true
-		wait(5)
+		wait(2)
 		noclip = false
 		uTorso.CFrame = CloverG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3290,14 +3306,14 @@ function blueflowerKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = BlueA
 		noclip = true
-		wait(5)
+		wait(1)
 		noclip = false
 		uTorso.CFrame = BlueG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3320,14 +3336,14 @@ function werewolfKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = WerewolfA
 		noclip = true
-		wait(5)
+		wait(3)
 		noclip = false
 		uTorso.CFrame = WerewolfG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end		  
 		until
@@ -3350,14 +3366,14 @@ function strawberryKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = StrawberryA
 		noclip = true
-		wait(5)
+		wait(1)
 		noclip = false
 		uTorso.CFrame = StrawberryG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end						  
 		until
@@ -3380,14 +3396,14 @@ function spiderKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = SpiderA
 		noclip = true
-		wait(5)
+		wait(3)
 		noclip = false
 		uTorso.CFrame = SpiderG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3410,14 +3426,14 @@ function bambooKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = BambooA
 		noclip = true
-		wait(5)
+		wait(1)
 		noclip = false
 		uTorso.CFrame = BambooG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3440,14 +3456,14 @@ function pineappleKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = PineappleA
 		noclip = true
-		wait(5)
+		wait(2)
 		noclip = false
 		uTorso.CFrame = PineappleG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end		  
 		until
@@ -3470,14 +3486,14 @@ function mushroomKill()
 		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		uTorso.CFrame = MushroomA
 		noclip = true
-		wait(5)
+		wait(1)
 		noclip = false
 		uTorso.CFrame = MushroomG1
 		qwait = 0
 		repeat
 		wait(1)
 		qwait = qwait + 1
-		if qwait == 30 then
+		if qwait == 15 then
 			gameover = true
 		end
 		until
@@ -3506,8 +3522,8 @@ function KillMonsters()
 	mushroomKill()
 	strawberryKill()
 	roseKill()
-	werewolfKill()
 	pineKill()
+	werewolfKill()
 	AutoDigActive = false
 	gameover = false
 	print("Successfully finished monster killer")
@@ -4416,8 +4432,8 @@ if bpstart == 0 then
 end
 
 spawn(function()
-	while true do
-		wait(10)		
+	while wait() do
+		wait(2)		
 		--kill menu stuff
 		StatCache = require(game.ReplicatedStorage.ClientStatCache)
 		MonsterTypes = require(game.ReplicatedStorage.MonsterTypes)
@@ -4446,7 +4462,7 @@ end)
 microTimer = 0
 blendertimer = 0
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if microconverteractive and microCD and microTimer < 8 then
 			microTimer = microTimer + 1
@@ -4679,7 +4695,7 @@ end)
 
 -- Check for Sprout --
 spawn(function()
-	while true do
+	while wait() do
 		sproutdistance1 = nil
 		sproutdetected = false
 		SproutDetect.Visible = false
@@ -4719,7 +4735,7 @@ end)
 
 -- Check for Guiding Star --
 spawn(function()
-	while true do
+	while wait() do
 		guidingdistance1 = nil
 		guidingdetected = false
 		guidingobject = nil
@@ -4747,7 +4763,7 @@ end)
 
 --check for vicious
 spawn(function()
-	while true do
+	while wait() do
 		viciousdistance1 = nil
 		viciousbeedetected = false
 		ViciousBeeDetect.Visible = false
@@ -4786,7 +4802,7 @@ end)
 
 -- Check for Windy Bee --
 spawn(function()
-	while true do
+	while wait() do
 		windydistance = 0
 		windydistance1 = 0
 		windydetected = false
@@ -4825,7 +4841,7 @@ end)
 -- Check for fireflys --
 
 spawn(function()
-	while true do
+	while wait() do
 		fireflydistance1 = nil
 		fireflydetected = false
 		FireflyDetect.Visible = false
@@ -5110,7 +5126,7 @@ end
 -- Pollen Farming --
 
 spawn (function()
-	while true do
+	while wait() do
 		wait(0.25)
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
@@ -5284,8 +5300,13 @@ spawn (function()
 						currp = CFrame.new(mondop.x + 20, 176.4, mondop.z + 20)
 						root.CFrame = currp
 						noclip = true
-						wait(.1)
-						--farmtokens()
+						wait(.1)--[[
+						if autostinger and autostingerDB == false then
+							autostingerDB = true
+							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
+						end
+						farmtokensmondo()
+						--farmtokens()]]--
 					end
 					wait(.5)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
@@ -5302,7 +5323,7 @@ spawn (function()
 					farmtokens()
 					farmtokens()
 					mondostarted = false
-					wait(30)
+					wait(40)
 					turnthemon()
 					if autostinger and autostingerDB == false then
 						autostingerDB = true
@@ -5325,7 +5346,7 @@ spawn (function()
 				root.CFrame = fieldpos[1]
 				wait(1)
 				if autosprinkler and sprinklerDB == false then
-					wait(1.5)
+					wait(1)
 					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Sprinkler Builder"})
 					sprinklerDB = true
 				end
@@ -5351,7 +5372,7 @@ spawn (function()
 					tokenfarmactive2 = false
 					break
 				end
-				wait(1.5)
+				wait(1)
 			end
 			-- turn pollen to honey --
 			tokenfarmactive2 = false
@@ -5382,7 +5403,7 @@ spawn (function()
 					end
 				end
 			end
-			wait(1.5)
+			wait(1)
 			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 				game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
@@ -5435,7 +5456,7 @@ end)
 
 viciouscheck = false
 spawn(function()
-	while true do
+	while wait() do
 		if MonsterKillerActive and viciouscheck == false and game.Players.LocalPlayer:FindFirstChild("Honeycomb") then
 			comb = game.Players.LocalPlayer.Honeycomb.Value
 			combstring = tostring(comb)
@@ -5452,7 +5473,7 @@ spawn(function()
 		if MonsterKillerActive and hasgiftedvicious == false and quickkillactive then
 			while MonsterKillerActive do
 				print("Quick Monster Killer activated, monsters will be killed next time you convert honey.")
-				waittime = 305
+				waittime = 330
 				StartKilling = true
 				repeat
 				wait(1)
@@ -5511,7 +5532,7 @@ spawn(function()
 end)
 
 spawn(function()
-	while true do
+	while wait() do
 		if autostingerDBTimer > 29 and autostingerDB then
 			autostingerDB = false
 			autostingerDBTimer = 0
@@ -5572,7 +5593,7 @@ spawn(function()
 end)
 
 function killcommando()
-	while true do
+	while wait() do
 	wait(.1)
 		--commandoT = game.Workspace.MonsterSpawners["Commando Chick"].TimerAttachment.TimerGui.TimerLabel
 		player = game:GetService("Players").LocalPlayer
@@ -5601,7 +5622,7 @@ function killcommando()
 end
 
 spawn(function()
-	while true do
+	while wait() do
 	    wait(1)
 		while PollenFarmActive and marshmallowbeeactive do
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Marshmallow Bee"})
@@ -6152,7 +6173,7 @@ end)
 
 -- vicious bee --
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if HuntViciousActive and viciousbeedetected then
 			print("Vicous Bee has Appeared. Hunting Time!!")
@@ -6211,7 +6232,7 @@ end)
 
 -- windy bee --
 spawn(function()
-	while true do
+	while wait() do
 		wait(1)
 		if windyfarm and windydetected and not mondoalive and not guidingkillstarted then
 			print("Windy Bee has Appeared. Hunting Time!!")
@@ -6265,7 +6286,7 @@ end)
 -- sprout farm --
 sproutCollecting = false
 spawn(function()
-    while true do
+    while wait() do
         startpos = nil
         wait()        
         if SproutFarmActive and sproutdetected then
@@ -6402,8 +6423,7 @@ end)
 
 
 spawn(function()
-	while true do
-		wait()
+	while wait() do
 		if tokenfarmactive2 then
 			while tokenfarmactive2 do
 				if tokenfarmactiveold then -- old style tokens
@@ -6462,7 +6482,7 @@ spawn(function()
 						for i,v in pairs(workspace.Particles:GetChildren()) do
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
-									if (v.Position-root.Position).magnitude <= 50 then
+									if (v.Position-root.Position).magnitude <= 70 then
 										root.CFrame = CFrame.new(v.Position)
 										wait(.05)
 									end	
@@ -6470,8 +6490,8 @@ spawn(function()
 							end
 							if collectcoconuts then
 								if v.Name == "Coconut" then
-									if (v.Position-root.Position).magnitude <= 50 then
-										root.CFrame = CFrame.new(v.Position)
+									if (v.Position-root.Position).magnitude <= 70 then
+										root.CFrame = CFrame.new(v.CFrame.X, root.CFrame.Y, v.CFrame.Z)
 										wait(.05)
 									end
 								end
@@ -6486,7 +6506,7 @@ spawn(function()
 end)
 
 spawn(function()
-	while true do
+	while wait() do
 		Timer = Timer + 1
 		RunTimer.Text = convertToHMS(Timer)		
 		wait(1)
@@ -6571,4 +6591,3 @@ for i,v in pairs(workspace.Collectibles:GetChildren()) do
 	local intvalue = Instance.new("IntValue",v)
 	intvalue.Name = "farmed"
 end
-
