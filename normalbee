@@ -5271,22 +5271,27 @@ spawn (function()
 					end
 				end
 				while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
-					tokenfarmactive2 = false
-					if switchnow then break end
-					currp = CFrame.new(427, 75.5, -177)
-					root.CFrame = currp
-					wait(.5)
-					noclip = false
-					if autostinger and autostingerDB == false then
-						autostingerDB = true
-						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
+					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
+					while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
+						tokenfarmactive2 = false
+						if switchnow then break end
+						currp = CFrame.new(427, 75.5, -177)
+						root.CFrame = currp
+						wait(.5)
+						noclip = false
+						if autostinger and autostingerDB == false then
+							autostingerDB = true
+							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
+						end
+						player = game:GetService("Players").LocalPlayer
+						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+							print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
+							break
+						end
 					end
-					player = game:GetService("Players").LocalPlayer
-					if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-						print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
-						break
-					end
+					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
 				end
+				game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
 				while workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") and mondohunt and PollenFarmActive and not convertinghoney and not sproutkillstarted and not guidingstarted do -- mondokill auto kill
 					wait(.1)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
