@@ -5126,9 +5126,9 @@ end
 -- Pollen Farming --
 
 spawn (function()
-	while wait(.1) do
+	while wait() do
 	pcall(function()
-		--wait(0.25)
+		wait(0.25)
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
 			wait(35)
@@ -5306,8 +5306,8 @@ spawn (function()
 							autostingerDB = true
 							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 						end
-						farmtokensmondo()
-						--farmtokens()]]--
+						farmtokensmondo()]]--
+						--farmtokens()
 					end
 					wait(.5)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
@@ -6491,9 +6491,9 @@ spawn(function()
 								end
 							end
 							if collectcoconuts then
-								if v.Name == "Coconut" then
-									if (v.Position-root.Position).magnitude <= 80 and (v.CFrame.Y - root.CFrame.Y) < 15 then
-										root.CFrame = CFrame.new(v.CFrame.X, root.CFrame.Y, v.CFrame.Z)
+								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
+									if (v.Position-root.Position).magnitude <= 90 then
+										root.CFrame = CFrame.new(v.Position)
 										wait(.05)
 									end
 								end
