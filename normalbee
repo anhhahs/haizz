@@ -5270,9 +5270,9 @@ spawn (function()
 						break
 					end
 				end
-				while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
-					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
-					while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
+				while Field15AFActive and not snailT.Visible and PollenFarmActive do--and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
+					--game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
+					--while Field15AFActive and not snailT.Visible and PollenFarmActive and not workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") do -- snail auto kill
 						tokenfarmactive2 = false
 						if switchnow then break end
 						currp = CFrame.new(427, 75.5, -177)
@@ -5288,10 +5288,10 @@ spawn (function()
 							print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 							break
 						end
-					end
-					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
+					--end
+					--game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
 				end
-				game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
+				--game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
 				while workspace.Monsters:FindFirstChild("Mondo Chick (Lvl 8)") and mondohunt and PollenFarmActive and not convertinghoney and not sproutkillstarted and not guidingstarted do -- mondokill auto kill
 					wait(.1)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
@@ -6498,8 +6498,10 @@ spawn(function()
 							if collectcoconuts then
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
 									if (v.Position-root.Position).magnitude <= 90 then
-										root.CFrame = CFrame.new(v.Position)
-										wait(.05)
+										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
+											root.CFrame = CFrame.new(v.Position)
+											wait(.05)
+										--end
 									end
 								end
 							end
@@ -6510,6 +6512,30 @@ spawn(function()
 			end
 		end		 			
 	end
+end)
+
+spawn(function()
+while wait() do
+pcall(function()
+	if tokenfarmactive2 then
+		if collectcoconuts then
+			local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+			for i,v in pairs(workspace.Particles:GetChildren()) do
+				if collectbubbles then
+					if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
+						if (v.Position-root.Position).magnitude <= 90 then
+						--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
+						root.CFrame = CFrame.new(v.Position)
+						wait(.05)
+						--end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+end
 end)
 
 spawn(function()
