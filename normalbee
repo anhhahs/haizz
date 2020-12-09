@@ -3157,11 +3157,19 @@ game:GetService('RunService').Stepped:connect(function()
 	end
 end)
 
+pcall(function()
+for k,v in pairs(workspace.Collectibles:GetChildren()) do
+	--if v.Name == game.Players.LocalPlayer.Name and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 60 and not v:FindFirstChild("farmed") then
+		local intvalue = Instance.new("IntValue",v)
+		intvalue.Name = "farmed"
+	--end
+end
+end)
 --token farm
 function farmtokens()
 	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 	for k,v in pairs(workspace.Collectibles:GetChildren()) do
-		if v.Name == game.Players.LocalPlayer.Name and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 60 and not v:FindFirstChild("farmed") then
+		if v.Name == game.Players.LocalPlayer.Name and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 60 and not v:FindFirstChild("farmed") then
 			local intvalue = Instance.new("IntValue",v)
 			intvalue.Name = "farmed"
 			noclip = true
@@ -5312,7 +5320,7 @@ spawn (function()
 							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 						end
 						farmtokensmondo()]]--
-						--farmtokens()
+						farmtokens()
 					end
 					wait(.5)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
@@ -5350,7 +5358,7 @@ spawn (function()
 					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Sprinkler Builder"})
 				end
 				root.CFrame = fieldpos[1]
-				wait(1)
+				wait(2)
 				if autosprinkler and sprinklerDB == false then
 					wait(1)
 					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Sprinkler Builder"})
@@ -5388,7 +5396,7 @@ spawn (function()
 			antpasscheck = statstable.Eggs.AntPass
 			if instantconverteractive then
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-					game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")				 
+					game.Replicat'edStorage.Events.ToyEvent:FireServer("Instant Converter")				 
 					if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
 						wait(1)
 						print("Honey instantly converted using instant converter")
@@ -5426,7 +5434,7 @@ spawn (function()
 					wait(1)
 					honeytimer = honeytimer + 1
 					until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 120
-					wait(8)
+					wait(4)
 					if game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value > 1 then
 						HoneyConvertFix()
 						repeat wait() until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1
