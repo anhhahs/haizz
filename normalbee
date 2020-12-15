@@ -3180,21 +3180,6 @@ function farmtokens()
 	end
 end
 
---mondo token farm
-function farmtokensmondo()
-	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-	--workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position
-	for k,v in pairs(workspace.Collectibles:GetChildren()) do
-		if v.Name == game.Players.LocalPlayer.Name and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 100 and math.abs(v.Position.Y-workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position.Y)>5 and math.abs(v.Position.X-workspace.Monsters["Mondo Chick (Lvl 8)"].Head.position.X)>5 and not v:FindFirstChild("farmed") then
-			local intvalue = Instance.new("IntValue",v)
-			intvalue.Name = "farmed"
-			noclip = true
-			rootP.CFrame = v.CFrame
-			wait(.07)
-			noclip = false
-		end
-	end
-end
 
 --field monster positions / teleports
 CloverA = CFrame.new(157.268417, 34, 242.779205)
@@ -5323,7 +5308,7 @@ spawn (function()
 						farmtokens()
 					end
 					wait(.5)
-					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
+					--game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
 					noclip = false
 					autostinger = false
 					tokenfarmactive2 = true
@@ -5376,7 +5361,7 @@ spawn (function()
 				tokenfarmactive2 = true
 				maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
 				if microconverteractive and not microCD then
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .98) then
 						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
 						microCD = true
 					end
@@ -5396,28 +5381,28 @@ spawn (function()
 			antpasscheck = statstable.Eggs.AntPass
 			if instantconverteractive then
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-					game.Replicat'edStorage.Events.ToyEvent:FireServer("Instant Converter")				 
+					game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")				 
 					if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-						wait(1)
+						wait(.1)
 						print("Honey instantly converted using instant converter")
 					end
 				end
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 					game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")			   
 					if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-						wait(1)
+						wait(.1)
 						print("Honey instantly converted using instant converter")
 					end
 				end
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 					game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")			   
 					if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-						wait(1)
+						wait(.1)
 						print("Honey instantly converted using instant converter")
 					end
 				end
 			end
-			wait(1)
+			wait(2)
 			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 				game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
@@ -6488,7 +6473,7 @@ spawn(function()
 					for k,v in pairs(workspace.Collectibles:GetChildren()) do
 						if tonumber((v.Position - root.Position).magnitude) <= 70 and not v:FindFirstChild("farmed") then
 							noclip = true
-							root.CFrame = CFrame.new(v.Position.x, v.Position.y, v.Position.z) * CFrame.new(0, -1.8, 0)
+							root.CFrame = CFrame.new(v.Position.x, v.Position.y, v.Position.z) * CFrame.new(0, -2, 0)
 							wait(.05)
 							noclip = false
 						end
@@ -6497,7 +6482,7 @@ spawn(function()
 						for i,v in pairs(workspace.Particles:GetChildren()) do
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
-									if (v.Position-root.Position).magnitude <= 70 then
+									if (v.Position-root.Position).magnitude <= 80 then
 										root.CFrame = CFrame.new(v.Position)
 										wait(.05)
 									end	
@@ -6505,13 +6490,17 @@ spawn(function()
 							end
 							if collectcoconuts then
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
-									if (v.Position-root.Position).magnitude <= 90 then
+									if (v.Position-root.Position).magnitude <= 80 then
 										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
 											root.CFrame = CFrame.new(v.Position)
 											wait(.05)
 										--end
 									end
 								end
+							end
+							if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
+								root.CFrame = v.CFrame
+								wait(.05)
 							end
 						end
 					end
@@ -6522,23 +6511,16 @@ spawn(function()
 	end
 end)
 
+
 spawn(function()
 while wait() do
 pcall(function()
 	if tokenfarmactive2 then
-		if collectcoconuts then
-			local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-			for i,v in pairs(workspace.Particles:GetChildren()) do
-				if collectbubbles then
-					if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
-						if (v.Position-root.Position).magnitude <= 90 then
-						--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
-						root.CFrame = CFrame.new(v.Position)
-						wait(.05)
-						--end
-						end
-					end
-				end
+		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+		for i,v in pairs(workspace.Particles:GetChildren()) do
+			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
+				root.CFrame = CFrame.new(v.Position)
+				wait(.05)
 			end
 		end
 	end
