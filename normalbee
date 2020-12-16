@@ -4459,7 +4459,7 @@ blendertimer = 0
 spawn(function()
 	while wait() do
 		wait(1)
-		if microconverteractive and microCD and microTimer < 8 then
+		if microconverteractive and microCD and microTimer < 6 then
 			microTimer = microTimer + 1
 		elseif microconverteractive and microCD and microTimer >= 8 then
 			microTimer = 0
@@ -5122,7 +5122,7 @@ end
 function mondofarmtokens()
 	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 	for k,v in pairs(workspace.Collectibles:GetChildren()) do
-		if (v.Position-workspace.Monsters["Mondo Chick (Lvl 8)"].HumanoidRootPart.position).Magnitude > 25 and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then
+		if (v.Position-workspace.Monsters["Mondo Chick (Lvl 8)"].HumanoidRootPart.position).Magnitude > 30 and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then
 			local intvalue = Instance.new("IntValue",v)
 			intvalue.Name = "farmed"
 			noclip = true
@@ -5241,7 +5241,7 @@ spawn (function()
 				setbeesforcrab = false
 				if CollectTickets then
 					tokenfarmactive2 = false
-					for k,v in pairs(workspace.Collectibles:GetChildren()) doz
+					for k,v in pairs(workspace.Collectibles:GetChildren()) do
 						decal = v:FindFirstChildOfClass("Decal")
 						if decal and decal.Texture and v.Transparency < .2 then
 							if decal.Texture == "rbxassetid://1674871631" then
@@ -5322,7 +5322,7 @@ spawn (function()
 							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 						end
 						farmtokensmondo()]]--
-						mondofarmtokens()
+						--mondofarmtokens()
 					end
 					wait(.5)
 					--game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Diamond Mask",["Category"]  = "Accessory"})
@@ -5377,43 +5377,44 @@ spawn (function()
 				player = game:GetService("Players").LocalPlayer
 				tokenfarmactive2 = true
 				maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
-				if microconverteractive and not microCD then
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .98) then
-						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
-						microCD = true
+				if instantconverteractive then
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95)  then
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")				 
+						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
+							wait(.25)
+							print("Honey instantly converted using instant converter")
+						end
 					end
-					wait(.1)
-					if instantconverteractive then
-						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-							game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")				 
-							if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-								wait(.1)
-								print("Honey instantly converted using instant converter")
-							end
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")			   
+						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
+							wait(.25)
+							print("Honey instantly converted using instant converter")
 						end
-						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-							game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")			   
-							if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-								wait(.1)
-								print("Honey instantly converted using instant converter")
-							end
-						end
-						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-							game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")			   
-							if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-								wait(.1)
-								print("Honey instantly converted using instant converter")
-							end
+					end
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")			   
+						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
+							wait(.25)
+							print("Honey instantly converted using instant converter")
 						end
 					end
 				end
-				wait(.1)
+				wait(.5)
+				if microconverteractive and not microCD then
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
+						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
+						microCD = true
+					end
+					wait(.75)
+				end
+				wait(.5)
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 					print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 					tokenfarmactive2 = false
 					break
 				end
-				wait(1)
+				wait(.5)
 			end
 			-- turn pollen to honey --
 			tokenfarmactive2 = false
@@ -6518,11 +6519,11 @@ spawn(function()
 										--end
 									end
 								end
-							end
+							end--[[
 							if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
 								root.CFrame = CFrame.new(v.Position)
-								wait(.07)
-							end
+								wait(.05)
+							end ]]--
 						end
 					end
 				end
@@ -6540,8 +6541,8 @@ pcall(function()
 		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		for i,v in pairs(workspace.Particles:GetChildren()) do
 			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
-				root.CFrame = CFrame.new(v.Position)
-				wait(.1)
+				root.CFrame = v.CFrame
+				wait(.07)
 			end
 		end
 	end
