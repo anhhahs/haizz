@@ -5379,23 +5379,23 @@ spawn (function()
 				maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
 				if instantconverteractive then
 					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95)  then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")				 
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")		
+						wait(.5)		
 						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							wait(.25)
 							print("Honey instantly converted using instant converter")
 						end
 					end
 					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")			   
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")		
+						wait(.5)
 						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							wait(.25)
 							print("Honey instantly converted using instant converter")
 						end
 					end
 					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")			   
+						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")	
+						wait(.5)
 						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							wait(.25)
 							print("Honey instantly converted using instant converter")
 						end
 					end
@@ -5406,7 +5406,7 @@ spawn (function()
 						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
 						microCD = true
 					end
-					wait(.75)
+					wait(.5)
 				end
 				wait(.5)
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
