@@ -5377,6 +5377,14 @@ spawn (function()
 				player = game:GetService("Players").LocalPlayer
 				tokenfarmactive2 = true
 				maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
+				wait(.5)
+				if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) and microconverteractive then
+					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
+					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
+					wait(.25)
+					--microCD = true
+				end
+				wait(.5)
 				if instantconverteractive then
 					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95)  then
 						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")		
@@ -5399,14 +5407,6 @@ spawn (function()
 							print("Honey instantly converted using instant converter")
 						end
 					end
-				end
-				wait(.5)
-				if microconverteractive and not microCD then
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
-						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
-						microCD = true
-					end
-					wait(.5)
 				end
 				wait(.5)
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
