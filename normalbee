@@ -3173,8 +3173,8 @@ function farmtokens()
 			local intvalue = Instance.new("IntValue",v)
 			intvalue.Name = "farmed"
 			noclip = true
-			rootP.CFrame = v.CFrame
-			wait(.07)
+			toTarget(rootP.Position, v.Position)
+			wait(.1)
 			noclip = false
 		end
 	end
@@ -4141,6 +4141,16 @@ function turnthemon()
 		HuntGuiding.Text = "Mondo Chick: ON"
 		HuntGuiding.BackgroundColor3 = Color3.new(0.5, 0, 0)
 	end
+end
+
+function toTarget(pos, targetPos)
+       local tween_s = game:service"TweenService"
+       local info = TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad)
+       local tween, err = pcall(function()
+           local tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = CFrame.new(targetPos)})
+           tween:Play()
+       end)
+       if not tween then return err end
 end
 
 function forceempty()
@@ -6466,15 +6476,15 @@ spawn(function()
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 60 then
-										root.CFrame = CFrame.new(v.Position)
-										wait(.07)
+										toTarget(root.Position, v.Position)
+										wait(.1)
 									end	
 								end
 							end
 							if collectcoconuts then
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
 									if (v.Position-root.Position).magnitude <= 60 then
-										root.CFrame = CFrame.new(v.Position)
+										toTarget(root.Position, v.Position)
 										wait()
 									end
 								end
@@ -6482,8 +6492,8 @@ spawn(function()
 							if collectmeteor then
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
 									if (v.Position-root.Position).magnitude <= 70 then
-										root.CFrame = CFrame.new(v.Position)
-										wait(.07)
+										toTarget(root.Position, v.Position)
+										wait(.1)
 									end
 								end
 							end
@@ -6495,8 +6505,8 @@ spawn(function()
 					for k,v in pairs(workspace.Collectibles:GetChildren()) do
 						if tonumber((v.Position - root.Position).magnitude) <= 70 and not v:FindFirstChild("farmed") then
 							noclip = true
-							root.CFrame = CFrame.new(v.Position.x, v.Position.y, v.Position.z) * CFrame.new(0, -2, 0)
-							wait(.07)
+							toTarget(root.Position, v.Position-Vector3.new(0,1.5,0))
+							wait(.1)
 							noclip = false
 						end
 					end
@@ -6505,8 +6515,8 @@ spawn(function()
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 80 then
-										root.CFrame = CFrame.new(v.Position)
-										wait(.07)
+										toTarget(root.Position, v.Position)
+										wait(.1)
 									end	
 								end
 							end
@@ -6514,8 +6524,8 @@ spawn(function()
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
 									if (v.Position-root.Position).magnitude <= 80 then
 										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
-											root.CFrame = CFrame.new(v.Position)
-											wait(.07)
+											toTarget(root.Position, v.Position)
+											wait(.1)
 										--end
 									end
 								end
@@ -6534,21 +6544,21 @@ spawn(function()
 end)
 
 
-spawn(function()
-while wait() do
-pcall(function()
-	if tokenfarmactive2 then
-		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		for i,v in pairs(workspace.Particles:GetChildren()) do
-			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
-				root.CFrame = v.CFrame
-				wait(.07)
-			end
-		end
-	end
-end)
-end
-end)
+-- spawn(function()
+-- while wait() do
+-- pcall(function()
+	-- if tokenfarmactive2 then
+		-- local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+		-- for i,v in pairs(workspace.Particles:GetChildren()) do
+			-- if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
+				-- toTarget(root.Position, v.Position,  v.CFrame)
+				-- wait(.07)
+			-- end
+		-- end
+	-- end
+-- end)
+-- end
+-- end)
 
 spawn(function()
 	while wait() do
