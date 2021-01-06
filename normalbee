@@ -3184,36 +3184,35 @@ end
 
 
 --field monster positions / teleports
-CloverA = CFrame.new(157.268417, 34, 242.779205)
-CloverG1 = CFrame.new(161, 34, 199)
-BlueA = CFrame.new(145.823746, 4, 121.861526)
-BlueG1 = CFrame.new(115, 4, 101)
-BambooA = CFrame.new(127.28508, 21, 3.43407989)
-BambooG1 = CFrame.new(129.132538, 21, -50.0906181)
-PineappleA = CFrame.new(257, 68, -205)
-PineappleG1 = CFrame.new(221, 68, -234)
-SpiderA = CFrame.new(-44.9185219, 20, 32.1326523)
-SpiderG1 = CFrame.new(-47, 20, -16)
-MushroomA = CFrame.new(-96.5041733, 5, 152.095932)
-MushroomG1 = CFrame.new(-88, 5, 109)
-StrawberryA = CFrame.new(-141.830444, 21, 34.7548828)
-StrawberryG1 = CFrame.new(-216.277405, 21, -53.3578911)
-RoseA = CFrame.new(-320, 40, 130)
-RoseG1 = CFrame.new(-330.554382, 20, 125.98172)
-WerewolfA = CFrame.new(-166, 68, -174)
-WerewolfG1 = CFrame.new(-134.243652, 68, -211.528366)
-PineA = CFrame.new(-300.64502, 68, -189.465759)
-PineG1 = CFrame.new(-369.566254, 68, -194.724686)
+CloverA = Vector3.new(157.268417, 34, 242.779205)
+CloverG1 = Vector3.new(161, 34, 199)
+BlueA = Vector3.new(145.823746, 4, 121.861526)
+BlueG1 = Vector3.new(115, 4, 101)
+BambooA = Vector3.new(127.28508, 21, 3.43407989)
+BambooG1 = Vector3.new(129.132538, 21, -50.0906181)
+PineappleA = Vector3.new(257, 68, -205)
+PineappleG1 = Vector3.new(221, 68, -234)
+SpiderA = Vector3.new(-44.9185219, 20, 32.1326523)
+SpiderG1 = Vector3.new(-47, 20, -16)
+MushroomA = Vector3.new(-96.5041733, 5, 152.095932)
+MushroomG1 = Vector3.new(-88, 5, 109)
+StrawberryA = Vector3.new(-141.830444, 21, 34.7548828)
+StrawberryG1 = Vector3.new(-216.277405, 21, -53.3578911)
+RoseA = Vector3.new(-320, 40, 130)
+RoseG1 = Vector3.new(-330.554382, 20, 125.98172)
+WerewolfA = Vector3.new(-166, 68, -174)
+WerewolfG1 = Vector3.new(-134.243652, 68, -211.528366)
+PineA = Vector3.new(-300.64502, 68, -189.465759)
+PineG1 = Vector3.new(-369.566254, 68, -194.724686)
 
 --rose field monster kill
 function roseKill()
 	if rose1T.Visible == false or rose2T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = RoseA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position, RoseA)
 		noclip = true
 		wait(3)
 		noclip = false
-		uTorso.CFrame = RoseG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position, RoseG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3238,12 +3237,11 @@ end
 --pine field monster kill
 function pineKill()
 	if forestmantis1T.Visible == false or forestmantis2T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = PineA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineA)
 		noclip = true
 		wait(3)
 		noclip = false
-		uTorso.CFrame = PineG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3268,12 +3266,11 @@ end
 --clover field monster kill
 function cloverKill()
 	if rhino1T.Visible == false or ladyb1T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = CloverA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,CloverA)
 		noclip = true
 		wait(2)
 		noclip = false
-		uTorso.CFrame = CloverG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,CloverG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3298,12 +3295,11 @@ end
 --blue flower field monster kill
 function blueflowerKill()
 	if rhino2T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = BlueA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BlueA)
 		noclip = true
 		wait(1)
 		noclip = false
-		uTorso.CFrame = BlueG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BlueG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3328,12 +3324,11 @@ end
 --werewolf killer
 function werewolfKill()
 	if werewT.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = WerewolfA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,WerewolfA)
 		noclip = true
 		wait(3)
 		noclip = false
-		uTorso.CFrame = WerewolfG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,WerewolfG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3358,12 +3353,11 @@ end
 --strawberry field monster kill
 function strawberryKill()
 	if ladyb2T.Visible == false or ladyb3T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = StrawberryA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,StrawberryA)
 		noclip = true
 		wait(1)
 		noclip = false
-		uTorso.CFrame = StrawberryG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,StrawberryG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3388,12 +3382,11 @@ end
 --spider killer
 function spiderKill()
 	if spiderT.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = SpiderA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,SpiderA)
 		noclip = true
 		wait(3)
 		noclip = false
-		uTorso.CFrame = SpiderG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,SpiderG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3418,12 +3411,11 @@ end
 --bamboo field monster kill
 function bambooKill()
 	if rhino3T.Visible == false or rhino4T.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = BambooA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BambooA)
 		noclip = true
 		wait(1)
 		noclip = false
-		uTorso.CFrame = BambooG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BambooG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3448,12 +3440,11 @@ end
 --pineapple field monster kill
 function pineappleKill()
 	if pinemantisT.Visible == false or pinebeetleT.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = PineappleA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineappleA)
 		noclip = true
 		wait(2)
 		noclip = false
-		uTorso.CFrame = PineappleG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineappleG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3478,12 +3469,11 @@ end
 --mushroom field killer
 function mushroomKill()
 	if mushT.Visible == false then
-		uTorso = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		uTorso.CFrame = MushroomA
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,MushroomA)
 		noclip = true
 		wait(1)
 		noclip = false
-		uTorso.CFrame = MushroomG1
+		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,MushroomG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -5585,6 +5575,11 @@ spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Glue Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Free Royal Jelly Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Coconut Dispenser")
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({ [1] = "Stockings"}))
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Gingerbread House"}))
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Wreath"}))
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Onett's Lid Art"}))
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Beesmas Feast"}))
 			TreactActiveTimer = 0
 		else
 			TreactActiveTimer = TreactActiveTimer + 1
@@ -6467,7 +6462,7 @@ spawn(function()
 							intvalue.Name = "farmed"
 							noclip = true
 							root.CFrame = CFrame.new(v.Position.x, v.Position.y, v.Position.z) * CFrame.new(0, -1.8, 0)
-							wait(.07)
+							wait(.2)
 							noclip = false
 						end
 					end
@@ -6477,7 +6472,7 @@ spawn(function()
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 60 then
 										toTarget(root.Position, v.Position)
-										wait(.1)
+										wait(.2)
 									end	
 								end
 							end
@@ -6485,7 +6480,7 @@ spawn(function()
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
 									if (v.Position-root.Position).magnitude <= 60 then
 										toTarget(root.Position, v.Position)
-										wait()
+										wait(.2)
 									end
 								end
 							end
@@ -6493,7 +6488,7 @@ spawn(function()
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
 									if (v.Position-root.Position).magnitude <= 70 then
 										toTarget(root.Position, v.Position)
-										wait(.1)
+										wait(.2)
 									end
 								end
 							end
@@ -6506,7 +6501,7 @@ spawn(function()
 						if tonumber((v.Position - root.Position).magnitude) <= 70 and not v:FindFirstChild("farmed") then
 							noclip = true
 							toTarget(root.Position, v.Position-Vector3.new(0,1.5,0))
-							wait(.1)
+							wait(.2)
 							noclip = false
 						end
 					end
@@ -6516,7 +6511,7 @@ spawn(function()
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 80 then
 										toTarget(root.Position, v.Position)
-										wait(.1)
+										wait(.2)
 									end	
 								end
 							end
@@ -6525,14 +6520,14 @@ spawn(function()
 									if (v.Position-root.Position).magnitude <= 80 then
 										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
 											toTarget(root.Position, v.Position)
-											wait(.1)
+											wait(.2)
 										--end
 									end
 								end
 							end--[[
 							if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
 								root.CFrame = CFrame.new(v.Position)
-								wait(.05)
+								wait(.1)
 							end ]]--
 						end
 					end
