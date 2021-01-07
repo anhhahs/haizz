@@ -4133,14 +4133,14 @@ function turnthemon()
 	end
 end
 
+local tween_s = game:service"TweenService"
+-- local info = 
 function toTarget(pos, targetPos)
-       local tween_s = game:service"TweenService"
-       local info = TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad)
-       local tween, err = pcall(function()
-           local tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = CFrame.new(targetPos)})
-           tween:Play()
-       end)
-       if not tween then return err end
+       -- local tween, err = pcall(function()
+           -- tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad), {CFrame = CFrame.new(targetPos)}):Play()
+       -- end)
+       -- if not tween then return err end
+	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
 end
 
 function forceempty()
@@ -5316,7 +5316,7 @@ spawn (function()
 						currp = CFrame.new(mondop.x + 20, 176.4, mondop.z + 20)
 						root.CFrame = currp
 						noclip = true
-						wait(.1)--[[
+						wait(.2)--[[
 						if autostinger and autostingerDB == false then
 							autostingerDB = true
 							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
@@ -5329,15 +5329,15 @@ spawn (function()
 					noclip = false
 					autostinger = false
 					tokenfarmactive2 = true
-					farmtokens()
-					farmtokens()
+					-- farmtokens()
+					-- farmtokens()
 					wait(.5)
-					farmtokens()
-					farmtokens()
-					farmtokens()
-					farmtokens()
-					farmtokens()
-					farmtokens()
+					-- farmtokens()
+					-- farmtokens()
+					-- farmtokens()
+					-- farmtokens()
+					-- farmtokens()
+					-- farmtokens()
 					mondostarted = false
 					wait(40)
 					turnthemon()
@@ -6451,6 +6451,7 @@ end)
 
 spawn(function()
 	while wait() do
+	pcall(function()
 		if tokenfarmactive2 then
 			while tokenfarmactive2 do
 				if tokenfarmactiveold then -- old style tokens
@@ -6462,7 +6463,7 @@ spawn(function()
 							intvalue.Name = "farmed"
 							noclip = true
 							root.CFrame = CFrame.new(v.Position.x, v.Position.y, v.Position.z) * CFrame.new(0, -1.8, 0)
-							wait(.2)
+							wait(.25)
 							noclip = false
 						end
 					end
@@ -6472,7 +6473,7 @@ spawn(function()
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 60 then
 										toTarget(root.Position, v.Position)
-										wait(.2)
+										wait(.25)
 									end	
 								end
 							end
@@ -6480,7 +6481,7 @@ spawn(function()
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
 									if (v.Position-root.Position).magnitude <= 60 then
 										toTarget(root.Position, v.Position)
-										wait(.2)
+										wait(.25)
 									end
 								end
 							end
@@ -6488,7 +6489,7 @@ spawn(function()
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
 									if (v.Position-root.Position).magnitude <= 70 then
 										toTarget(root.Position, v.Position)
-										wait(.2)
+										wait(.25)
 									end
 								end
 							end
@@ -6498,10 +6499,10 @@ spawn(function()
 					local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 					local rootpos = root.CFrame
 					for k,v in pairs(workspace.Collectibles:GetChildren()) do
-						if tonumber((v.Position - root.Position).magnitude) <= 70 and not v:FindFirstChild("farmed") then
+						if tonumber((v.Position - root.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then --and tostring(v:FindFirstChild("FrontDecal"):FindFirstChild("Texture")) ~= "rbxassetid://1472135114" then
 							noclip = true
 							toTarget(root.Position, v.Position-Vector3.new(0,1.5,0))
-							wait(.2)
+							wait(.25)
 							noclip = false
 						end
 					end
@@ -6511,7 +6512,7 @@ spawn(function()
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 80 then
 										toTarget(root.Position, v.Position)
-										wait(.2)
+										wait(.25)
 									end	
 								end
 							end
@@ -6520,7 +6521,7 @@ spawn(function()
 									if (v.Position-root.Position).magnitude <= 80 then
 										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
 											toTarget(root.Position, v.Position)
-											wait(.2)
+											wait(.25)
 										--end
 									end
 								end
@@ -6534,7 +6535,8 @@ spawn(function()
 				end
 			wait()
 			end
-		end		 			
+		end		
+		end)
 	end
 end)
 
