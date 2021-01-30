@@ -4140,7 +4140,7 @@ function toTarget(pos, targetPos)
            -- tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad), {CFrame = CFrame.new(targetPos)}):Play()
        -- end)
        -- if not tween then return err end
-	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
+	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
 end
 
 function forceempty()
@@ -4330,7 +4330,7 @@ end)
 for i, v in pairs(game.Workspace.Honeycombs:GetChildren()) do
 	if v.Owner.Value == nil then
 		ID = v.HiveID.Value
-		game.ReplicatedStorage.Events.ClaimHive:FireServer(ID)
+		--game.ReplicatedStorage.Events.ClaimHive:FireServer(ID)
 	end
 end
 
@@ -5137,8 +5137,8 @@ end
 
 spawn (function()
 	while wait() do
+	wait(.25)
 	pcall(function()
-		wait(0.25)
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
 			wait(35)
@@ -5168,6 +5168,7 @@ spawn (function()
 				switchnow = false
 			end
 			if PollenFarmActive then
+				fieldpos = nil
 				if Field1AFActive == true then
 					fieldpos = {CFrame.new(-212,3.4,191.7)}
 					print("Farming Sunflower Field")
@@ -5223,6 +5224,12 @@ spawn (function()
 					Field14AFActive = true
 					fieldpos = {CFrame.new(76.2, 175.35, -170)}
 					print("Farming Mountain Top Field")
+				end
+				if fieldpos ~= nil then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 100 then
+						-- setclipboard(tostring(Vector3.new(fieldpos[1])))
+						root.CFrame = fieldpos[1]
+					end
 				end
 			end
 			--collect pollen
@@ -5359,7 +5366,8 @@ spawn (function()
 					wait(5)
 					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Sprinkler Builder"})
 				end
-				root.CFrame = fieldpos[1]
+				
+				-- root.CFrame = fieldpos[1]
 				wait(2)
 				if autosprinkler and sprinklerDB == false then
 					wait(1.5)
@@ -6447,6 +6455,57 @@ mouse.KeyDown:connect(function(key)
 		end
 	end
 end)
+--"rbxassetid://6087969886"
+listitems = {"rbxassetid://2028574353", "rbxassetid://6087969886", "rbxassetid://1838129169", "rbxassetid://1471882621", "rbxassetid://1952682401", "rbxassetid://1952740625", "rbxassetid://1952796032", "rbxassetid://2028453802", "rbxassetid://1472135114"}
+
+local function getclosest()
+local distance = math.huge
+local closest
+local enemi = workspace.Collectibles:GetChildren()
+    for i=1,#enemi do 
+        local v = enemi[i]
+        if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
+            distance = game.Players.LocalPlayer:DistanceFromCharacter(v.Position)
+            closest = v
+        end
+    end
+    return closest
+end
+
+spawn(function()
+while wait(.05) do
+	pcall(function()
+		if tokenfarmactive2 then
+			nearest = getclosest()
+			game.Players.LocalPlayer.Character.Humanoid:MoveTo(nearest.Position)
+			if game.Players.LocalPlayer:DistanceFromCharacter(nearest.Position) < 2 then
+				local intvalue = Instance.new("IntValue",nearest)
+				intvalue.Name = "farmed"
+			end
+		end
+	end)
+end
+end)
+
+-- spawn(function()
+-- while wait(.05) do
+	-- pcall(function()
+		-- if tokenfarmactive2 then
+			-- local enemi = workspace.Collectibles:GetChildren()
+			-- for i=1,#enemi do 
+				-- local v = enemi[i]
+				-- if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
+					-- repeat 
+						-- game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.Position)
+						-- wait(.05)
+					-- until v == nil or not v or game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 1
+				-- end
+			-- end
+		-- end
+	-- end)
+-- end
+-- end)
+
 
 
 spawn(function()
@@ -6498,14 +6557,16 @@ spawn(function()
 				elseif not tokenfarmactiveold then -- new style tokens
 					local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 					local rootpos = root.CFrame
-					for k,v in pairs(workspace.Collectibles:GetChildren()) do
-						if tonumber((v.Position - root.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then --and tostring(v:FindFirstChild("FrontDecal"):FindFirstChild("Texture")) ~= "rbxassetid://1472135114" then
-							noclip = true
-							toTarget(root.Position, v.Position-Vector3.new(0,1.5,0))
-							wait(.25)
-							noclip = false
-						end
-					end
+					-- for k,v in pairs(workspace.Collectibles:GetChildren()) do
+						-- if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 150 and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
+						
+						--if tonumber((v.Position - root.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then --and tostring(v:FindFirstChild("FrontDecal"):FindFirstChild("Texture")) ~= "rbxassetid://1472135114" then
+							-- noclip = true
+							-- toTarget(root.Position, v.Position-Vector3.new(0,1.5,0))
+							-- wait(.25)
+							-- noclip = false
+						-- end
+					-- end
 					if collectbubbles or collectcoconuts then
 						for i,v in pairs(workspace.Particles:GetChildren()) do
 							if collectbubbles then
