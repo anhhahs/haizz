@@ -5226,8 +5226,7 @@ spawn (function()
 					print("Farming Mountain Top Field")
 				end
 				if fieldpos ~= nil then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 100 then
-						-- setclipboard(tostring(Vector3.new(fieldpos[1])))
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 75 then
 						root.CFrame = fieldpos[1]
 					end
 				end
@@ -5238,6 +5237,11 @@ spawn (function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Honeystorm")
 			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(maxpollen) and switchnow == false do	
 				fieldpos2 = fieldpos
+				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 75 then
+						root.CFrame = fieldpos[1]
+					end
+				end
 				snailT = game.Workspace.MonsterSpawners.StumpSnail.TimerAttachment.TimerGui.TimerLabel
 				player = game:GetService("Players").LocalPlayer
 				root = player.Character.HumanoidRootPart			
@@ -6433,6 +6437,21 @@ spawn(function()
 		end)
 		end
 	end
+end)
+
+spawn(function()
+wait(2)
+	pcall(function()
+		if game:GetService("Players").LocalPlayer then
+			player = game:GetService("Players").LocalPlayer
+			local ce = findtool(player)
+			if ce then
+				ce:FireServer()
+				wait(1)
+				ce:FireServer()
+			end
+		end
+	end)
 end)
 
 --- ReJoin Server ---
