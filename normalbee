@@ -5226,7 +5226,7 @@ spawn (function()
 					print("Farming Mountain Top Field")
 				end
 				if fieldpos ~= nil then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 75 then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
 						root.CFrame = fieldpos[1]
 					end
 				end
@@ -5238,7 +5238,7 @@ spawn (function()
 			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(maxpollen) and switchnow == false do	
 				fieldpos2 = fieldpos
 				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 75 then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
 						root.CFrame = fieldpos[1]
 					end
 				end
@@ -6492,7 +6492,7 @@ local enemi = workspace.Collectibles:GetChildren()
 end
 
 spawn(function()
-while wait(.05) do
+while wait(.1) do
 	pcall(function()
 		if tokenfarmactive2 then
 			nearest = getclosest()
