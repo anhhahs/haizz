@@ -5372,7 +5372,7 @@ spawn (function()
 				end
 				
 				-- root.CFrame = fieldpos[1]
-				wait(2)
+				wait()
 				if autosprinkler and sprinklerDB == false then
 					wait(1.5)
 					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Sprinkler Builder"})
@@ -5435,9 +5435,9 @@ spawn (function()
 			statstable = PSEvent:InvokeServer()	
 			antpasscheck = statstable.Eggs.AntPass
 			
-			wait(2)
+			wait(1)
 			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-				game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+				game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
 			end
 			if not switchingzone and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) and not sproutkillstarted and not viciouskillstarted and not mondoalive then
