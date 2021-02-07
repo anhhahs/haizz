@@ -5435,7 +5435,7 @@ spawn (function()
 			statstable = PSEvent:InvokeServer()	
 			antpasscheck = statstable.Eggs.AntPass
 			
-			wait(1)
+			wait(.5)
 			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
 				game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
@@ -6483,7 +6483,7 @@ local closest
 local enemi = workspace.Collectibles:GetChildren()
     for i=1,#enemi do 
         local v = enemi[i]
-        if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
+        if not table.find(listitems, tostring(v.FrontDecal.Texture)) and math.abs(v.Position.Y - game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y) < 4 and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
             distance = game.Players.LocalPlayer:DistanceFromCharacter(v.Position)
             closest = v
         end
@@ -6497,10 +6497,10 @@ while wait(.1) do
 		if tokenfarmactive2 then
 			nearest = getclosest()
 			game.Players.LocalPlayer.Character.Humanoid:MoveTo(nearest.Position)
-			if game.Players.LocalPlayer:DistanceFromCharacter(nearest.Position) < 2 then
-				local intvalue = Instance.new("IntValue",nearest)
-				intvalue.Name = "farmed"
-			end
+			-- if game.Players.LocalPlayer:DistanceFromCharacter(nearest.Position) <  then
+				-- local intvalue = Instance.new("IntValue",nearest)
+				-- intvalue.Name = "farmed"
+			-- end
 		end
 	end)
 end
