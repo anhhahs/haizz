@@ -4865,10 +4865,14 @@ end)
 
 
 --- Destroy Deco's ---
+pcall(function()
 for i, v in pairs(game.workspace.FieldDecos:GetChildren()) do	
 	v:Destroy()
 end
-
+for i, v in pairs(game.workspace.Decorations:GetChildren()) do	
+	v:Destroy()
+end
+end)
 --- Auto Ant Farm ---
 function AntFarmFunc()
 	AntFarmReady = false
