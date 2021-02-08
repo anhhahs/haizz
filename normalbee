@@ -4140,7 +4140,7 @@ function toTarget(pos, targetPos)
            -- tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad), {CFrame = CFrame.new(targetPos)}):Play()
        -- end)
        -- if not tween then return err end
-	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
+	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/65, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
 end
 
 function forceempty()
@@ -4869,9 +4869,9 @@ pcall(function()
 for i, v in pairs(game.workspace.FieldDecos:GetChildren()) do	
 	v:Destroy()
 end
-for i, v in pairs(game.workspace.Decorations:GetChildren()) do	
-	v:Destroy()
-end
+-- for i, v in pairs(game.workspace.Decorations:GetChildren()) do	
+	-- v:Destroy()
+-- end
 end)
 --- Auto Ant Farm ---
 function AntFarmFunc()
@@ -6496,7 +6496,7 @@ local enemi = workspace.Collectibles:GetChildren()
 end
 
 spawn(function()
-while wait(.1) do
+while wait(.15) do
 	pcall(function()
 		if tokenfarmactive2 then
 			nearest = getclosest()
@@ -6510,26 +6510,35 @@ while wait(.1) do
 end
 end)
 
--- spawn(function()
--- while wait(.05) do
-	-- pcall(function()
-		-- if tokenfarmactive2 then
-			-- local enemi = workspace.Collectibles:GetChildren()
-			-- for i=1,#enemi do 
-				-- local v = enemi[i]
-				-- if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
-					-- repeat 
-						-- game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.Position)
-						-- wait(.05)
-					-- until v == nil or not v or game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 1
-				-- end
-			-- end
-		-- end
-	-- end)
--- end
--- end)
+local function getclosestcoconut()
+local distance = math.huge
+local closest
+local enemi = workspace.Particles:GetChildren()
+    for i=1,#enemi do 
+		if enemi[i].Name == "WarningDisk" and enemi[i].BrickColor == BrickColor.new("Lime green") and enemi[i].Position ~= nil then
+        local v = enemi[i]
+        if game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance then
+            distance = game.Players.LocalPlayer:DistanceFromCharacter(v.Position)
+            closest = v
+        end
+		end
+    end
+    return closest
+end
 
-
+spawn(function()
+while wait(.1) do
+	pcall(function()
+		if collectcoconuts then
+			-- print('hi')
+			nearest = getclosestcoconut()
+			print('true')
+			print(nearest:GetFullName())
+			toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, nearest.Position)
+		end
+	end)
+end
+end)
 
 spawn(function()
 	while wait() do
@@ -6559,14 +6568,14 @@ spawn(function()
 									end	
 								end
 							end
-							if collectcoconuts then
-								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
-									if (v.Position-root.Position).magnitude <= 60 then
-										toTarget(root.Position, v.Position)
-										wait(.25)
-									end
-								end
-							end
+							-- if collectcoconuts then
+								-- if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
+									-- if (v.Position-root.Position).magnitude <= 60 then
+										-- toTarget(root.Position, v.Position)
+										-- wait(.25)
+									-- end
+								-- end
+							-- end
 							if collectmeteor then
 								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
 									if (v.Position-root.Position).magnitude <= 70 then
@@ -6600,16 +6609,17 @@ spawn(function()
 									end	
 								end
 							end
-							if collectcoconuts then
-								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
-									if (v.Position-root.Position).magnitude <= 80 then
-										--while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
-											toTarget(root.Position, v.Position)
-											wait(.25)
-										--end
-									end
-								end
-							end--[[
+							-- if collectcoconuts then
+								-- if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") then
+									-- if (v.Position-root.Position).magnitude <= 80 then
+										-- while v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Lime green") do
+											-- toTarget(root.Position, v.Position)
+											-- wait(.25)
+										-- end
+									-- end
+								-- end
+							-- end
+							--[[
 							if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
 								root.CFrame = CFrame.new(v.Position)
 								wait(.1)
