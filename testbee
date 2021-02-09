@@ -4869,9 +4869,12 @@ pcall(function()
 for i, v in pairs(game.workspace.FieldDecos:GetChildren()) do	
 	v:Destroy()
 end
--- for i, v in pairs(game.workspace.Decorations:GetChildren()) do	
-	-- v:Destroy()
--- end
+Workspace.Gates["15 Bee Gate"].Frame.CanCollide = false
+for i, v in pairs(game.Workspace.Decorations.Misc:GetChildren()) do
+    if string.match(v.Name, "Blue Flower") or string.match(v.Name, "Mushroom") then
+        v:Destroy()
+    end
+end
 end)
 --- Auto Ant Farm ---
 function AntFarmFunc()
@@ -6485,7 +6488,6 @@ mouse.KeyDown:connect(function(key)
 end)
 --"rbxassetid://6087969886"
 listitems = {"rbxassetid://2028574353", "rbxassetid://6087969886", "rbxassetid://1838129169", "rbxassetid://1471882621", "rbxassetid://1952682401", "rbxassetid://1952740625", "rbxassetid://1952796032", "rbxassetid://2028453802"}
-
 local function getclosest()
 local distance = math.huge
 local closest
