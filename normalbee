@@ -4869,9 +4869,12 @@ pcall(function()
 for i, v in pairs(game.workspace.FieldDecos:GetChildren()) do	
 	v:Destroy()
 end
--- for i, v in pairs(game.workspace.Decorations:GetChildren()) do	
-	-- v:Destroy()
--- end
+Workspace.Gates["15 Bee Gate"].Frame.CanCollide = false
+for i, v in pairs(game.Workspace.Decorations.Misc:GetChildren()) do
+    if string.match(v.Name, "Blue Flower") or string.match(v.Name, "Mushroom") then
+        v:Destroy()
+    end
+end
 end)
 --- Auto Ant Farm ---
 function AntFarmFunc()
