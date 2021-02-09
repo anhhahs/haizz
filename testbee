@@ -5137,6 +5137,7 @@ function mondofarmtokens()
 	end
 end
 
+farmingmondo = false
 -- Pollen Farming --
 currentmask = nil
 spawn (function()
@@ -5329,6 +5330,7 @@ spawn (function()
 							currentmask = v.Name
 						end
 					end
+					farmingmondo = true
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Demon Mask",["Category"]  = "Accessory"})
 					wait(.1)
 					mondostarted = true
@@ -5356,7 +5358,8 @@ spawn (function()
 					tokenfarmactive2 = true
 					wait(.5)
 					mondostarted = false
-					wait(40)
+					wait(60)
+					farmingmondo = false
 					turnthemon()
 					if autostinger and autostingerDB == false then
 						autostingerDB = true
@@ -6531,7 +6534,7 @@ end
 spawn(function()
 while wait(.1) do
 	pcall(function()
-		if collectcoconuts and tokenfarmactive2 then
+		if collectcoconuts and tokenfarmactive2 and not farmingmondo then
 			-- print('hi')
 			nearest = getclosestcoconut()
 			-- print('true')
