@@ -5346,13 +5346,7 @@ spawn (function()
 						currp = CFrame.new(mondop.x + 20, 176.4, mondop.z + 20)
 						root.CFrame = currp
 						noclip = true
-						wait(.2)--[[
-						if autostinger and autostingerDB == false then
-							autostingerDB = true
-							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
-						end
-						farmtokensmondo()]]--
-						--mondofarmtokens()
+						wait(.1)
 					end
 					wait(.5)
 					game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = currentmask,["Category"]  = "Accessory"})
@@ -5599,6 +5593,7 @@ spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Glue Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Free Royal Jelly Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Coconut Dispenser")
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Dispenser"}))
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({ [1] = "Stockings"}))
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Gingerbread House"}))
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Wreath"}))
