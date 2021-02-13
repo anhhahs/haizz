@@ -5343,7 +5343,7 @@ spawn (function()
 						autostinger = true
 						tokenfarmactive2 = false
 						mondop = workspace.Monsters["Mondo Chick (Lvl 8)"].HumanoidRootPart.position
-						currp = CFrame.new(mondop.x + 20, 176.4, mondop.z + 20)
+						currp = CFrame.new(mondop.x - 20, 176.4, mondop.z - 20)
 						root.CFrame = currp
 						noclip = true
 						wait(.1)
@@ -6626,8 +6626,8 @@ pcall(function()
 		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 		for i,v in pairs(workspace.Particles:GetChildren()) do
 			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 100 then
-				tween_s:Create(v, TweenInfo.new((root.Position - v.Position).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(root.Position)}):Play()
-				wait(.07)
+				tween_s:Create(v, TweenInfo.new((v.Position - root.Position).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(root.Position)}):Play()
+				wait(.05)
 			end
 		end
 	end
