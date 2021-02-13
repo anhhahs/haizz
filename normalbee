@@ -4140,7 +4140,7 @@ function toTarget(pos, targetPos)
            -- tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/120, Enum.EasingStyle.Quad), {CFrame = CFrame.new(targetPos)}):Play()
        -- end)
        -- if not tween then return err end
-	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/65, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
+	tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], TweenInfo.new((targetPos - pos).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(targetPos)}):Play()
 end
 
 function forceempty()
@@ -6413,16 +6413,6 @@ spawn(function()
     end
 end)
 
-function findtool(player)
-	if workspace[player.Name] then
-		if workspace[player.Name]:FindFirstChildOfClass("Tool") then
-			if workspace[player.Name]:FindFirstChildOfClass("Tool"):FindFirstChild("ClickEvent", true) then
-				click = workspace[player.Name]:FindFirstChildOfClass("Tool"):FindFirstChild("ClickEvent", true) or nil
-			end
-		end
-	end
-	return click or nil
-end
 
 spawn(function()
 	while wait(.1) do
@@ -6434,13 +6424,7 @@ spawn(function()
 		end		
 		if AutoDigActive then
 		pcall(function()
-			if game:GetService("Players").LocalPlayer then
-				player = game:GetService("Players").LocalPlayer
-				local ce = findtool(player)
-				if ce then
-					ce:FireServer()
-				end
-			end
+			workspace[game.Players.LocalPlayer.Name]:FindFirstChildOfClass("Tool"):FindFirstChild("ClickEvent"):FireServer()
 		end)
 		end
 	end
@@ -6499,12 +6483,12 @@ local enemi = workspace.Collectibles:GetChildren()
 end
 
 spawn(function()
-while wait(.15) do
+while wait(.1) do
 	pcall(function()
 		if tokenfarmactive2 then
 			nearest = getclosest()
 			game.Players.LocalPlayer.Character.Humanoid:MoveTo(nearest.Position)
-			if game.Players.LocalPlayer:DistanceFromCharacter(nearest.Position) < 3 then
+			if game.Players.LocalPlayer:DistanceFromCharacter(nearest.Position) < 2.5 then
 				local intvalue = Instance.new("IntValue",nearest)
 				intvalue.Name = "farmed"
 			end
@@ -6533,10 +6517,7 @@ spawn(function()
 while wait(.1) do
 	pcall(function()
 		if collectcoconuts and tokenfarmactive2 and not farmingmondo then
-			-- print('hi')
 			nearest = getclosestcoconut()
-			-- print('true')
-			-- print(nearest:GetFullName())
 			toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, nearest.Position)
 		end
 	end)
@@ -6638,21 +6619,22 @@ spawn(function()
 end)
 
 
--- spawn(function()
--- while wait() do
--- pcall(function()
-	-- if tokenfarmactive2 then
-		-- local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		-- for i,v in pairs(workspace.Particles:GetChildren()) do
-			-- if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 80 then
-				-- toTarget(root.Position, v.Position,  v.CFrame)
-				-- wait(.07)
-			-- end
-		-- end
-	-- end
--- end)
--- end
--- end)
+spawn(function()
+while wait(.1) do
+pcall(function()
+	if tokenfarmactive2 then
+		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+		for i,v in pairs(workspace.Particles:GetChildren()) do
+			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 100 then
+				tween_s:Create(v, TweenInfo.new((root.Position - v.Position).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(root.Position)}):Play()
+				wait(.07)
+			end
+		end
+	end
+end)
+end
+end)
+
 
 spawn(function()
 	while wait() do
