@@ -4153,7 +4153,7 @@ function forceempty()
 		print("Potential to get stuck, forcing you back to hive")
 		turnthemoff()
 		wait(1)
-		game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 		wait(.5)
 		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 		repeat
@@ -4869,6 +4869,7 @@ pcall(function()
 for i, v in pairs(game.workspace.FieldDecos:GetChildren()) do	
 	v:Destroy()
 end
+Workspace.NPCs["Gummy Bear"]:Destroy()
 Workspace.Gates["15 Bee Gate"].Frame.CanCollide = false
 for i, v in pairs(game.Workspace.Decorations.Misc:GetChildren()) do
     if string.match(v.Name, "Blue Flower") or string.match(v.Name, "Mushroom") then
@@ -5110,7 +5111,7 @@ function HoneyConvertFix()
 		print("You got stuck, correcting...")
 		tokenfarmactive2 = false
 		honeytimer = 0
-		game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 		wait(.1)
 		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 		repeat
@@ -5599,6 +5600,7 @@ spawn(function()
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Wreath"}))
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Onett's Lid Art"}))
 			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Beesmas Feast"}))
+			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honeyday Candles"}))
 			TreactActiveTimer = 0
 		else
 			TreactActiveTimer = TreactActiveTimer + 1
@@ -5845,7 +5847,7 @@ end)
 
 ReturnToHive.MouseButton1Down:connect(function()
 player = game:GetService("Players").LocalPlayer
-player.Character:MoveTo(player.SpawnPos.Value.p)
+player.Character.HumanoidRootPart.CFrame = CFrame.new(player.SpawnPos.Value.p)
 WayPointsFrame.Visible = false
 notify'Teleported to Hive'
 end)
@@ -6212,7 +6214,7 @@ PollenFarm.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
 StartFarm.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
 local player = game:GetService("Players").LocalPlayer
 currp=nil
-player.Character:MoveTo(player.SpawnPos.Value.p)
+player.Character.HumanoidRootPart.CFrame = CFrame.new(player.SpawnPos.Value.p)
 end
 end)
 
@@ -6381,7 +6383,7 @@ spawn(function()
 					tokenfarmactive2 = false
 					honeytimer = 0
                     wait(2)
-                    game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
                     wait(1)
                     game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 					repeat 
@@ -6649,7 +6651,7 @@ end)
 mouse.KeyDown:connect(function(key)
 	if key == HoneyToggle.Text then
 		notify'Making Honey'
-		game:GetService("Players").LocalPlayer.Character:MoveTo(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
 		wait(1.5)
 		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 	end
