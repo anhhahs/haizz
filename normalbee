@@ -10,6 +10,7 @@ mouse = game.Players.LocalPlayer:GetMouse()
 UIS = game:GetService'UserInputService'
 
 Timer = 0
+Begintimer = os.time()
 windykills = 0
 TreactActiveTimer = 0
 autostinger2Timer = 0
@@ -4414,6 +4415,7 @@ end
 
 RunTimer.MouseButton1Click:Connect(function()
 	Timer = 0
+	Begintimer = os.time()
 end)
 
 --- Battle point counter ---
@@ -6280,7 +6282,7 @@ end)
 -- windy bee --
 spawn(function()
 	while wait() do
-		wait(1)
+		wait(.1)
 		if windyfarm and windydetected and not mondoalive and not guidingkillstarted then
 			print("Windy Bee has Appeared. Hunting Time!!")
 			notify'Windy Bee has Appeared. Hunting Time!!'
@@ -6640,7 +6642,7 @@ end)
 
 spawn(function()
 	while wait() do
-		Timer = Timer + 1
+		Timer = os.time() - Begintimer
 		RunTimer.Text = convertToHMS(Timer)		
 		wait(1)
 	end
