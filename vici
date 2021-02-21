@@ -1,5 +1,3 @@
-NextPageCursor = "5300_1_7d0fb7c365fedccb884f5b83da8bbd63"
-PreviousPageCursor = "5400_1_bcb11fff6a9f97d8251e43d03b7b76a9"
 repeat wait(1) until game:IsLoaded()
 wait(1)
 for i, v in pairs(game.Workspace.Honeycombs:GetChildren()) do
@@ -123,7 +121,8 @@ pcall(function()
 	nextserver = true
 	local http = game:GetService("HttpService")
 	temp = false
-
+	NextPageCursor = "3500_1_f8f4f1199c62f266cec1c6e7c1a45e76"
+	PreviousPageCursor = "3400_2_583ed8fb6e798ff85645758788b34f6f"
 	
 	while temp == false and wait(.1) and temp1 == 0 and nextserver do
 		pcall(function()
@@ -140,11 +139,6 @@ pcall(function()
 		    
 			if v.playing ~= v.maxPlayers then
 			temp = true
-				for x1, x2 in pairs(v.playerIds) do
-					if tostring(game.Players.LocalPlayer.UserId) == tostring(x2) then
-						temp = false
-					end
-				end
 			end
 			if temp == true and v.playing ~= v.maxPlayers then
 			    if hihi ~= "" then
@@ -161,4 +155,3 @@ pcall(function()
 	end
 end)
 end
-
