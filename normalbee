@@ -6471,13 +6471,16 @@ mouse.KeyDown:connect(function(key)
 end)
 --"rbxassetid://6087969886"
 listitems = {"rbxassetid://2028574353", "rbxassetid://6087969886", "rbxassetid://1838129169", "rbxassetid://1471882621", "rbxassetid://1952682401", "rbxassetid://1952740625", "rbxassetid://1952796032", "rbxassetid://2028453802", "rbxassetid://1472135114"}
-
+besttoken = "rbxassetid://1629547638"
 local function getclosest()
 local distance = math.huge
 local closest
 local enemi = workspace.Collectibles:GetChildren()
     for i=1,#enemi do 
         local v = enemi[i]
+		if tostring(v.FrontDecal.Texture) == besttoken and math.abs(v.Position.Y - game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y) < 4 and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 then
+			return v
+		end
         if not table.find(listitems, tostring(v.FrontDecal.Texture)) and math.abs(v.Position.Y - game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y) < 4 and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 100 and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance then
             distance = game.Players.LocalPlayer:DistanceFromCharacter(v.Position)
             closest = v
@@ -6487,7 +6490,7 @@ local enemi = workspace.Collectibles:GetChildren()
 end
 
 spawn(function()
-while wait(.1) do
+while wait(.15) do
 	pcall(function()
 		if tokenfarmactive2 then
 			nearest = getclosest()
@@ -6522,7 +6525,8 @@ while wait(.1) do
 	pcall(function()
 		if collectcoconuts and tokenfarmactive2 and not farmingmondo then
 			nearest = getclosestcoconut()
-			toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, nearest.Position)
+			-- toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, nearest.Position)
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(nearest.Position)
 		end
 	end)
 end
@@ -6592,7 +6596,8 @@ spawn(function()
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
 									if (v.Position-root.Position).magnitude <= 80 then
-										toTarget(root.Position, v.Position)
+										-- toTarget(root.Position, v.Position)
+										game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
 										wait(.25)
 									end	
 								end
