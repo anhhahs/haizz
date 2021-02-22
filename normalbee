@@ -5,7 +5,7 @@ print("\nEnabling the Avoid Vicious Bee button when doing an Auto Farm will tp y
 print("\nPress the j key when fireflys are in a field to farm Moon Tokens. You will tp to each\nfirefly and then pick up the moon token when dropped. If you dont get one press the key\nagain to make sure all the fireflys were touched. Keep doing this until the Fireflys leave.")
 print("\nPress the h key to toggle Token Auto Gathering to pick up tokens near you.")
 print("\nPress the y key to tp back to your hive and make honey from your gathered pollen.")
-plr = game:GetService("Players").LocalPlayer
+plr = game.Players.LocalPlayer
 mouse = game.Players.LocalPlayer:GetMouse()
 UIS = game:GetService'UserInputService'
 
@@ -3168,7 +3168,7 @@ end
 end)
 --token farm
 function farmtokens()
-	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	rootP = game.Players.LocalPlayer.Character.HumanoidRootPart
 	for k,v in pairs(workspace.Collectibles:GetChildren()) do
 		if v.Name == game.Players.LocalPlayer.Name and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 60 and not v:FindFirstChild("farmed") then
 			local intvalue = Instance.new("IntValue",v)
@@ -3209,11 +3209,11 @@ PineG1 = Vector3.new(-369.566254, 68, -194.724686)
 --rose field monster kill
 function roseKill()
 	if rose1T.Visible == false or rose2T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position, RoseA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, RoseA)
 		noclip = true
 		wait(3)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position, RoseG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, RoseG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3238,11 +3238,11 @@ end
 --pine field monster kill
 function pineKill()
 	if forestmantis1T.Visible == false or forestmantis2T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,PineA)
 		noclip = true
 		wait(3)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,PineG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3267,11 +3267,11 @@ end
 --clover field monster kill
 function cloverKill()
 	if rhino1T.Visible == false or ladyb1T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,CloverA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,CloverA)
 		noclip = true
 		wait(2)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,CloverG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,CloverG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3296,11 +3296,11 @@ end
 --blue flower field monster kill
 function blueflowerKill()
 	if rhino2T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BlueA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,BlueA)
 		noclip = true
 		wait(1)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BlueG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,BlueG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3325,11 +3325,11 @@ end
 --werewolf killer
 function werewolfKill()
 	if werewT.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,WerewolfA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,WerewolfA)
 		noclip = true
 		wait(3)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,WerewolfG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,WerewolfG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3354,11 +3354,11 @@ end
 --strawberry field monster kill
 function strawberryKill()
 	if ladyb2T.Visible == false or ladyb3T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,StrawberryA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,StrawberryA)
 		noclip = true
 		wait(1)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,StrawberryG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,StrawberryG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3383,11 +3383,11 @@ end
 --spider killer
 function spiderKill()
 	if spiderT.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,SpiderA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,SpiderA)
 		noclip = true
 		wait(3)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,SpiderG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,SpiderG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3412,11 +3412,11 @@ end
 --bamboo field monster kill
 function bambooKill()
 	if rhino3T.Visible == false or rhino4T.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BambooA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,BambooA)
 		noclip = true
 		wait(1)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,BambooG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,BambooG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3441,11 +3441,11 @@ end
 --pineapple field monster kill
 function pineappleKill()
 	if pinemantisT.Visible == false or pinebeetleT.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineappleA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,PineappleA)
 		noclip = true
 		wait(2)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,PineappleG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,PineappleG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -3470,11 +3470,11 @@ end
 --mushroom field killer
 function mushroomKill()
 	if mushT.Visible == false then
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,MushroomA)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,MushroomA)
 		noclip = true
 		wait(1)
 		noclip = false
-		toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,MushroomG1)
+		toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,MushroomG1)
 		qwait = 0
 		repeat
 		wait(1)
@@ -4149,20 +4149,19 @@ function forceempty()
 	if not pollenLbl then
 		print("Backpack not found")
 	end
-	maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
-	if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+	if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 		print("Potential to get stuck, forcing you back to hive")
 		turnthemoff()
 		wait(1)
-		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 		wait(.5)
-		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+		game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 		repeat
 		wait(1)
-		until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1
+		until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1
 		wait(8)
 	end
-	if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+	if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 		forceempty()
 	end
 	turnthemon()
@@ -4275,7 +4274,7 @@ end)
 
 BlenderUse.MouseButton1Down:connect(function()
 	WayPointsFrame.Visible = false
-	player = game:GetService("Players").LocalPlayer
+	player = game.Players.LocalPlayer
 	root = player.Character.HumanoidRootPart
 	origPOS = root.CFrame
 	player.Character.HumanoidRootPart.CFrame = CFrame.new(-426, 69, 38)
@@ -4336,7 +4335,7 @@ for i, v in pairs(game.Workspace.Honeycombs:GetChildren()) do
 end
 
 -- kill counter --
-PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
+PSEvent = game.ReplicatedStorage.Events.RetrievePlayerStats
 statstable = PSEvent:InvokeServer()
 beetlebk = statstable.Totals.Kills["Rhino Beetle"]
 spiderbk = statstable.Totals.Kills.Spider
@@ -4443,7 +4442,7 @@ spawn(function()
 		honeycurrent = statstable.Totals.Honey
 		HoneyGained.Text = "Honey Gained: "..toSuffixString(honeycurrent - honeystart)			
 		--kill amount
-		PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
+		PSEvent = game.ReplicatedStorage.Events.RetrievePlayerStats
 		Spiderkills.Text = "Spiders: "..(statstable.Totals.Kills.Spider or 0) - spiderkills
 		Beetlekills.Text = "Beetles: "..(statstable.Totals.Kills["Rhino Beetle"] or 0) - beetlekills
 		Ladybugkills.Text = "Ladybugs: "..(statstable.Totals.Kills.Ladybug or 0) - ladybugkills
@@ -4883,17 +4882,17 @@ end)
 function AntFarmFunc()
 	AntFarmReady = false
 	AntFarmStart = false
-	player = game:GetService("Players").LocalPlayer
-	PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
+	player = game.Players.LocalPlayer
+	PSEvent = game.ReplicatedStorage.Events.RetrievePlayerStats
 	statstable = PSEvent:InvokeServer()	
 	antpasscheck = statstable.Eggs.AntPass
 	left = true
 	turnthemoff()
 	right = false
 	if antpasscheck > 0 then
-		player = game:GetService("Players").LocalPlayer
-		root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
+		player = game.Players.LocalPlayer
+		root = game.Players.LocalPlayer.Character.HumanoidRootPart
+		PSEvent = game.ReplicatedStorage.Events.RetrievePlayerStats
 		statstable = PSEvent:InvokeServer()	
 		oldTool = statstable["EquippedCollector"]
 		game.ReplicatedStorage.Events.ItemPackageEvent:InvokeServer("Equip",{["Mute"] = true,["Type"] = "Spark Staff",["Category"]  = "Collector"})
@@ -5109,20 +5108,20 @@ function RotatingFieldsChange()
 end
 
 function HoneyConvertFix()
-	if game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value > 1 then
+	if game.Players.LocalPlayer.CoreStats.Pollen.Value > 1 then
 		print("You got stuck, correcting...")
 		tokenfarmactive2 = false
 		honeytimer = 0
-		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 		wait(.1)
-		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+		game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 		repeat
 		wait(1)
 		honeytimer = honeytimer + 1
-		until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 90
+		until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 90
 		honeytimer = 0
 		wait()
-		if game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value > 1 then
+		if game.Players.LocalPlayer.CoreStats.Pollen.Value > 1 then
 			HoneyConvertFix()
 		end
 	end
@@ -5130,7 +5129,7 @@ end
 
 
 function mondofarmtokens()
-	rootP = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	rootP = game.Players.LocalPlayer.Character.HumanoidRootPart
 	for k,v in pairs(workspace.Collectibles:GetChildren()) do
 		if (v.Position-workspace.Monsters["Mondo Chick (Lvl 8)"].HumanoidRootPart.position).Magnitude > 30 and v.Transparency < .7 and not v:FindFirstChild("farmed") or tonumber((v.Position - rootP.Position).magnitude) <= 80 and not v:FindFirstChild("farmed") then
 			local intvalue = Instance.new("IntValue",v)
@@ -5142,6 +5141,59 @@ function mondofarmtokens()
 		end
 	end
 end
+
+function instantticket()
+	begin = game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer()
+	ticketbegin = begin.Eggs.Ticket
+	spawn(function()
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")
+	end)    
+	wait()
+	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+        return
+	end
+	spawn(function()
+	game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")
+	end)
+    wait()
+	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+        return
+	end
+	spawn(function()
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")
+	end)    
+	wait()
+	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+        return
+	end
+	
+end
+
+function instantmicro()
+	microbegin = begin.Eggs["Micro-Converter"]
+	if microbegin > 0 then
+	spawn(function()
+		game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
+	end)
+	end
+	if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
+        return
+	end
+end
+checkingpopstar = false
+spawn(function()
+while wait(.05) do
+pcall(function()
+	for i, v in pairs(game.Players.LocalPlayer.PlayerGui.ScreenGui.TileGrid:GetChildren()) do
+		if string.match(tostring(v:FindFirstChild("BG"):FindFirstChild("Icon").Image), "5101328809") or string.match(tostring(v:FindFirstChild("BG"):FindFirstChild("Icon").Image), "5101328817") then
+			checkingpopstar = true
+			wait(46)
+			checkingpopstar = false
+		end
+	end
+end)
+end
+end)
 
 farmingmondo = false
 -- Pollen Farming --
@@ -5157,7 +5209,7 @@ spawn (function()
 			PollenFarmActive = true
 		end
 		if PollenFarmActive then
-			player = game:GetService("Players").LocalPlayer
+			player = game.Players.LocalPlayer
 			while player == nil do wait(0.5) end
 			root = player.Character.HumanoidRootPart
 			if farmzoneswitched and not viciousbeedetected then PollenFarmActive = false farmzoneswitchback = true end
@@ -5174,7 +5226,6 @@ spawn (function()
 				print("Backpack not found")
 			end
 			sprinklerDB = false
-			maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
 			if switchnow == true then
 				switchnow = false
 			end
@@ -5245,8 +5296,8 @@ spawn (function()
 			--collect pollen
 			posIndex = 0
 			AutoDigActive = true
-			game.ReplicatedStorage.Events.ToyEvent:FireServer("Honeystorm")
-			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(maxpollen) and switchnow == false do	
+			-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Honeystorm")
+			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(pollenLbl.Text:match("%d+$")) and switchnow == false do	
 				fieldpos2 = fieldpos
 				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
 					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
@@ -5254,10 +5305,10 @@ spawn (function()
 					end
 				end
 				snailT = game.Workspace.MonsterSpawners.StumpSnail.TimerAttachment.TimerGui.TimerLabel
-				player = game:GetService("Players").LocalPlayer
+				player = game.Players.LocalPlayer
 				root = player.Character.HumanoidRootPart			
 				if not rotatingfieldsactive then
-					game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+					game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 				end
 				local gumdb = false
 				setbeesforcrab = false
@@ -5296,8 +5347,8 @@ spawn (function()
 						autostingerDB = true
 						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 					end
-					player = game:GetService("Players").LocalPlayer
-					if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+					player = game.Players.LocalPlayer
+					if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 						print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 						break
 					end
@@ -5320,8 +5371,8 @@ spawn (function()
 							autostingerDB = true
 							game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 						end
-						player = game:GetService("Players").LocalPlayer
-						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+						player = game.Players.LocalPlayer
+						if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 							print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 							break
 						end
@@ -5365,8 +5416,8 @@ spawn (function()
 						autostingerDB = true
 						game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Stinger"})
 					end
-					player = game:GetService("Players").LocalPlayer
-					if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+					player = game.Players.LocalPlayer
+					if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 						print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 						break
 					end
@@ -5395,76 +5446,59 @@ spawn (function()
 				end
 				if farmzoneswitched and not viciousbeedetected then PollenFarmActive = false farmzoneswitchback = true end
 				if not PollenFarmActive then break end
-				player = game:GetService("Players").LocalPlayer
+				player = game.Players.LocalPlayer
 				tokenfarmactive2 = true
-				maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
-				wait(.5)
-				if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) and microconverteractive then
-					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})		
-					game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
-					wait(.25)
+				wait(.1)
+				if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(pollenLbl.Text:match("%d+$")) * .95) and microconverteractive then
+					instantmicro()
 					--microCD = true
 				end
-				wait(.5)
+				wait(.1)
 				if instantconverteractive then
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95)  then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")		
-						wait(.5)		
-						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							print("Honey instantly converted using instant converter")
-						end
-					end
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")		
-						wait(.5)
-						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							print("Honey instantly converted using instant converter")
-						end
-					end
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(maxpollen) * .95) then
-						game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")	
-						wait(.5)
-						if tonumber(player.CoreStats.Pollen.Value+1) < tonumber(maxpollen) then																				  
-							print("Honey instantly converted using instant converter")
-						end
+					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(pollenLbl.Text:match("%d+$")) * .95)  then
+						instantticket()
 					end
 				end
-				wait(.5)
-				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+				wait(.1)
+				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 					print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
+					if checkingpopstar then
+						repeat wait() until not checkingpopstar or checkingpopstar == false
+					end
+					-- print("hi")
 					tokenfarmactive2 = false
 					break
 				end
 				wait(.5)
 			end
 			-- turn pollen to honey --
+			if checkingpopstar then
+			repeat wait() until not checkingpopstar or checkingpopstar == false
+			-- print("ho")
 			tokenfarmactive2 = false
 			currp = nil
-			PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
-			statstable = PSEvent:InvokeServer()	
-			antpasscheck = statstable.Eggs.AntPass
-			
+			end
 			wait(.5)
-			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
-				game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+			if PollenFarmActive and not checkingpopstar and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
 			end
-			if not switchingzone and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) and not sproutkillstarted and not viciouskillstarted and not mondoalive then
+			if not switchingzone and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) and not sproutkillstarted and not viciouskillstarted and not mondoalive then
 				convertinghoney = true
 				AutoDigActive = true
 				honeytimer = 0
 				wait(1.75)
-				game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+				game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 				if PollenFarmActive and not sproutkillstarted and not viciouskillstarted then
 					turnthemoff()
 					repeat
 					wait(1)
 					honeytimer = honeytimer + 1
-					until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 120
+					until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 120
 					wait(4)
-					if game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value > 1 then
+					if game.Players.LocalPlayer.CoreStats.Pollen.Value > 1 then
 						HoneyConvertFix()
-						repeat wait() until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1
+						repeat wait() until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1
 					end
 					if StartKilling and not guidingkillstarted then
 						monsterkilleractive = true
@@ -5475,7 +5509,7 @@ spawn (function()
 							wait(3)
 						end
 					end
-					PSEvent = game:GetService("ReplicatedStorage").Events.RetrievePlayerStats
+					PSEvent = game.ReplicatedStorage.Events.RetrievePlayerStats
 					statstable = PSEvent:InvokeServer()	
 					antpasscheck = statstable.Eggs.AntPass
 					if antpasscheck > 0 and AntFarm and workspace.Toys["Ant Challenge"].Busy.Value == false then
@@ -5588,21 +5622,21 @@ spawn(function()
 			autostinger2Timer = autostinger2Timer + 1
 		end	
 		if TreatActive and TreactActiveTimer > 59 then
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Free Ant Pass Dispenser")
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Wealth Clock")
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Blueberry Dispenser")
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Strawberry Dispenser")
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Treat Dispenser")
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Free Ant Pass Dispenser")
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Wealth Clock")
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Blueberry Dispenser")
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Strawberry Dispenser")
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Treat Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Glue Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Free Royal Jelly Dispenser")
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Coconut Dispenser")
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Dispenser"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({ [1] = "Stockings"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Gingerbread House"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honey Wreath"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Onett's Lid Art"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Beesmas Feast"}))
-			game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer(unpack({[1] = "Honeyday Candles"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Honey Dispenser"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({ [1] = "Stockings"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Gingerbread House"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Honey Wreath"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Onett's Lid Art"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Beesmas Feast"}))
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Honeyday Candles"}))
 			TreactActiveTimer = 0
 		else
 			TreactActiveTimer = TreactActiveTimer + 1
@@ -5645,7 +5679,7 @@ function killcommando()
 	while wait() do
 	wait(.1)
 		--commandoT = game.Workspace.MonsterSpawners["Commando Chick"].TimerAttachment.TimerGui.TimerLabel
-		player = game:GetService("Players").LocalPlayer
+		player = game.Players.LocalPlayer
 		root = player.Character.HumanoidRootPart
 		if commandohunt then
 			while commandohunt do
@@ -5848,7 +5882,7 @@ notify'Teleported to Coconut Field'
 end)
 
 ReturnToHive.MouseButton1Down:connect(function()
-player = game:GetService("Players").LocalPlayer
+player = game.Players.LocalPlayer
 player.Character.HumanoidRootPart.CFrame = CFrame.new(player.SpawnPos.Value.p)
 WayPointsFrame.Visible = false
 notify'Teleported to Hive'
@@ -6214,7 +6248,7 @@ notify'Pollen Farming Ended'
 StartFarm.Text = "Pollen Farm: OFF"
 PollenFarm.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
 StartFarm.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-local player = game:GetService("Players").LocalPlayer
+local player = game.Players.LocalPlayer
 currp=nil
 player.Character.HumanoidRootPart.CFrame = CFrame.new(player.SpawnPos.Value.p)
 end
@@ -6235,7 +6269,7 @@ spawn(function()
 			end
 			viciouskillstarted = true
 			turnthemoff()
-			local hum = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+			local hum = game.Players.LocalPlayer.Character.HumanoidRootPart
 			for i,v in pairs(workspace.Particles:GetChildren()) do
 				for x in string.gmatch(v.Name, "Vicious") do
 					if string.find(v.Name, "Vicious") then
@@ -6290,7 +6324,7 @@ spawn(function()
 			turnthemoff()
 			activatewindy = false
 			windylevelset = false
-			local hum = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+			local hum = game.Players.LocalPlayer.Character.HumanoidRootPart
 			while windyfarm and windydetected do
 				if not windylevelset then
 					for i,v in pairs(workspace.Monsters:GetChildren()) do
@@ -6341,19 +6375,18 @@ spawn(function()
         if SproutFarmActive and sproutdetected then
 			AutoDigActive = false
 			sprinklerDB = false
-			player = game:GetService("Players").LocalPlayer
+			player = game.Players.LocalPlayer
 			pollenLbl = player.Character:FindFirstChild("ProgressLabel",true)
 			if not pollenLbl then
 				print("Backpack not found")
 			end
-			maxpollen = tonumber(pollenLbl.Text:match("%d+$"))
             print("A Sprout has Appeared. Farming Time!!")
             notify'A Sprout has Appeared. Farming Time!!'
 			sproutkillstarted = true
             turnthemoff()
 			wait(.5)
             while SproutFarmActive and sproutdetected and not sproutCollecting do
-                local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+                local root = game.Players.LocalPlayer.Character.HumanoidRootPart
 				if (sproutobject.Position-root.Position).magnitude > 250 then
 					wait(.5)
 					if sproutobject ~= nil then
@@ -6379,23 +6412,23 @@ spawn(function()
 					sproutstarted = true		
 					tokenfarmactive2 = true						
 				end
-                if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(maxpollen) then
+                if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
                     print("Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
                     SproutFarmActive = false
 					tokenfarmactive2 = false
 					honeytimer = 0
                     wait(2)
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
                     wait(1)
-                    game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+                    game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 					repeat 
 					wait(1)
 					honeytimer = honeytimer + 1
-					until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 120
+					until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1 or honeytimer >= 120
 					wait(6)
-					if game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value > 1 then
+					if game.Players.LocalPlayer.CoreStats.Pollen.Value > 1 then
 						HoneyConvertFix()
-						repeat wait() until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value < 1
+						repeat wait() until game.Players.LocalPlayer.CoreStats.Pollen.Value < 1
 					end
 					SproutFarmActive = true
                 end
@@ -6437,8 +6470,8 @@ end)
 spawn(function()
 wait(2)
 	pcall(function()
-		if game:GetService("Players").LocalPlayer then
-			player = game:GetService("Players").LocalPlayer
+		if game.Players.LocalPlayer then
+			player = game.Players.LocalPlayer
 			local ce = findtool(player)
 			if ce then
 				ce:FireServer()
@@ -6506,7 +6539,7 @@ end)
 
 local function getclosestcoconut()
 local distance = math.huge
-local closest
+local closest = nil
 local enemi = workspace.Particles:GetChildren()
     for i=1,#enemi do 
 		if enemi[i].Name == "WarningDisk" and enemi[i].BrickColor == BrickColor.new("Lime green") and enemi[i].Position ~= nil then
@@ -6538,7 +6571,7 @@ spawn(function()
 		if tokenfarmactive2 then
 			while tokenfarmactive2 do
 				if tokenfarmactiveold then -- old style tokens
-					local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+					local root = game.Players.LocalPlayer.Character.HumanoidRootPart
 					local rootpos = root.CFrame
 					for k,v in pairs(workspace.Collectibles:GetChildren()) do
 						if tonumber((v.Position - root.Position).magnitude) <= 60 and not v:FindFirstChild("farmed") then	-- and v.BrickColor ~= BrickColor.new("Flame yellowish orange")
@@ -6579,7 +6612,7 @@ spawn(function()
 						end
 					end
 				elseif not tokenfarmactiveold then -- new style tokens
-					local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+					local root = game.Players.LocalPlayer.Character.HumanoidRootPart
 					local rootpos = root.CFrame
 					-- for k,v in pairs(workspace.Collectibles:GetChildren()) do
 						-- if not table.find(listitems, tostring(v.FrontDecal.Texture)) and not v:FindFirstChild("farmed") and game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < 150 and math.abs(v.CFrame.Y-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y) < 5 then
@@ -6595,10 +6628,10 @@ spawn(function()
 						for i,v in pairs(workspace.Particles:GetChildren()) do
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
-									if (v.Position-root.Position).magnitude <= 80 then
+									if (v.Position-root.Position).magnitude <= 80 and checkingpopstar then
 										-- toTarget(root.Position, v.Position)
 										game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
-										wait(.25)
+										wait(.1)
 									end	
 								end
 							end
@@ -6632,7 +6665,7 @@ spawn(function()
 while wait(.1) do
 pcall(function()
 	if tokenfarmactive2 then
-		local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+		local root = game.Players.LocalPlayer.Character.HumanoidRootPart
 		for i,v in pairs(workspace.Particles:GetChildren()) do
 			if v.Name == "FlamePart" and (v.Position-root.Position).Magnitude < 100 then
 				tween_s:Create(v, TweenInfo.new((v.Position - root.Position).Magnitude/80, Enum.EasingStyle.Linear), {CFrame = CFrame.new(root.Position)}):Play()
@@ -6658,9 +6691,9 @@ end)
 mouse.KeyDown:connect(function(key)
 	if key == HoneyToggle.Text then
 		notify'Making Honey'
-		game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.SpawnPos.Value.p)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 		wait(1.5)
-		game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+		game.ReplicatedStorage.Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
 	end
 end)
 
@@ -6703,7 +6736,7 @@ mouse.KeyDown:connect(function(key)
 		notify'Moon Token Gather Enabled'
 		count = 0
 		if fireflydetected then
-			local root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+			local root = game.Players.LocalPlayer.Character.HumanoidRootPart
 			for i,v in pairs(workspace.NPCBees:GetChildren()) do
 				if v.Name == "Firefly" then
 					wait(0.2)
@@ -6726,7 +6759,7 @@ mouse.KeyDown:connect(function(key)
 end)
 
 --get rid of all used tokens
-wait(2)
+wait(.5)
 for i,v in pairs(workspace.Collectibles:GetChildren()) do
 	local intvalue = Instance.new("IntValue",v)
 	intvalue.Name = "farmed"
