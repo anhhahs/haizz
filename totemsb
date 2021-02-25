@@ -6660,7 +6660,7 @@ spawn(function()
 						for i,v in pairs(workspace.Particles:GetChildren()) do
 							if collectbubbles then
 								if string.find(v.Name, "Bubble") then
-									if (v.Position-root.Position).magnitude <= 80 and checkingpopstar then
+									if (v.Position-root.Position).magnitude <= 80 and checkingpopstar and not Workspace.Particles:FindFirstChild("StickBugTotem") then
 										-- toTarget(root.Position, v.Position)
 										game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
 										wait(.1)
