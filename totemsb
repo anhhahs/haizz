@@ -5303,11 +5303,11 @@ spawn (function()
 			-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Honeystorm")
 			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(pollenLbl.Text:match("%d+$")) and switchnow == false do	
 				fieldpos2 = fieldpos
-				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" and not Workspace.Particles:FindFirstChild("StickBugTotem") then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
-						root.CFrame = fieldpos[1]
-					end
-				end
+				-- if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" and not Workspace.Particles:FindFirstChild("StickBugTotem") then
+					-- if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
+						-- root.CFrame = fieldpos[1]
+					-- end
+				-- end
 				if Workspace.Particles:FindFirstChild("StickBugTotem") and game.Players.LocalPlayer:DistanceFromCharacter(Workspace.Particles:FindFirstChild("StickBugTotem"):FindFirstChild("Part").Position) > 60 then
 					root.CFrame = CFrame.new(Workspace.Particles:FindFirstChild("StickBugTotem"):FindFirstChild("Part").Position)
 				end
