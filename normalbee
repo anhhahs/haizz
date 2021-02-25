@@ -5182,13 +5182,17 @@ function instantmicro()
 end
 checkingpopstar = false
 spawn(function()
-while wait(.05) do
+while wait(.5) do
 pcall(function()
 	for i, v in pairs(game.Players.LocalPlayer.PlayerGui.ScreenGui.TileGrid:GetChildren()) do
 		if string.match(tostring(v:FindFirstChild("BG"):FindFirstChild("Icon").Image), "5101328809") or string.match(tostring(v:FindFirstChild("BG"):FindFirstChild("Icon").Image), "5101328817") then
-			checkingpopstar = true
-			wait(46)
-			checkingpopstar = false
+			for c, d in pairs(game.Players.LocalPlayer.PlayerGui.ScreenGui.TileGrid:GetChildren()) do
+				if string.match(tostring(d:FindFirstChild("BG"):FindFirstChild("Icon").Image), "5101169717") and string.match(tostring(d:FindFirstChild("BG"):FindFirstChild("Text").Text), "s") then
+					checkingpopstar = true
+					wait(50)
+					checkingpopstar = false
+				end
+			end
 		end
 	end
 end)
@@ -5463,7 +5467,7 @@ spawn (function()
 				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 					print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
 					if checkingpopstar then
-						repeat wait() until not checkingpopstar or checkingpopstar == false
+						repeat wait() until checkingpopstar == false
 					end
 					-- print("hi")
 					tokenfarmactive2 = false
@@ -5472,14 +5476,10 @@ spawn (function()
 				wait(.5)
 			end
 			-- turn pollen to honey --
-			if checkingpopstar then
-			repeat wait() until not checkingpopstar or checkingpopstar == false
 			-- print("ho")
 			tokenfarmactive2 = false
 			currp = nil
-			end
-			wait(.5)
-			if PollenFarmActive and not checkingpopstar and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
+			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
 			end
@@ -6565,6 +6565,35 @@ while wait(.1) do
 end
 end)
 
+local function getclosestcoconut()
+local distance = math.huge
+local closest = nil
+local enemi = workspace.Particles:GetChildren()
+    for i=1,#enemi do 
+		if enemi[i].Name == "WarningDisk" and enemi[i].BrickColor == BrickColor.new("Royal purple") and enemi[i].Position ~= nil then
+        local v = enemi[i]
+        if game.Players.LocalPlayer:DistanceFromCharacter(v.Position) < distance then
+            distance = game.Players.LocalPlayer:DistanceFromCharacter(v.Position)
+            closest = v
+        end
+		end
+    end
+    return closest
+end
+
+spawn(function()
+while wait(.1) do
+	pcall(function()
+		if collectmeteor and not farmingmondo then
+			nearest = getclosestcoconut()
+			-- toTarget(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, nearest.Position)
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(nearest.Position)
+		end
+	end)
+end
+end)
+
+
 spawn(function()
 	while wait() do
 	pcall(function()
@@ -6601,14 +6630,14 @@ spawn(function()
 									-- end
 								-- end
 							-- end
-							if collectmeteor then
-								if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
-									if (v.Position-root.Position).magnitude <= 70 then
-										toTarget(root.Position, v.Position)
-										wait(.25)
-									end
-								end
-							end
+							-- if collectmeteor then
+								-- if v.Name == "WarningDisk" and v.BrickColor == BrickColor.new("Royal purple") then
+									-- if (v.Position-root.Position).magnitude <= 70 then
+										-- toTarget(root.Position, v.Position)
+										-- wait(.25)
+									-- end
+								-- end
+							-- end
 						end
 					end
 				elseif not tokenfarmactiveold then -- new style tokens
