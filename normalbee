@@ -5142,44 +5142,59 @@ function mondofarmtokens()
 	end
 end
 
-function instantticket()
+function instantcovertor()
 	begin = game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer()
-	ticketbegin = begin.Eggs.Ticket
-	spawn(function()
-		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")
-	end)    
-	wait()
-	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        return
+	if instantconverteractive then
+		ticketbegin = begin.Eggs.Ticket
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")
+		wait(.15)
+		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+			return
+		end
+		wait(.15)
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")
+		wait(.15)
+		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+			return
+		end
+		wait(.15)
+			game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")
+		wait(.15)
+		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
+			return
+		end
+		wait(.15)
 	end
-	spawn(function()
-	game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")
-	end)
-    wait()
-	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        return
+	if microconverteractive then
+		microbegin = begin.Eggs["Micro-Converter"]
+		if microbegin > 0 then
+			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
+			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
+		end
+		wait(.25)
+		if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
+			return
+		end
+		wait(.15)
 	end
-	spawn(function()
-		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")
-	end)    
-	wait()
-	if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        return
+	player = game.Players.LocalPlayer
+	pollenLbl = player.Character:FindFirstChild("ProgressLabel",true)
+	if instantantpass and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
+		antpass = begin.Eggs.AntPass
+		if antpass == 0 then
+			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Ant Pass Dispenser"}))
+			wait()
+		end
+		oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
+		wait(.1)
+		for i = 1, 10 do
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos)
+			wait(.25)
+		end
 	end
-	
 end
 
-function instantmicro()
-	microbegin = begin.Eggs["Micro-Converter"]
-	if microbegin > 0 then
-	spawn(function()
-		game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
-	end)
-	end
-	if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
-        return
-	end
-end
 checkingpopstar = false
 spawn(function()
 while wait(.5) do
@@ -5304,7 +5319,7 @@ spawn (function()
 			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(pollenLbl.Text:match("%d+$")) and switchnow == false do	
 				fieldpos2 = fieldpos
 				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 or math.abs(root.CFrame.Y - fieldpos[1].Y) > 7 then
 						root.CFrame = fieldpos[1]
 					end
 				end
@@ -5453,37 +5468,20 @@ spawn (function()
 				player = game.Players.LocalPlayer
 				tokenfarmactive2 = true
 				wait(.1)
-				if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(pollenLbl.Text:match("%d+$")) * .95) and microconverteractive then
-					instantmicro()
-					--microCD = true
+				if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(pollenLbl.Text:match("%d+$")) * .95) then
+					instantcovertor()
 				end
-				wait(.1)
-				if instantconverteractive then
-					if tonumber(player.CoreStats.Pollen.Value+1) > (tonumber(pollenLbl.Text:match("%d+$")) * .95)  then
-						instantticket()
-					end
-				end
-				wait(.1)
-				if tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
-					print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
-					if checkingpopstar then
-						repeat wait() until checkingpopstar == false
-					end
-					-- print("hi")
-					tokenfarmactive2 = false
-					break
-				end
-				wait(.5)
+				wait(.25)
 			end
-			-- turn pollen to honey --
-			-- print("ho")
-			tokenfarmactive2 = false
-			currp = nil
-			if PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
+
+			if not checkingpopstar and PollenFarmActive and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
+				print("Total Honey: " ..tostring(player.CoreStats.Honey.Value).. ". Bag Full: " ..tostring(player.CoreStats.Pollen.Value))
+				tokenfarmactive2 = false
+				currp = nil
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.SpawnPos.Value.p)
 				player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0, 5)
 			end
-			if not switchingzone and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) and not sproutkillstarted and not viciouskillstarted and not mondoalive then
+			if not checkingpopstar and not switchingzone and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) and not sproutkillstarted and not viciouskillstarted and not mondoalive then
 				convertinghoney = true
 				AutoDigActive = true
 				honeytimer = 0
