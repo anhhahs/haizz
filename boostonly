@@ -5098,20 +5098,22 @@ function instantcovertor()
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
 		end
-		wait(.15)
+		wait(.25)
 		if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
 			return
 		end
 		wait(.15)
 	end
-	if instantantpass then
+	player = game.Players.LocalPlayer
+	pollenLbl = player.Character:FindFirstChild("ProgressLabel",true)
+	if instantantpass and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 		antpass = begin.Eggs.AntPass
 		if antpass == 0 then
 			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Ant Pass Dispenser"}))
 			wait()
 		end
 		oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-			game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
 		wait(.1)
 		for i = 1, 10 do
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos)
