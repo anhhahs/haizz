@@ -5095,10 +5095,8 @@ function instantcovertor()
 	if microconverteractive then
 		microbegin = begin.Eggs["Micro-Converter"]
 		if microbegin > 0 then
-		--spawn(function()
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
-		--end)
 		end
 		wait(.15)
 		if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
@@ -5109,15 +5107,11 @@ function instantcovertor()
 	if instantantpass then
 		antpass = begin.Eggs.AntPass
 		if antpass == 0 then
-			spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Ant Pass Dispenser"}))
 			wait()
-			end)
 		end
 		oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-		spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
-		end)
 		wait(.1)
 		for i = 1, 10 do
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos)
@@ -5249,7 +5243,7 @@ spawn (function()
 			while PollenFarmActive and switchnow == false do	
 				fieldpos2 = fieldpos
 				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 or math.abs(root.CFrame.Y - fieldpos[1].Y) > 7 then
 						root.CFrame = fieldpos[1]
 					end
 				end
