@@ -5147,88 +5147,23 @@ function mondofarmtokens()
 	end
 end
 
--- function instantticket(begin)
-	-- begin = game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer()
-	-- ticketbegin = begin.Eggs.Ticket
-	-- spawn(function()
-		-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")
-	-- end)    
-	-- wait(.2)
-	-- if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        -- return
-	-- end
-	-- spawn(function()
-	-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")
-	-- end)
-    -- wait(.2)
-	-- if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        -- return
-	-- end
-	-- spawn(function()
-		-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")
-	-- end)    
-	-- wait(.2)
-	-- if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
-        -- return
-	-- end
-	
--- end
-
--- function instantmicro()
-	-- microbegin = begin.Eggs["Micro-Converter"]
-	-- if microbegin > 0 then
-	-- spawn(function()
-		-- game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
-	-- end)
-	-- end
-	-- if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
-        -- return
-	-- end
--- end
-
--- function instantantpasss()
-	-- begin = game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer()
-	-- antpass = begin.Eggs.AntPass
-	-- if antpass == 0 then
-		-- spawn(function()
-		-- game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Ant Pass Dispenser"}))
-		-- wait()
-		-- end)
-	-- end
-	-- oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-	-- spawn(function()
-		-- game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
-	-- end)
-	-- wait(.1)
-	-- for i = 1, 10 do
-		-- game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos)
-		-- wait(.25)
-	-- end
--- end
-
 function instantcovertor()
 	begin = game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer()
 	if instantconverteractive then
 		ticketbegin = begin.Eggs.Ticket
-		--spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter")
-		--end)    
 		wait(.15)
 		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
 			return
 		end
 		wait(.15)
-		--spawn(function()
 		game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter B")
-		--end)
 		wait(.15)
 		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
 			return
 		end
 		wait(.15)
-		--spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer("Instant Converter C")
-		--end)    
 		wait(.15)
 		if ticketbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs.Ticket then
 			return
@@ -5238,29 +5173,25 @@ function instantcovertor()
 	if microconverteractive then
 		microbegin = begin.Eggs["Micro-Converter"]
 		if microbegin > 0 then
-		--spawn(function()
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
 			game.ReplicatedStorage.Events.PlayerActivesCommand:FireServer({["Name"] = "Micro-Converter"})
-		--end)
 		end
-		wait(.15)
+		wait(.25)
 		if microbegin > game.ReplicatedStorage.Events.RetrievePlayerStats:InvokeServer().Eggs["Micro-Converter"] then
 			return
 		end
 		wait(.15)
 	end
-	if instantantpass then
+	player = game.Players.LocalPlayer
+	pollenLbl = player.Character:FindFirstChild("ProgressLabel",true)
+	if instantantpass and tonumber(player.CoreStats.Pollen.Value+1) > tonumber(pollenLbl.Text:match("%d+$")) then
 		antpass = begin.Eggs.AntPass
 		if antpass == 0 then
-			spawn(function()
 			game.ReplicatedStorage.Events.ToyEvent:FireServer(unpack({[1] = "Ant Pass Dispenser"}))
 			wait()
-			end)
 		end
 		oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-		spawn(function()
-			game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
-		end)
+		game.ReplicatedStorage.Events.ToyEvent:FireServer("Ant Challenge")
 		wait(.1)
 		for i = 1, 10 do
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos)
@@ -5393,7 +5324,7 @@ spawn (function()
 			while PollenFarmActive and tonumber(player.CoreStats.Pollen.Value) < tonumber(pollenLbl.Text:match("%d+$")) and switchnow == false do	
 				fieldpos2 = fieldpos
 				if fieldpos ~= nil and tostring(fieldpos[1].p) ~= "0, 0, 0" then
-					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 then
+					if game.Players.LocalPlayer:DistanceFromCharacter(fieldpos[1].p) > 65 or math.abs(root.CFrame.Y - fieldpos[1].Y) > 7 then
 						root.CFrame = fieldpos[1]
 					end
 				end
