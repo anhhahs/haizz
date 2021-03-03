@@ -5256,7 +5256,7 @@ currentmask = nil
 spawn (function()
 	while wait() do
 	wait(.1)
-	-- pcall(function()
+	pcall(function()
 		if resethive then
 			print("Waiting 35 seconds before AutoFarm resumes")
 			wait(35)
@@ -5554,7 +5554,7 @@ spawn (function()
 		sprinklerDB = false	
 		tokenfarmactive2 = false	
 		end
-	-- end)
+	end)
 	end
 end)
 
