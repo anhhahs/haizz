@@ -36,11 +36,11 @@ local defaults; do
 
         game:GetService('UserInputService').InputBegan:connect(function(key, gpe)
             if (not gpe) then
-                if key.KeyCode == Enum.KeyCode.F15 then
+                if key.KeyCode == Enum.KeyCode.RightControl then
                     library.toggled = not library.toggled;
                     for i, data in next, library.queue do
-local pos = (library.toggled and data.p or UDim2.new(-1, 0, -0.5,0))
-data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, true)
+                        local pos = (library.toggled and data.p or UDim2.new(-1, 0, -0.5,0))
+                        data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, true)
                         wait();
                     end
                 end
@@ -239,22 +239,22 @@ data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, tru
                 
             local function click(t)
                 location[flag] = not location[flag];
-                callback(location[flag])
                 check:FindFirstChild(name).Checkmark.Text = location[flag] and utf8.char(10003) or "";
+                callback(location[flag])
             end
 
             check:FindFirstChild(name).Checkmark.MouseButton1Click:connect(click)
             library.callbacks[flag] = click;
 
             if location[flag] == true then
-                callback(location[flag])
+                spawn(function() callback(location[flag]) end)
             end
 
             self:Resize();
             return {
                 Set = function(self, b)
                     location[flag] = b;
-                    callback(location[flag])
+                    spawn(function() callback(location[flag]) end)
                     check:FindFirstChild(name).Checkmark.Text = location[flag] and utf8.char(10003) or "";
                 end
             }
@@ -808,8 +808,9 @@ data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, tru
             local flag = options.flag or "";
             local callback = callback or function() end;
             local list = options.list or {};
+			local default = options.default or list[1]
 
-            location[flag] = list[1]
+            location[flag] = default
             local check = library:Create('Frame', {
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 0, 25);
@@ -826,7 +827,7 @@ data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, tru
                     library:Create('TextLabel', {
                         Name = 'Selection';
                         Size = UDim2.new(1, 0, 1, 0);
-                        Text = list[1];
+                        Text = default;
                         TextColor3 = library.options.textcolor;
                         BackgroundTransparency = 1;
                         Font = library.options.font;
@@ -869,8 +870,8 @@ data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, tru
 
                 local clampedSize;
                 local scrollSize = 0;
-                if size.Y.Offset > 100 then
-                    clampedSize = UDim2.new(1, 0, 0, 100)
+                if size.Y.Offset > 150 then
+                    clampedSize = UDim2.new(1, 0, 0, 150)
                     scrollSize = 5;
                 end
                 
@@ -1016,7 +1017,7 @@ data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, tru
         btncolor       = Color3.fromRGB(25, 25, 25);
         dropcolor      = Color3.fromRGB(25, 25, 25);
         sectncolor     = Color3.fromRGB(25, 25, 25);
-        bordercolor    = Color3.fromRGB(80, 80, 80);
+        bordercolor    = Color3.fromRGB(60, 60, 60);
 
         font           = Enum.Font.SourceSans;
         titlefont      = Enum.Font.Code;
