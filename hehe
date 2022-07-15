@@ -11,7 +11,7 @@ e:Slider("Height", {
 	flag = 'height'
 }, function() end)
 e:Button("Reload Gui", function()
-	if _G.Players then _G.speed:Disconnect() end
+	if _G.Players then _G.Players:Disconnect() end
 	_G.farm = false
     game:GetService("CoreGui").ScreenGui:Destroy()
 	wait(1)
