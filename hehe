@@ -1,0 +1,256 @@
+local library = loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/library")))()
+e = library:CreateWindow("AUTO FARM")
+e:Toggle("Auto Farm",{flag = "AutoFarm"})
+e:Toggle("Kill Aura",{flag = "killAura"})
+e:Toggle("Auto Pickup",{flag = "autoPickup"})
+e:Toggle("Godmode",{flag = "Godmode"})
+e:Slider("Height", {
+	min = -10;
+	max = 10;
+	default = 1;
+	flag = 'height'
+}, function() end)
+e:Button("Reload Gui", function()
+	if _G.Players then _G.speed:Disconnect() end
+	_G.farm = false
+    game:GetService("CoreGui").ScreenGui:Destroy()
+	wait(1)
+	loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/library")))()
+end)
+
+local Players = game.Players
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Hitbox = Character:WaitForChild("hitbox") 
+local ReplicatedStorage = game.ReplicatedStorage
+local Signal = ReplicatedStorage:WaitForChild("signal") 
+local PlayerRequest = ReplicatedStorage:WaitForChild("playerRequest")	
+local Modules = ReplicatedStorage:WaitForChild("modules")
+local Network = Modules:WaitForChild("network")
+local JoltFunction = Network:WaitForChild("applyJoltVelocityToCharacter")
+local ActiveAbilityExecutionData = Hitbox:WaitForChild("activeAbilityExecutionData")
+local ActivateAbilityRequest = Network:WaitForChild("activateAbilityRequest")
+local AbilityLookup = require(ReplicatedStorage:WaitForChild("abilityLookup"))
+local RunService = game:GetService("RunService")
+
+
+-- Anti Staff
+local WebhookURL = 'https://discord.com/api/webhooks/735897328078290984/ox_p3iPzQixNH_raFp1s-sE1yXWrLvRHWGhrKgY_m417-mBeDuDu3VqyfYXLISmmzoqn'
+
+
+local function GetServers() 
+    local Cursor
+    local Servers = {}
+    repeat
+        local Response = HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100" .. (Cursor and "&cursor=" .. Cursor or "")))
+        for _, Value in next, Response.data do
+            table.insert(Servers, Value)
+        end
+        Cursor = Response.nextPageCursor
+    until not cursor
+    return Servers
+end
+
+local function WebHook(UserName, Content)
+	syn.request({
+		Url = WebhookURL,
+		Method = "POST",
+		Headers = {
+			["Content-Type"] = "application/json"
+		},
+		Body = game:GetService("HttpService"):JSONEncode({
+		    ['username'] = UserName,
+			['content'] = '```'..Content..'```'
+		}),
+	})
+end
+
+local function Rank(User)  
+    local groups = game:GetService("GroupService"):GetGroupsAsync(User.UserId)
+    for i,v in pairs(groups) do 
+        if v.Id == 4238824 then 
+            return v.Rank 
+        end
+    end
+    return 0
+end
+
+for Index, Value in next, Players:GetPlayers() do
+    if Value ~= Player and Rank(Value) > 1 then
+		WebHook(Value.Name, 'Staff Detected')
+		Player:Kick('Staff Detected')
+        local Servers = GetServers()
+        while wait() do
+            for Index, Value in next, Servers do
+                if Value.id ~= game.JobId then
+                    PlayerRequest:InvokeServer("playerRequest_teleportToJobId", Value.id)
+                end
+            end
+        end
+        break
+    end
+end
+
+_G.Players = Players.PlayerAdded:Connect(function(Plr)
+	if Plr:GetRankInGroup(4238824) > 1 then
+		WebHook(Plr.Name, 'Staff Detected')
+		Player:Kick('Staff Detected')
+		while wait() do
+			local Servers = GetServers()
+			for Index, Value in next, Servers do
+				if Value.id ~= game.JobId then
+					PlayerRequest:InvokeServer("playerRequest_teleportToJobId", Value.id)
+				end
+			end
+		end
+	end
+end)
+
+-- God Mode
+local oldNamecall 
+oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local args = {...}
+
+    if e.flags.Godmode and getnamecallmethod() == "FireServer" and args[4] == "monster" then 
+        return
+    end
+
+    return oldNamecall(self, ...)
+end)
+
+-- TP function
+local function BypassTP(Closest, height)
+    if not Hitbox then
+        return 
+    end 
+
+    Hitbox.CanCollide = false
+    Hitbox.CFrame = Closest.CFrame * CFrame.new(0, height , 0)
+end
+
+-- Attack function
+local function GetAttackable(Attacking)
+    if not Hitbox then
+        return 
+    end
+    
+    local Attackable = {}   
+    if not Attacking then 
+        for Index, Value in next, workspace.placeFolders.entityManifestCollection:GetChildren() do 
+            if Value.ClassName ~= "Model" and Value.Name ~= "Hitbox" and Value:FindFirstChild("health") and Value.health.Value > 0 and not Value:FindFirstChild("pet") then 
+                local Distance = (Value.Position - Hitbox.Position).Magnitude
+                if Distance < 15 then 
+                    table.insert(Attackable, Value)
+                end
+            end
+        end
+
+        if #Attackable == 0 then
+            for Index, Value in next, workspace.placeFolders.entityManifestCollection:GetChildren() do 
+                if Value.ClassName ~= "Model" and Value:FindFirstChild("health") and Value.Name ~= "Hitbox" and Value.health.Value > 0 and not Value:FindFirstChild("pet") then 
+                    local Distance = (Value.Position - Hitbox.Position).Magnitude
+                    if Distance < 15 then 
+                        table.insert(Attackable, Value)
+                    end
+                end
+            end
+        end
+    else 
+        for Index, Value in next, workspace.placeFolders.entityManifestCollection:GetChildren() do 
+            if Value.Name ~= Player.Name and Players:FindFirstChild(Value.Name) and Value.PrimaryPart then 
+                local Distance = (Value.PrimaryPart.Position - Hitbox.Position).Magnitude
+                if Distance < 15 then 
+                    table.insert(Attackable, Value.PrimaryPart)
+                end
+            end
+        end
+    end
+
+    return Attackable
+end
+
+local function Attack(Enemy)
+    repeat 
+        if Hitbox then
+			if e.flags.AutoFarm then 
+				BypassTP(Enemy, e.flags.height)
+			end 
+            Signal:FireServer("fireEvent", "playerWillUseBasicAttack", Player)
+
+            RunService.Heartbeat:Wait()
+            local AttackableEnemies = GetAttackable(false)
+
+            for Index = 1, 3 do 
+                Signal:FireServer("replicatePlayerAnimationSequence", "swordAnimations", "strike" .. tostring(Index), {attackSpeed = -1})
+
+                for Index, Value in next, AttackableEnemies do 
+                    Signal:FireServer("playerRequest_damageEntity", Value, Hitbox.Position, "equipment")
+                    Signal:FireServer("attackInteractionAttackableAttacked", Value, Hitbox.Position)
+                end
+				
+            end
+        end 
+        
+        RunService.Heartbeat:Wait()
+    until not Enemy:FindFirstChild("health") or Enemy.health.Value <= 0 or not Hitbox or not e.flags.killAura
+    
+    if Hitbox then 
+        Hitbox.CanCollide = true 
+    end
+end
+
+local function GetClosest() 
+    if not Hitbox then
+        return 
+    end
+
+    local Closest = {math.huge, nil} 
+    for Index, Value in next, workspace.placeFolders.entityManifestCollection:GetChildren() do 
+		if Value.ClassName ~= "Model" and Value.Name ~= "Hitbox" and Value:FindFirstChild("health") and Value.health.Value > 0 and not Value:FindFirstChild("pet") then 
+			local Distance = (Value.Position - Hitbox.Position).Magnitude
+			print(Distance)
+
+			if Distance < Closest[1] then 
+				Closest = {Distance, Value} 
+			end
+		end
+	end
+       
+   if Closest[2] and e.flags.AutoFarm then 
+		BypassTP(Closest[2], e.flags.height)
+	end
+    return Closest[2]   
+end
+
+local function PickupItem(Item)
+    PlayerRequest:InvokeServer("pickUpItemRequest", Item)
+end
+
+local function AutoPickup()
+    if not Hitbox then
+        return
+    end
+
+    for Index, Value in next, workspace.placeFolders.items:GetChildren() do
+        if (Value.Position - Hitbox.Position).Magnitude < 10 then
+            PickupItem(Value)
+        end
+    end
+end
+
+while _G.farm do
+    task.wait() 
+	pcall(function()
+	if e.flags.killAura then
+		local Closest = GetClosest()
+
+		if Closest then 
+			Attack(Closest)   
+		end 
+	end
+	
+	if e.flags.autoPickup then
+		coroutine.wrap(AutoPickup)()
+	end
+	end)
+end
