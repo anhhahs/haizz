@@ -192,7 +192,7 @@ local function Attack(Enemy)
         end 
         
         RunService.Heartbeat:Wait()
-    until not Enemy:FindFirstChild("health") or Enemy.health.Value <= 0 or not Hitbox or not e.flags.killAura
+    until not Enemy:FindFirstChild("health") or Enemy.health.Value <= 0 or not Hitbox or not e.flags.killAura or not _G.farm
     
     if Hitbox then 
         Hitbox.CanCollide = true 
