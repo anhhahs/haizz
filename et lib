@@ -1,3 +1,5 @@
+local library = {flags = {}}
+
 function library:Window(TitleWhite)
     if game.CoreGui:FindFirstChild("BloxburgUi") then
         game.CoreGui:FindFirstChild("BloxburgUi"):Destroy()
@@ -1972,3 +1974,5 @@ function library:Window(TitleWhite)
     end
     return window
 end
+
+return library
