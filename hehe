@@ -15,9 +15,9 @@ e:Button("Reload Gui", function()
 	_G.farm = false
     game:GetService("CoreGui").ScreenGui:Destroy()
 	wait(1)
-	loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/hehe")))()
+	loadstring(game:HttpGet(("https://raw.githubusercontent.com/anhhahs/haizz/master/library")))()
 end)
-
+_G.farm = true
 local Players = game.Players
 local Player = Players.LocalPlayer
 local Character = Player.Character or Player.CharacterAdded:Wait()
