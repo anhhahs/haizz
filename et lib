@@ -1,5 +1,12 @@
 local library = {flags = {}}
 
+local function tweenObject(object, data, time)
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(object, tweenInfo, data)
+    tween:Play()
+    return tween
+end
+
 function library:Window(TitleWhite)
     if game.CoreGui:FindFirstChild("BloxburgUi") then
         game.CoreGui:FindFirstChild("BloxburgUi"):Destroy()
